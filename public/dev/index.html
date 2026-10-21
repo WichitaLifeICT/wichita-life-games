@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>window.WL_DEV = true;</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wichita Life Games — Play your city.</title>
+<meta name="description" content="Puzzles from Wichita Life. Crossroads, a Wichita crossword every Friday, and Wheatle, five new letters every morning.">
+<meta name="theme-color" content="#152742">
+<meta property="og:title" content="Wichita Life Games — Play your city.">
+<meta property="og:description" content="A Wichita crossword every Friday and a five-letter guess every morning.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://wichitalifeict.com/wl-logo.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#152742; --navy-2:#1d3557; --red:#dc5b5e; --blue:#3c67b1; --sky:#6aa1d6;
+  --yellow:#fcc172; --paper:#fbf7ef; --ink:#152742; --muted:#7d8ba0; --line:#dfd7c8;
+  --wrap:1120px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{background:var(--navy)}
+#devbar{
+  position:sticky;top:0;z-index:60;background:repeating-linear-gradient(45deg,#fcc172,#fcc172 12px,#e8ad5c 12px,#e8ad5c 24px);
+  color:#152742;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+  text-align:center;padding:9px 14px
+}
+#devbar span{font-weight:500;text-transform:none;letter-spacing:0;opacity:.85}
+body{
+  background:var(--navy); color:var(--paper);
+  font-family:'Poppins',system-ui,'Trebuchet MS',sans-serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+.eyebrow{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  color:var(--yellow);margin:0 0 10px
+}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px;border-radius:4px}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;background:rgba(21,39,66,.92);
+  backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.09)
+}
+.bar{display:flex;align-items:center;gap:16px;min-height:62px;padding:9px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.01em;white-space:nowrap;font-size:17px}
+.mark{
+  flex:0 0 auto;width:34px;height:34px;display:block;
+  /* the drop-shadow is drawn into the artwork, so no CSS shadow here */
+}
+.brand small{
+  display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sky);font-weight:600;margin-top:-2px
+}
+nav{margin-left:auto;display:flex;gap:22px;align-items:center;min-width:0}
+nav a{font-size:14px;text-decoration:none;color:#dbe3ef;font-weight:500;white-space:nowrap}
+nav a:hover{color:#fff}
+.backlink{
+  font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.32);
+  padding:8px 14px;border-radius:999px;text-decoration:none;white-space:nowrap;flex:0 0 auto
+}
+@media(max-width:820px){nav .hide-sm{display:none}}
+@media(max-width:700px){
+  nav .navlink{display:none}
+  .brand{font-size:16px}
+  .eyebrow{letter-spacing:.13em}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:56px 0 30px;position:relative;background:var(--navy);
+  background-image:radial-gradient(680px 320px at 82% 8%,rgba(60,103,177,.42),transparent 70%);
+}
+.hero h1{
+  font-size:clamp(40px,8.5vw,76px);line-height:.95;margin:0 0 18px;
+  font-weight:800;letter-spacing:-.035em
+}
+.hero h1 em{font-style:normal;color:var(--yellow)}
+.hero p{max-width:46ch;color:#dce5f3;font-size:17px;line-height:1.6;margin:0 0 26px}
+.herorow{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+@media(max-width:860px){.herorow{grid-template-columns:1fr;gap:28px}}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;background:var(--red);color:#fff;
+  text-decoration:none;font-weight:700;font-size:15px;padding:14px 24px;border-radius:999px;
+  border:0;cursor:pointer;transition:transform .15s ease,background .15s ease
+}
+.btn:hover{background:#c94a4d;transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.55);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.streakline{margin-top:22px;font-size:13px;color:#aebdd4;display:flex;gap:8px;align-items:center}
+
+/* decorative grid */
+.deco{display:grid;gap:4px;max-width:340px;margin-left:auto;width:100%}
+.deco div{
+  aspect-ratio:1;border-radius:6px;background:rgba(255,255,255,.07);
+  display:grid;place-items:center;font-weight:700;font-size:clamp(13px,3.4vw,19px);color:#fff;
+  animation:pop .5s backwards
+}
+.deco div.on{background:var(--paper);color:var(--navy)}
+.deco div.hi{background:var(--yellow);color:var(--navy)}
+.deco div.off{background:transparent}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.deco div{animation:none}}
+
+/* ---------- tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:34px 0 10px}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.tiles{grid-template-columns:1fr}}
+.tile{
+  border-radius:16px;padding:20px;text-align:left;border:0;cursor:pointer;
+  display:flex;flex-direction:column;gap:6px;min-height:150px;color:var(--navy);
+  transition:transform .18s ease, box-shadow .18s ease;text-decoration:none
+}
+.tile:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.28)}
+.tile .t-icon{font-size:22px;line-height:1}
+.tile h3{margin:6px 0 0;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.tile p{margin:0;font-size:14.5px;line-height:1.5;color:#2b3a4f;font-weight:450}
+.tile .t-meta{margin-top:auto;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#2b3a4f}
+.tile--cross{background:var(--paper)}
+.tile--wheat{background:var(--yellow)}
+
+/* ---------- game panels ---------- */
+.panel{background:var(--paper);color:var(--ink);border-radius:22px;padding:26px 20px 30px;margin:26px 0}
+@media(min-width:760px){.panel{padding:34px 34px 40px}}
+.panel-head{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.panel-head h2{margin:0;font-size:30px;font-weight:800;letter-spacing:-.03em}
+.panel-head .eyebrow{color:var(--red)}
+.panel-head p{margin:6px 0 0;color:#4d5a6b;font-size:15px;line-height:1.5;max-width:52ch}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{
+  border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 15px;
+  font-size:13.5px;font-weight:600;color:#3f4b5c;cursor:pointer
+}
+.chip:hover{border-color:var(--red);color:var(--red)}
+.clock{font-family:'DM Mono',monospace;font-size:13.5px;color:#5c6878;padding:8px 4px}
+
+/* crossword */
+.xw{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px;align-items:start}
+@media(max-width:820px){.xw{grid-template-columns:1fr}}
+.gridwrap{width:100%;max-width:420px;margin:0 auto}
+.cluebar{
+  background:var(--navy);color:#fff;border-radius:12px;padding:12px 8px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;min-height:58px
+}
+.cluebar .arrow{
+  background:rgba(255,255,255,.12);border:0;color:#fff;width:32px;height:32px;border-radius:8px;
+  font-size:15px;cursor:pointer;flex:0 0 auto
+}
+.cluebar .arrow:hover{background:rgba(255,255,255,.25)}
+.cluebar .ctext{flex:1;font-size:15px;line-height:1.4;padding:0 4px}
+.cluebar .cnum{font-weight:800;color:var(--yellow);margin-right:6px}
+#grid{
+  display:grid;gap:2px;background:var(--navy);
+  padding:2px;border-radius:10px;touch-action:manipulation
+}
+.cell{position:relative;aspect-ratio:1;background:#fff;border-radius:3px;cursor:pointer;user-select:none}
+.cell.block{background:var(--navy);cursor:default}
+.cell .num{position:absolute;top:1px;left:2px;font-size:8.5px;font-weight:700;color:#66727f;line-height:1}
+.cell .ltr{
+  position:absolute;inset:0;display:grid;place-items:center;font-weight:600;
+  font-size:var(--cellfs,clamp(14px,4.1vw,20px));color:var(--navy);padding-top:4px
+}
+.cell.inword{background:#dbe7f7}
+.cell.active{background:var(--yellow)}
+.cell.wrong .ltr{color:var(--red);text-decoration:line-through}
+.cell.revealed .ltr{color:var(--blue)}
+/* Invisible, but sitting on its own grid. Parking these off-screen made the
+   browser scroll to find them on focus, throwing mobile players down to the
+   submit-a-word card. font-size:16px stops iOS zooming in on focus. */
+#hidden-input{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;padding:0;
+  font-size:16px;background:transparent;pointer-events:none;z-index:-1
+}
+.gridwrap{position:relative}
+.cluelists{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:520px){.cluelists{grid-template-columns:1fr}}
+.cluelists h4{
+  margin:0 0 8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);
+  border-bottom:1px solid var(--line);padding-bottom:6px
+}
+.cluelists ol{list-style:none;margin:0;padding:0;max-height:420px;overflow:auto}
+.cluelists li{
+  display:flex;gap:8px;font-size:14.5px;line-height:1.45;padding:5px 6px;border-radius:6px;cursor:pointer
+}
+.cluelists li b{min-width:18px;text-align:right;color:#5c6878;font-weight:700}
+.cluelists li:hover{background:#efe9dd}
+.cluelists li.sel{background:#dbe7f7}
+.cluelists li.done b{color:var(--sky)}
+.win{
+  margin-top:14px;background:var(--navy);color:#fff;border-radius:14px;padding:18px;display:none
+}
+.win.show{display:block}
+.win h3{margin:0 0 6px;font-size:20px}
+.win p{margin:0;font-size:14px;color:#b9c6da}
+
+/* wheatle */
+.wheatwrap{max-width:340px;margin:0 auto}
+#wboard{display:grid;grid-template-rows:repeat(6,1fr);gap:6px;margin-bottom:14px}
+.wrow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.wtile{
+  aspect-ratio:1;border:2px solid #ded5c6;border-radius:8px;display:grid;place-items:center;
+  font-size:clamp(20px,6.5vw,30px);font-weight:800;color:var(--navy);background:#fff;
+  transition:transform .12s ease
+}
+.wtile.filled{border-color:#b9ae9b;transform:scale(1.03)}
+.wtile.cursor{border-color:var(--blue);box-shadow:inset 0 0 0 2px rgba(60,103,177,.35)}
+#wboard .wtile{cursor:pointer}
+.wtile.hit{background:var(--blue);border-color:var(--blue);color:#fff}
+.wtile.close{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+.wtile.miss{background:#9aa5b5;border-color:#9aa5b5;color:#fff}
+.wrow.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.wfeed{margin:0 auto 12px;max-width:400px;display:flex;flex-direction:column;gap:8px;min-height:46px}
+.wfeed .waiting{
+  border:1px dashed var(--line);border-radius:12px;padding:12px 14px;
+  font-size:14px;color:#7b8698;text-align:center
+}
+.wfeed .fline{
+  display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+  border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.4;color:#2b3a4f
+}
+.wfeed .dot{width:12px;height:12px;border-radius:4px;flex:0 0 auto;margin-top:3px}
+.wfeed .dot.hit{background:var(--blue)}
+.wfeed .dot.close{background:var(--yellow)}
+.wfeed .dot.miss{background:#9aa5b5}
+.suggest{
+  margin:22px auto 0;max-width:400px;background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:18px
+}
+.suggest h5{margin:0 0 6px;font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.suggest p{margin:0 0 12px;font-size:13.5px;line-height:1.45;color:#4d5a6b}
+.srow{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.srow input{
+  flex:1;min-width:0;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  font-family:inherit;font-size:14.5px;color:var(--navy);background:#fdfbf7
+}
+.srow input:focus{outline:2px solid var(--blue);outline-offset:-1px;border-color:var(--blue)}
+#sug-word{max-width:110px;text-transform:uppercase;font-weight:700;letter-spacing:.12em}
+#sug-send{flex:0 0 auto;padding:11px 20px;font-size:14.5px}
+.smsg{margin:6px 0 0;font-size:13.5px;font-weight:600;min-height:19px;color:#3c67b1}
+.smsg.err{color:var(--red)}
+.whint{
+  display:block;margin:14px auto 0;max-width:400px;width:100%;text-align:center;
+  background:#efe9dd;border:1px solid var(--line);border-radius:12px;padding:13px 16px;
+  font-family:inherit;font-size:14.5px;font-weight:600;color:#3f4b5c;cursor:text
+}
+.whint:hover{border-color:var(--blue)}
+.whint.done{background:var(--navy);color:#fff;border-color:var(--navy);cursor:default}
+#w-input{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;padding:0;
+  font-size:16px;background:transparent;pointer-events:none;z-index:-1
+}
+.wheatwrap{position:relative}
+.legend{
+  display:none;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:16px 16px 14px;margin:0 auto 16px;max-width:400px
+}
+.legend.show{display:block}
+.legend h5{margin:0 0 10px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.legend .lrow{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.legend .lt{
+  width:34px;height:34px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;
+  font-weight:800;font-size:17px;border:2px solid
+}
+.legend .lt.hit{background:var(--blue);border-color:var(--blue);color:#fff}
+.legend .lt.close{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+.legend .lt.miss{background:#9aa5b5;border-color:#9aa5b5;color:#fff}
+.legend .lrow span{font-size:14px;line-height:1.4;color:#3f4b5c}
+.legend .lrow b{color:var(--navy)}
+.legend .lfoot{margin:12px 0 0;font-size:13px;color:#5c6878;line-height:1.5}
+.chip[aria-expanded="true"]{border-color:var(--red);color:var(--red)}
+.wmsg{text-align:center;min-height:22px;font-size:13.5px;font-weight:600;color:var(--red);margin-bottom:8px}
+
+/* newsletter */
+/* Shop promo — deliberately its own look so it reads as a product, not a game */
+.shop{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:26px;align-items:center;
+  background:#1c2f4d;border:2px solid rgba(252,193,114,.55);border-radius:22px;
+  padding:24px;margin:26px 0
+}
+@media(max-width:760px){.shop{grid-template-columns:1fr;gap:18px;padding:18px}}
+/* Fixed 3:2 frame via padding, not aspect-ratio on the <img>. The image is a
+   landscape photo of a wide object; forcing it square made it a skinny sliver. */
+.shop-media{
+  position:relative;width:100%;padding-top:66.67%;border-radius:14px;overflow:hidden;
+  background:#12233c;border:1px solid rgba(255,255,255,.14)
+}
+.shop-media img{
+  position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block
+}
+.shop h2{margin:8px 0 10px;font-size:clamp(22px,2.4vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.shop h2 span{display:block;color:var(--yellow)}
+.shop p{margin:0 0 14px;font-size:14.5px;line-height:1.55;color:#dce5f3}
+.shop .by{font-size:13px;color:#a8bdd8;margin:0 0 16px}
+.shop-buy{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.shop-price{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.shop-price small{display:block;font-size:11px;font-weight:600;color:#a8bdd8;letter-spacing:.06em;text-transform:uppercase}
+.shop-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.shop-tags span{
+  font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:rgba(252,193,114,.16);color:var(--yellow);border-radius:999px;padding:5px 10px
+}
+.tile--troll{background:#8ee6a0}
+.arcade{
+  display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,.8fr);gap:24px;
+  background:var(--paper);color:var(--ink);border-radius:22px;padding:26px 20px;margin:26px 0
+}
+@media(min-width:760px){.arcade{padding:32px 30px}}
+@media(max-width:980px){.arcade{grid-template-columns:130px minmax(0,1fr);gap:20px}
+  .arcade-board{grid-column:1 / -1}}
+@media(max-width:560px){.arcade{grid-template-columns:1fr}
+  .arcade-shot{max-width:200px;margin:0 auto}}
+.arcade-shot{
+  width:100%;height:auto;display:block;border-radius:12px;
+  image-rendering:pixelated;border:2px solid var(--navy);align-self:start
+}
+.arcade-copy h2{margin:6px 0 10px;font-size:30px;font-weight:800;letter-spacing:-.03em}
+.arcade-copy p{margin:0 0 16px;font-size:15px;line-height:1.55;color:#4d5a6b;max-width:46ch}
+.arcade-scores{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.arcade-scores .s{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;min-width:104px}
+.arcade-scores .s .n{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1.1}
+.arcade-scores .s .l{font-size:11px;color:#5c6878;margin-top:3px;letter-spacing:.06em;text-transform:uppercase}
+.arcade-scores .s.hi{background:var(--navy)}
+.arcade-scores .s.hi .n{color:var(--yellow)}
+.arcade-scores .s.hi .l{color:#a8c4de}
+.arcade-board{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.arcade-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.arcade-head h3{margin:0;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.arcade-tabs{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap}
+.arcade-tabs button{
+  border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 10px;
+  font-family:inherit;font-size:11px;font-weight:700;color:#5c6878;cursor:pointer;white-space:nowrap
+}
+.arcade-tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.arcade-board ol{list-style:none;margin:0;padding:0}
+.arcade-board li{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid #efe9dd;font-size:14.5px}
+.arcade-board li:last-child{border-bottom:0}
+.arcade-board .rank{width:22px;height:22px;flex:0 0 auto;border-radius:7px;background:#efe9dd;color:#5c6878;display:grid;place-items:center;font-size:11.5px;font-weight:800}
+.arcade-board li:first-child .rank{background:var(--yellow);color:var(--navy)}
+.arcade-board .who{font-family:ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.14em}
+.arcade-board .pts{margin-left:auto;font-weight:800}
+.arcade-board .empty{color:#5c6878;font-size:14px;padding:8px 2px;border:0}
+.cta{
+  background:linear-gradient(135deg,var(--blue),var(--navy-2));border-radius:22px;padding:34px 24px;
+  margin:26px 0;text-align:center
+}
+.cta h2{margin:0 0 8px;font-size:28px;font-weight:800;letter-spacing:-.03em}
+.cta p{margin:0 auto 18px;max-width:44ch;color:#e2ebf7;font-size:15px}
+.form{display:flex;gap:8px;max-width:420px;margin:0 auto;flex-wrap:wrap}
+.form input{
+  flex:1;min-width:200px;padding:14px 16px;border-radius:999px;border:0;font-size:15px;
+  font-family:inherit;color:var(--navy)
+}
+footer{border-top:1px solid rgba(255,255,255,.09);margin-top:30px;padding:30px 0 46px;font-size:13px;color:#aebdd4}
+footer a{color:#cfd8e6;text-decoration:none;margin-right:16px}
+footer a:hover{color:#fff}
+.foot-note{margin-top:14px;font-size:12.5px;color:#9db0cb}
+</style>
+<script>
+/* Inside the Wichita Life app (?app=1) the app shows its own title bar and close button,
+   so drop this page's header, hero, shop promo, newsletter box and footer. */
+(function(){
+  var inApp=false;
+  try{
+    inApp=/[?&]app=1\b/.test(location.search) || sessionStorage.getItem('wl-in-app')==='1';
+    if(inApp) sessionStorage.setItem('wl-in-app','1');
+  }catch(e){ inApp=/[?&]app=1\b/.test(location.search); }
+  if(inApp) document.documentElement.classList.add('in-app');
+})();
+</script>
+<style>
+.in-app header,.in-app .hero,.in-app footer,.in-app [data-web-only]{display:none!important}
+</style>
+</head>
+<body>
+
+<script>
+/* Dev mode: set window.WL_DEV = true (see /dev/index.html) to work on the games without
+   the work showing up as real traffic. Nothing here runs on the live site. */
+if (window.WL_DEV) {
+  window.WL_DISABLE_ANALYTICS = true;
+  document.addEventListener('DOMContentLoaded', function () {
+    var b = document.createElement('div');
+    b.id = 'devbar';
+    b.innerHTML = 'Dev copy \u2014 not the live site <span>&nbsp;\u00b7 nothing here is tracked or submitted</span>';
+    document.body.insertBefore(b, document.body.firstChild);
+    document.title = '[DEV] ' + document.title;
+    var m = document.createElement('meta');
+    m.name = 'robots'; m.content = 'noindex, nofollow';
+    document.head.appendChild(m);
+  });
+}
+</script>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="https://wichitalifeict.com">
+      <img class="mark" src="/wl-logo.png" alt="Wichita Life" width="34" height="34">
+      <span>Wichita Life<small>Games</small></span>
+    </a>
+    <nav>
+      <a class="navlink" href="#troll">Troll Patrol</a>
+      <a class="navlink" href="#wheatle">Wheatle 🌾</a>
+      <a class="navlink" href="#crossroads">Crossroads</a>
+      <a class="backlink" href="https://wichitalifeict.com">Wichita Life &#8599;</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap herorow">
+    <div>
+      <p class="eyebrow">Puzzles from Wichita Life</p>
+      <h1>Play your <em>city.</em></h1>
+      <p>Two puzzles built entirely out of Wichita — the streets, the planes, the burger joints, the people who named things around here. Wheatle every morning, a new crossword every Friday. Free, no login, done before your coffee is.</p>
+      <div class="streakline"><span id="datestamp"></span></div>
+    </div>
+    <div class="deco" id="deco" aria-hidden="true"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="tiles">
+      <a class="tile tile--troll" href="/dev/troll-patrol.html">
+        <span class="t-icon">🛁</span>
+        <h3>Troll Patrol</h3>
+        <p>Thirty seconds down the Arkansas in a bathtub. Grab trash, dodge geese.</p>
+        <span class="t-meta">Arcade · high scores</span>
+      </a>
+      <a class="tile tile--wheat" href="#wheatle">
+        <span class="t-icon">🌾</span>
+        <h3>Wheatle 🌾</h3>
+        <p>Five letters, six guesses. Every answer means something in ICT.</p>
+        <span class="t-meta">New every day</span>
+      </a>
+      <a class="tile" href="/dev/wheat-state-hoops.html" style="background:#fcc172">
+        <span class="t-icon">🏀</span>
+        <h3>Wheat State Hoops 🌾</h3>
+        <p>Pop-a-shot in a wheat field. 30 seconds, everything's a three in the last ten.</p>
+        <span class="t-meta">Dev build</span>
+      </a>
+      <a class="tile tile--cross" href="#crossroads">
+        <span class="t-icon">▦</span>
+        <h3>Crossroads</h3>
+        <p>A crossword pulled from Wichita history, streets, and lore.</p>
+        <span class="t-meta">New every Friday</span>
+      </a></div>
+  </div>
+</section>
+
+<!-- ================= CROSSROADS ================= -->
+<!-- ================= WHEATLE ================= -->
+<section class="wrap" id="troll">
+  <div class="arcade">
+    <img class="arcade-shot" src="/troll-preview.png" width="450" height="696"
+         alt="Troll Patrol gameplay: the troll steering a bathtub down the Arkansas past trash and a goose">
+    <div class="arcade-copy">
+      <p class="eyebrow">New — arcade</p>
+      <h2>Troll Patrol</h2>
+      <p>The Wichita Troll escaped from under his bridge and he’s piloting a bathtub
+         down the Arkansas. Thirty seconds to clean up the river: grab trash, hit ramps,
+         dodge the geese.</p>
+      <div class="arcade-scores" id="troll-top"></div>
+      <a class="btn" href="/dev/troll-patrol.html">Play Troll Patrol</a>
+    </div>
+    <div class="arcade-board">
+      <div class="arcade-head">
+        <h3>High scores</h3>
+        <div class="arcade-tabs" id="troll-tabs">
+          <button class="on" data-tab="today">Today</button>
+          <button data-tab="week">This week</button>
+          <button data-tab="all">All time</button>
+        </div>
+      </div>
+      <ol id="troll-list"><li class="empty">Loading…</li></ol>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="wheatle">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Five letters, six tries</p>
+        <h2>Wheatle 🌾</h2>
+        <p>Kansas grows the wheat, Wichita mills the words. Today's answer is a five-letter word that means something around here.</p>
+      </div>
+      <div class="tools">
+        <span class="clock" id="wclock">0:00</span>
+        <button class="chip" id="w-help" aria-expanded="false" aria-controls="w-legend"
+          title="Blue = right letter, right spot · Yellow = right letter, wrong spot · Gray = not in the word">How to play</button>
+        <button class="chip" id="w-share">Share result</button>
+        <button class="chip" id="w-new">New word</button>
+      </div>
+    </div>
+
+    <div class="wheatwrap">
+      <div class="legend" id="w-legend">
+        <h5>What the colors mean</h5>
+        <div class="lrow"><div class="lt hit">W</div><span><b>Right letter, right spot.</b> Lock it in.</span></div>
+        <div class="lrow"><div class="lt close">H</div><span><b>Right letter, wrong spot.</b> It's in there somewhere else.</span></div>
+        <div class="lrow"><div class="lt miss">Z</div><span><b>Not in today's word.</b> Rule it out.</span></div>
+        <p class="lfoot">Six guesses, a new word every morning. Every answer means something around Wichita &mdash; a street, a crop, a building, a habit.</p>
+      </div>
+      <div class="wfeed" id="wfeed"></div>
+      <div class="wmsg" id="wmsg"></div>
+      <div id="wboard"></div>
+      <input id="w-input" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" aria-hidden="true" tabindex="-1">
+      <button class="whint" id="whint" type="button">&#9998;&nbsp; Start typing to guess a 5 letter word</button>
+
+      <div class="suggest" id="suggest">
+        <h5>Know a word that belongs here?</h5>
+        <p>Five letters, and it has to mean something in Wichita or Kansas. Every submission is reviewed before it goes in the game — we read all of them.</p>
+        <div class="srow">
+          <input id="sug-word" maxlength="5" placeholder="WHEAT" aria-label="Five letter word"
+                 autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <input id="sug-why" maxlength="140" placeholder="Why it's Wichita (optional)" aria-label="Why it fits">
+        </div>
+        <div class="srow">
+          <input id="sug-email" type="email" maxlength="120" placeholder="Email, if you want credit (optional)" aria-label="Email">
+          <button class="btn" id="sug-send" type="button">Send it in</button>
+        </div>
+        <p class="smsg" id="sug-msg"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="crossroads">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">The weekly crossword</p>
+        <h2>Crossroads</h2>
+        <p id="xw-sub">Wichita grew up where two rivers and two cattle trails crossed. So does this.</p>
+      </div>
+      <div class="tools">
+        <span class="clock" id="clock">0:00</span>
+        <button class="chip" id="btn-check">Check</button>
+        <button class="chip" id="btn-reveal">Reveal letter</button>
+        <button class="chip" id="btn-clear">Clear</button>
+      </div>
+    </div>
+
+    <div class="xw">
+      <div class="gridwrap">
+        <div class="cluebar">
+          <button class="arrow" id="prev-clue" aria-label="Previous clue">‹</button>
+          <div class="ctext" id="clue-display"></div>
+          <button class="arrow" id="next-clue" aria-label="Next clue">›</button>
+        </div>
+        <div id="grid" role="grid" aria-label="Crossword grid"></div>
+        <input id="hidden-input" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" aria-hidden="true" tabindex="-1">
+          <div class="win" id="xw-win">
+          <h3>Solved it. 🌾</h3>
+          <p id="xw-wintext"></p>
+        </div>
+      </div>
+
+      <div class="cluelists">
+        <div>
+          <h4>Across</h4>
+          <ol id="across-list"></ol>
+        </div>
+        <div>
+          <h4>Down</h4>
+          <ol id="down-list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" data-web-only>
+  <div class="shop">
+    <div class="shop-media">
+      <img loading="lazy" src="/puzzle.webp" width="1080" height="720"
+           alt="The Cityscape Wichita jigsaw completed on a puzzle board, with the box and a Wichita Life bag">
+    </div>
+    <div>
+      <p class="eyebrow">From the shop</p>
+      <h2>Liked the puzzle?<span>Try one with 1,000 pieces.</span></h2>
+      <div class="shop-tags"><span>Limited edition</span><span>1,000 pieces</span><span>Local artist</span></div>
+      <p>Cityscape Wichita packs the skyline, the landmarks and a few hidden gems into one
+         jigsaw — matte finish, recycled board, and a reference print so you stand a chance.</p>
+      <p class="by">Artwork by Wichita native Trey Conrad.</p>
+      <div class="shop-buy">
+        <div class="shop-price">$36<small>plus shipping</small></div>
+        <a class="btn" target="_blank" rel="noopener"
+           href="https://wichitalifeshop.myshopify.com/products/cityscape-wichita-custom-puzzle?utm_source=games&amp;utm_medium=referral&amp;utm_campaign=puzzle_promo">
+           Get the puzzle</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" data-web-only>
+  <div class="cta">
+    <p class="eyebrow">Wichita Life weekly</p>
+    <h2>Get the games with your Wichita.</h2>
+    <p>Our newsletter goes out to 50,000+ locals with events, eats, jobs, and now the day's puzzles. Free, weekly, no spam.</p>
+    <div class="form">
+      <input type="email" placeholder="Email address" aria-label="Email address">
+      <button class="btn" type="button">Sign me up</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="https://wichitalifeict.com">Wichita Life</a>
+    <a href="https://wichitalifeict.com/newsletter">Newsletter</a>
+    <a href="https://wichitalifeict.com/podcast">Podcast</a>
+    <a href="https://wichitalifeict.com/events">Events</a>
+    <a href="https://wichitalifeict.com/advertise">Advertise</a>
+    <p class="foot-note">© 2026 Wichita Life. Made in ICT. Wheatle refreshes daily at 5am Central; the crossword every Friday.</p>
+  </div>
+</footer>
+
+<script>
+/* Wichita Life Games — play tracking.
+   Anonymous: no cookies, no PII, no third parties. One random id per browser.
+   Fails silently by design; analytics must never break a puzzle. */
+(function (global) {
+  'use strict';
+
+  var ENDPOINT = (global.WL_ANALYTICS_ENDPOINT || '/api/event');
+  var IDLE_MS = 60000;   // stop the clock after a minute of no input
+  var FLUSH_MS = 30000;  // heartbeat so long sessions aren't lost to a crash
+
+  function uuid() {
+    if (global.crypto && global.crypto.randomUUID) return global.crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0;
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    });
+  }
+
+  function visitorId() {
+    try {
+      var k = 'wl_games_vid';
+      var v = global.localStorage.getItem(k);
+      if (!v) { v = uuid(); global.localStorage.setItem(k, v); }
+      return v;
+    } catch (e) {
+      // Private mode or a sandboxed preview — fall back to a per-load id.
+      return 'ephemeral-' + uuid();
+    }
+  }
+
+  function device() {
+    return /Mobi|Android|iPhone|iPad/i.test(global.navigator.userAgent) ? 'mobile' : 'desktop';
+  }
+
+  function refHost() {
+    try { return document.referrer ? new URL(document.referrer).host : null; }
+    catch (e) { return null; }
+  }
+
+  var VID = visitorId();
+
+  function Tracker(game, puzzleNo) {
+    this.game = game;
+    this.puzzleNo = puzzleNo;
+    this.sessionId = uuid();
+    this.activeMs = 0;
+    this.played = false;
+    this.solved = false;
+    this.guesses = null;
+    this.reveals = 0;
+    this.running = false;
+    this.lastTick = 0;
+    this.lastInput = 0;
+    this.sent = false;
+    this.timer = null;
+    var self = this;
+
+    this.onVis = function () { if (document.hidden) self.pause(); };
+    this.onLeave = function () { self.pause(); self.flush(true); };
+
+    document.addEventListener('visibilitychange', this.onVis);
+    global.addEventListener('pagehide', this.onLeave);
+  }
+
+  Tracker.prototype.payload = function () {
+    return {
+      session_id: this.sessionId,
+      visitor_id: VID,
+      game: this.game,
+      puzzle_no: this.puzzleNo,
+      active_ms: Math.round(this.activeMs),
+      played: this.played,
+      solved: this.solved,
+      guesses: this.guesses,
+      reveals: this.reveals,
+      device: device(),
+      ref_host: refHost(),
+    };
+  };
+
+  Tracker.prototype.accrue = function () {
+    if (!this.running) return;
+    var now = Date.now();
+    // Only credit time if the player did something recently. A puzzle left open
+    // in a background tab shouldn't read as forty minutes of engagement.
+    if (now - this.lastInput < IDLE_MS) this.activeMs += now - this.lastTick;
+    this.lastTick = now;
+  };
+
+  Tracker.prototype.start = function () {
+    if (this.running) return;
+    this.running = true;
+    this.lastTick = Date.now();
+    this.lastInput = Date.now();
+    this.flush();
+    var self = this;
+    this.timer = setInterval(function () { self.accrue(); self.flush(); }, FLUSH_MS);
+  };
+
+  Tracker.prototype.pause = function () {
+    this.accrue();
+    this.running = false;
+    if (this.timer) { clearInterval(this.timer); this.timer = null; }
+  };
+
+  Tracker.prototype.input = function () {
+    if (!this.running) { this.start(); }
+    this.accrue();
+    this.lastInput = Date.now();
+    if (!this.played) { this.played = true; this.flush(); }
+  };
+
+  Tracker.prototype.reveal = function () { this.reveals += 1; this.input(); };
+
+  Tracker.prototype.finish = function (opts) {
+    this.accrue();
+    this.solved = !(opts && opts.solved === false);
+    if (opts && typeof opts.guesses === 'number') this.guesses = opts.guesses;
+    this.pause();
+    this.flush(true);
+  };
+
+  Tracker.prototype.flush = function (final) {
+    if (global.WL_DISABLE_ANALYTICS) return;
+    var body = JSON.stringify(this.payload());
+    try {
+      if (final && global.navigator.sendBeacon) {
+        global.navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'application/json' }));
+        return;
+      }
+      global.fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        keepalive: true,
+      }).catch(function () {});
+    } catch (e) { /* analytics is never load-bearing */ }
+  };
+
+  function Visit(){
+    this.sessionId = uuid();
+    this.activeMs = 0; this.lastTick = Date.now(); this.lastInput = Date.now();
+    this.running = true; this.timer = null;
+    var self = this;
+    var bump = function(){ self.accrue(); self.lastInput = Date.now(); };
+    ['click','keydown','scroll','touchstart'].forEach(function(ev){
+      document.addEventListener(ev, bump, {passive:true});
+    });
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ self.accrue(); self.running = false; }
+      else { self.running = true; self.lastTick = Date.now(); self.lastInput = Date.now(); }
+    });
+    global.addEventListener('pagehide', function(){ self.accrue(); self.send(true); });
+    this.timer = setInterval(function(){ self.accrue(); self.send(); }, FLUSH_MS);
+    this.send();
+  }
+  Visit.prototype.accrue = function(){
+    if(!this.running) return;
+    var now = Date.now();
+    if(now - this.lastInput < IDLE_MS) this.activeMs += now - this.lastTick;
+    this.lastTick = now;
+  };
+  Visit.prototype.send = function(final){
+    if (global.WL_DISABLE_ANALYTICS) return;
+    var url = (global.WL_ANALYTICS_ENDPOINT || '/api/event').replace(/\/event$/, '/visit');
+    var body = JSON.stringify({
+      session_id: this.sessionId, visitor_id: VID,
+      path: location.pathname, ref_host: refHost(),
+      device: device(), active_ms: Math.round(this.activeMs)
+    });
+    try{
+      if(final && global.navigator.sendBeacon){
+        global.navigator.sendBeacon(url, new Blob([body], {type:'application/json'}));
+        return;
+      }
+      if(typeof global.fetch === 'function'){
+        global.fetch(url, {method:'POST', headers:{'Content-Type':'application/json'},
+          body: body, keepalive: true}).catch(function(){});
+      }
+    }catch(e){ /* never load-bearing */ }
+  };
+
+  global.WLGames = {
+    track: function (game, puzzleNo) { return new Tracker(game, puzzleNo); },
+    visitorId: function () { return VID; },
+    startVisit: function () { try { return new Visit(); } catch (e) { return null; } },
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* ============================================================
+   PUZZLE DATA — 9x9, pattern in PATTERN below
+   ============================================================ */
+
+
+const PUZZLES = [
+{
+  title:"Air Capital",
+  note:"Wichita has built more airplanes than any city on earth, and still throws a nine-day party on the river every spring.",
+  rows:["STY#PILOT","ERA#AMINO","AEROSPACE","MENUS#RES","###TWO###","ORE#OASIS","RIVERFEST","BLEND#ALA","SENDS#SET"],
+  across:{1:"Pig's quarters",4:"What Clyde Cessna and Walter Beech both were before they built planes",9:"Stretch of history",10:"___ acid, protein building block",11:"The industry that earned Wichita its 'Air Capital' title",13:"They're posted in the window at NuWay and Spangles",14:"Screen sharpness, informally",15:"Number of rivers meeting downtown",17:"Raw rock with metal in it",20:"Green spot in the desert",24:"Wichita's nine-day riverside festival, running since 1972",26:"Mix together",27:"Tuscaloosa's state, in brief",28:"Ships off",29:"Ready, ___, go"},
+  down:{1:"Line where two pieces of fabric join",2:"Cottonwood, e.g. \u2014 the Kansas state one",3:"Knitter's material",4:"What you're told never to reuse (and everyone does)",5:"Mischievous little sprite",6:"One who won't tell the truth",7:"___ upon a time",8:"They're counted in a pedicure",12:"Not in",16:"Clumsy sort",17:"Spheres",18:"Annoy",19:"Divisible by two",21:"The Pacific and Atlantic, for two",22:"Land surrounded by 21-Down",23:"Right away, to a doctor",25:"Riverfest's last night, e.g."}
+},
+{
+  title:"Cowtown & Twisters",
+  note:"Old Cowtown Museum sits on the west bank of the Arkansas, and the sirens still go off at noon.",
+  rows:["MAR#SRI","AGE#TOO","COWTOWN","##AIR##","TORNADO","AND#GOD","RES#END"],
+  across:{1:"Leave a scratch on",4:"___ Lanka",7:"It's only a number",8:"Also",9:"Wichita's 1870s cattle-drive nickname, kept alive by an Old ___ Museum",11:"___ Capital of the World",12:"What the county sirens are practicing for on the first Monday of the month",16:"Ampersand's meaning",17:"Almighty one",18:"Screen sharpness, informally",19:"Finish"},
+  down:{1:"Apple computer",2:"In the past",3:"Loyalty program perks",4:"Where the holiday bins live",5:"Move a boat with oars",6:"Charged particle",10:"Metal in a can",12:"Road-paving goo",13:"Loneliest number",14:"Put on, as a coat",15:"Not even"}
+},
+{
+  title:"East Side Story",
+  note:"Andover sits just past Wichita's eastern edge. In April 1991 a tornado came up its main street.",
+  rows:["PRO#RAP","EAR#EYE","ANDOVER","##EWE##","TORNADO","OLE#LID","ODD#SEE"],
+  across:{1:"Opposite of con",4:"Knock sharply",7:"Corn unit",8:"A storm's calm center",9:"Suburb off Wichita's east side, hit hard in the 1991 outbreak",11:"Female sheep",12:"What the sirens mean",16:"Bullfight cheer",17:"Jar topper",18:"Not even",19:"Take a look"},
+  down:{1:"Pod dweller",2:"Sprinted",3:"Put in a request for",4:"Makes known",5:"Vote in favor",6:"For each",10:"Have title to",12:"Also",13:"Not new",14:"One of a pair of dice",15:"Poem of praise"}
+},
+{
+  title:"Warehouse District",
+  note:"Old Town was a freight district until the 1990s. The brick is original; the bars are not.",
+  rows:["ACT#BRO","GOA#LOW","OLDTOWN","##PIC##","SHOCKER","PAL#ERA","ATE#DRY"],
+  across:{1:"Part of a play",4:"Casual sibling",7:"Indian state on the Arabian Sea",8:"Not high",9:"Wichita's brick warehouse district, now its nightlife strip",11:"Snapshot, informally",12:"WSU athlete \u2014 or a bundle of wheat",16:"Buddy",17:"Stretch of time",18:"Had dinner",19:"Like western Kansas"},
+  down:{1:"In the past",2:"Column, in brief",3:"A frog, earlier",4:"Kept from getting through",5:"Line of seats",6:"Possess",10:"Involuntary twitch",12:"Place for a soak",13:"Head cover",14:"Make a mistake",15:"Beam of light"}
+},
+{
+  title:"Main Drag",
+  note:"Douglas runs east from the river through Old Town and keeps going. The oil that paid for it came from Butler County.",
+  rows:["ADS#SEA","HUH#WAR","AIRPORT","##OIL##","DOUGLAS","AND#EYE","YES#NET"],
+  across:{1:"Newspaper revenue",4:"The Pacific, e.g.",7:"Sound of confusion",8:"Opposite of peace",9:"Eisenhower National, for one",11:"What Butler County struck in 1915",12:"Wichita's main east-west avenue",16:"Ampersand's meaning",17:"It has a pupil",18:"Affirmative",19:"Hoop attachment"},
+  down:{1:"Sound of discovery",2:"Traffic charge, in brief",3:"Conceals",4:"Like the Little Arkansas after a spring storm",5:"Attentive listener",6:"Museum fare",10:"Farm squealer",12:"Twenty-four hours",13:"Loneliest number",14:"Sailor's yes",15:"Ready, ___, go"}
+},
+{
+  title:"Quaker & Company",
+  note:"Textron now owns the Cessna and Beechcraft names. Friends University has been on West Kansas Avenue far longer.",
+  rows:["PAT#BAT","ICE#AGE","TEXTRON","##THO##","FRIENDS","EEL#EYE","EVE#TEA"],
+  across:{1:"Light tap",4:"Louisville Slugger",7:"What the Thunder play on",8:"Number of years",9:"Company that absorbed Cessna and Beechcraft in 2014",11:"Although, informally",12:"___ University, the Quaker school on the west side",16:"Slippery swimmer",17:"Needle opening",18:"Night before",19:"Hot drink"},
+  down:{1:"Barbecue spot",2:"Top pilot",3:"Woven fabric",4:"British title below a baron",5:"In the past",6:"Perfect score",10:"Most common word in English",12:"Charge",13:"Gun the engine",14:"Color changer",15:"Briny expanse"}
+},
+{
+  title:"Round Building",
+  note:"Century II opened in 1969 and people have argued about it ever since. Around here the storms are twisters.",
+  rows:["MID#SPA","ACE#TAN","CENTURY","##SIT##","TWISTER","EAT#ERA","DRY#REG"],
+  across:{1:"___-century modern",4:"Hot tub retreat",7:"Serve you can't return",8:"Beach result",9:"___ II, the round blue hall downtown",11:"Take a seat",12:"What Kansans call a tornado",16:"Have a meal",17:"Period of history",18:"Not wet",19:"Registration, briefly"},
+  down:{1:"Apple computer",2:"Cubes in a glass",3:"Mass per volume",4:"Halting speech",5:"Golf standard",6:"Whichever one",10:"'___ the season'",12:"___ Talk",13:"Conflict",14:"Before, in poems",15:"Cleaning cloth"}
+},
+{
+  title:"City Within a City",
+  note:"Bel Aire has its own mayor, its own water tower and about eight thousand people, and Wichita's northeast side wraps most of the way around it.",
+  rows:["JAB#FOE","OWE#RAY","BELAIRE","##ODD##","KANSANS","EGG#YAK","YES#SPY"],
+  across:{1:"Quick punch",4:"Opponent",7:"Be in debt to",8:"Beam of sunlight",9:"Small city tucked into Wichita's northeast corner",11:"Like 1, 3 and 5",12:"What about three million of us are",16:"Breakfast staple",17:"Shaggy ox of the Himalayas",18:"The answer you were hoping for",19:"One working undercover"},
+  down:{1:"The nine-to-five",2:"Wonder",3:"Fits right in",4:"When a new Crossroads lands",5:"Rowboat's paddle",6:"Hook's partner, on a fastener",10:"Sponsor spots",12:"It opens the door",13:"What a birthday adds to",14:"Short afternoon sleep",15:"Where the weather comes from"}
+},
+{
+  title:"Two Kinds of Gamble",
+  note:"Bill Lear bet that executives would pay for a small, fast jet, and flew the first one out of Wichita on 7 October 1963. A wildcat is the older Kansas bet: a well drilled on a hunch.",
+  rows:["ITS#ODD","LET#BOO","LEARJET","##LIE##","WILDCAT","ACE#TWO","RED#SEE"],
+  across:{1:"Belonging to that thing",4:"Strange",7:"Allow",8:"Ghost's greeting",9:"Business plane Bill Lear first flew here in 1963",11:"Fib",12:"Well drilled on a hunch \u2014 or K-State's mascot",16:"Card above the king",17:"A pair",18:"Stop sign's color",19:"Lay eyes on"},
+  down:{1:"Under the weather",2:"Golf ball's perch",3:"Quit moving, like a car on Kellogg",4:"Things \u2014 or protests in court",5:"Female deer",6:"A period, basically",10:"Get ___ of",12:"Civil ___",13:"What a January cold snap puts on the river",14:"Shock and ___",15:"Digit at the end of a foot"}
+},
+{
+  title:"Grain and Custard",
+  note:"Kansas holds more wheat in storage than any other state. Freddy's started at 21st and Tyler in 2002 and is named for Freddy Simon, who came home from the war and raised the family that built it.",
+  rows:["MET#GAS","PAR#RIP","GRANARY","##DON##","FREDDYS","OAR#PEA","GPS#ANY"],
+  across:{1:"Ran into",4:"What you pump before the drive to Salina",7:"Course average",8:"Tear",9:"Where the wheat waits for the train",11:"Mob boss",12:"Frozen custard chain that started at 21st and Tyler",16:"Handy thing in a bathtub on the Arkansas",17:"Small green sphere",18:"Dashboard navigator",19:"At all"},
+  down:{1:"Sticker number at the car lot",2:"What you bend when you talk too long",3:"Shouters on the exchange floor",4:"Family elder",5:"What Wichita is the capital of",6:"Secret agent",10:"Agree without a word",12:"What grounds the little planes",13:"Hip-hop genre",14:"Money in Tokyo",15:"Have your ___"}
+},
+{
+  title:"West of Town",
+  note:"Goddard started as a siding on the railroad where farmers loaded wheat. It is now one of the fastest-growing school districts in Kansas.",
+  rows:["REF#PEA","AGE#LAD","GODDARD","##EON##","BURGERS","USA#TIE","GEL#SPA"],
+  across:{1:"Official in a striped shirt",4:"Soup legume",7:"What the candles count",8:"Young fellow",9:"Fast-growing town on Wichita's west edge",11:"Very long stretch",12:"What NuWay and Spangles are both known for",16:"Stars and stripes, briefly",17:"Game nobody won",18:"Hair goop",19:"Place for a massage"},
+  down:{1:"Old shirt torn up for cleaning",2:"Self-regard",3:"Like the courthouse downtown",4:"Eight of them, since 2006",5:"It catches sound",6:"Put together",10:"Leash wearer",12:"What the windshield collects on K-96",13:"Put to work",14:"Tear along the seam",15:"Salty expanse"}
+},
+{
+  title:"Two Towns Up the Road",
+  note:"Emporia held the first All Veterans Day in 1953, and a local cobbler named Alvin King is why we have the holiday. Abilene raised the president who signed it into law.",
+  rows:["EAT#SLY","VIA#TEE","EMPORIA","##PIE##","ABILENE","CAN#TAR","EGG#SPA"],
+  across:{1:"Have supper",4:"Crafty",7:"By way of",8:"Where the drive starts",9:"Kansas town that started Veterans Day \u2014 also a Wichita street",11:"What gets judged at the county fair",12:"Eisenhower's Kansas hometown",16:"Aluminum container",17:"Black stuff on a hot roof",18:"What you crack",19:"Where the hot stones go"},
+  down:{1:"Christmas ___",2:"Point the camera",3:"Light drumming on the table",4:"Douglas and Kellogg, for two",5:"Necklace from Honolulu",6:"Opposite of nay",10:"What the El Dorado refinery runs on",12:"Pilot with five kills",13:"Grocery carrier",14:"Sunday afternoon snooze",15:"Chapter of history"}
+},
+{
+  title:"Wheat and Water",
+  note:"In June the custom cutters work their way north through Kansas. The Arkansas, meanwhile, spends most of the year being more sand than river.",
+  rows:["ADD#CPA","RUE#LIP","COMBINE","##AIM##","SANDBAR","OLD#ERA","YES#DEN"],
+  across:{1:"Sum up",4:"Tax-season pro",7:"Regret",8:"Rim of a cup",9:"What rolls through the wheat in June",11:"Take ___ at",12:"What the Arkansas is mostly made of in August",16:"Like Cowtown's buildings",17:"Stretch of years",18:"What a nod means",19:"Family room"},
+  down:{1:"A rainbow's shape",2:"Twosome",3:"Insists on",4:"Went up the ladder",5:"Bowling target",6:"Primate at the zoo",10:"Offer at auction",12:"Bean in the field next to the wheat",13:"Pour at the pub",14:"You ___ here",15:"Took off sprinting"}
+},
+{
+  title:"Fifty-Four",
+  note:"Kellogg is US-54. Follow it far enough east and you reach the airport, where some of the hangars are older than most of the neighborhoods around them.",
+  rows:["AFT#IRE","SEA#SAG","KELLOGG","##EEL##","HANGARS","ART#TEE","YES#EVE"],
+  across:{1:"Toward the stern",4:"Anger",7:"Where the gulls are",8:"Droop in the middle",9:"The road everyone here just calls the highway",11:"Fish shaped like a snake",12:"Where the planes sleep",16:"What hangs in the museum on the riverbank",17:"Shirt, informally",18:"Thumbs-up word",19:"The day before the holiday"},
+  down:{1:"Pose a question",2:"What the garage charges",3:"Gifts you were born with",4:"Set well apart",5:"Shop towel",6:"What's in the nest",10:"Part of a journey",12:"What gets baled",13:"We ___ open",14:"Make the motor roar",15:"Catch sight of"}
+},
+{
+  title:"Downtown Blocks",
+  note:"INTRUST Bank Arena opened on the south end of downtown in 2010. Central runs the other way, a mile or so north of Douglas, and has been there a great deal longer.",
+  rows:["SPA#NIP","KIN#ERA","INTRUST","##EAT##","CENTRAL","URN#AGO","BRA#LEG"],
+  across:{1:"Mani-pedi spot",4:"Small bite",7:"Relatives",8:"Period in the history books",9:"___ Bank Arena, downtown's big room",11:"Dig in",12:"Wichita avenue a mile north of Douglas",16:"Coffee dispenser at the potluck",17:"Two years ___",18:"Undergarment",19:"Piece of the chicken"},
+  down:{1:"Snow runner",2:"Sewing fastener",3:"What you adjusted on an old TV",4:"Gear between reverse and first",5:"April's least favorite agency",6:"Gentle touch on the back",10:"Alley rodent",12:"Young bear",13:"Slip up",14:"Get older",15:"Fireplace fuel"}
+},
+{
+  title:"Watch or Warning",
+  note:"A watch means the conditions are right. A warning means it is actually happening. Sedgwick County tests the sirens the first Monday of the month at noon, which is the one time you can ignore them.",
+  rows:["PEP#SIP","ARE#WOE","WARNING","##FUN##","THUNDER","HAM#LEI","EYE#ELM"],
+  across:{1:"Get-up-and-go",4:"Small drink",7:"They ___ here",8:"Grief",9:"What the sirens actually mean",11:"A good time",12:"What follows the lightning \u2014 or the hockey club downtown",16:"Deli meat",17:"Garland from the islands",18:"Peeper",19:"Tree on a lot of Kansas street signs"},
+  down:{1:"Dog's foot",2:"Historical stretch",3:"Bottle on the dresser",4:"Con out of money",5:"Atom carrying a charge",6:"Wooden pin",10:"Convent resident",12:"Definite article",13:"Stack in the barn",14:"Wriggly fish",15:"Edge of the basketball hoop"}
+},
+{
+  title:"Afternoon Plans",
+  note:"A decent ICT Saturday: the cheap early show, then Old Cowtown or Exploration Place, and home before supper.",
+  rows:["GPS#VAT","YEA#EGO","MATINEE","##ICT##","MUSEUMS","OFF#RAP","BOY#ERA"],
+  across:{1:"Phone's map helper",4:"Big industrial tub",7:"Aye's cousin",8:"Pride",9:"The cheap early show",11:"Wichita's airport code, and its nickname",12:"Old Cowtown and Botanica, for two",16:"Switch position",17:"Knuckles on a door",18:"Young man",19:"Age of history"},
+  down:{1:"Where the free weights are",2:"Green seed in a pod",3:"Hit the spot",4:"Risky new business",5:"Years lived",6:"It stubs easily",10:"Surface of the rink",12:"Unruly crowd",13:"Thing people report seeing over western Kansas",14:"Spoil the surface of",15:"Sauna spot"}
+},
+{
+  title:"Up and Through",
+  note:"McConnell throws the gates open every couple of years and fills the sky. The monarchs come through on their own schedule each fall and do not need an invitation.",
+  rows:["ALE#ADS","HER#SUE","AIRSHOW","##APT##","MONARCH","ADD#APE","YES#YAM"],
+  across:{1:"Brown pour at the pub",4:"Commercials",7:"Belonging to that woman",8:"Take to court",9:"What fills the sky at McConnell's open house",11:"Fitting",12:"Orange butterfly that crosses Kansas every fall",16:"Tally up",17:"Gorilla, e.g.",18:"Opposite of no",19:"Sweet potato's cousin"},
+  down:{1:"Lightbulb-moment sound",2:"Necklace at the luau",3:"The Saturday list",4:"Thing you don't see in restaurants anymore",5:"A couple of people",6:"Work with needle and thread",10:"Resort with the robes",12:"Month of the hail",13:"Keats wrote one to a nightingale",14:"Number cruncher, for short",15:"Bottom edge of a skirt"}
+},
+{
+  title:"Atchison's Own",
+  note:"Amelia Earhart was born in Atchison in 1897 and Kansas has been claiming her ever since. Eisenhower National, meanwhile, has two runways and a very long memory.",
+  rows:["APP#GOO","TEA#RAP","EARHART","##TEN##","RUNWAYS","USE#DIE","BAR#APT"],
+  across:{1:"Phone download",4:"Sticky stuff",7:"Earl Grey, for one",8:"Light knock",9:"Amelia who was born in Atchison",11:"What the fingers add up to",12:"Eisenhower National has two",16:"Employ",17:"Singular of dice",18:"Place with stools",19:"Well suited"},
+  down:{1:"Consumed",2:"Sphere from the garden",3:"The other half of the business",4:"Spanish city with the Alhambra",5:"Rower's tool",6:"Choose",10:"Chop with an axe",12:"Work the knots out",13:"Team ___",14:"Small dog's bark",15:"Division of a tennis match"}
+}
+];
+
+/* ---- weekly selection: puzzles turn over Friday at 5am Wichita time ---- */
+// Anchored to Friday 14 Aug 2026, so the puzzle showing now stays puzzle No. 1.
+const ANCHOR_DAY = 20679;
+
+function chicagoParts(d){
+  try{
+    const f = new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',
+      year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hour12:false,weekday:'short'});
+    const p = {}; f.formatToParts(d).forEach(x=>{ p[x.type]=x.value; });
+    return {y:+p.year, m:+p.month, d:+p.day, h:(+p.hour)%24, wd:p.weekday};
+  }catch(e){
+    // No Intl timezone support — fall back to the visitor's own clock.
+    return {y:d.getFullYear(), m:d.getMonth()+1, d:d.getDate(), h:d.getHours(),
+            wd:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()]};
+  }
+}
+
+function weekIndex(now){
+  const p = chicagoParts(now || new Date());
+  const dayNum = Math.floor(Date.UTC(p.y, p.m-1, p.d) / 86400000);
+  const WD = {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  let since = (WD[p.wd] - 5 + 7) % 7;        // days since the most recent Friday
+  if(since === 0 && p.h < 5) since = 7;      // before 5am Friday still belongs to last week
+  return Math.floor((dayNum - since - ANCHOR_DAY) / 7);
+}
+
+function dayIndex(now){
+  const p = chicagoParts(now || new Date());
+  const dayNum = Math.floor(Date.UTC(p.y, p.m-1, p.d) / 86400000);
+  // before 5am still belongs to the previous puzzle day
+  return (dayNum - (p.h < 5 ? 1 : 0)) - ANCHOR_DAY;
+}
+
+const WEEK = weekIndex();   // crossword: turns over Friday 5am
+const DAY  = dayIndex();    // wheatle:   turns over every day at 5am
+const PUZ = PUZZLES[((WEEK % PUZZLES.length) + PUZZLES.length) % PUZZLES.length];
+
+document.getElementById('datestamp').textContent =
+  'Week of ' + new Date().toLocaleDateString('en-US',{month:'long', day:'numeric'}) +
+  ' · Puzzle No. ' + (WEEK + 1) + ' · ' + PUZ.rows.length + '×' + PUZ.rows.length + ' · new Friday 5am';
+document.getElementById('xw-sub').textContent = PUZ.note;
+
+/* ============================================================
+   CROSSWORD ENGINE
+   ============================================================ */
+const N = PUZ.rows.length;
+const block = PUZ.rows.map(r => r.split('').map(c => c === '#'));
+const sol = PUZ.rows.map(r => r.split(''));
+
+// numbering + entries
+const num = Array.from({length:N},()=>Array(N).fill(0));
+const entries = []; // {n, dir, cells:[[r,c]], clue}
+let counter = 0;
+for(let r=0;r<N;r++){
+  for(let c=0;c<N;c++){
+    if(block[r][c]) continue;
+    const startA = (c===0 || block[r][c-1]) && (c+2<N && !block[r][c+1] && !block[r][c+2]);
+    const startD = (r===0 || block[r-1][c]) && (r+2<N && !block[r+1][c] && !block[r+2][c]);
+    if(startA || startD){
+      counter++; num[r][c]=counter;
+      if(startA){
+        const cells=[]; let cc=c;
+        while(cc<N && !block[r][cc]){cells.push([r,cc]);cc++;}
+        entries.push({n:counter,dir:'A',cells,clue:PUZ.across[counter]||''});
+      }
+      if(startD){
+        const cells=[]; let rr=r;
+        while(rr<N && !block[rr][c]){cells.push([rr,c]);rr++;}
+        entries.push({n:counter,dir:'D',cells,clue:PUZ.down[counter]||''});
+      }
+    }
+  }
+}
+
+const state = Array.from({length:N},()=>Array(N).fill(''));
+const flag  = Array.from({length:N},()=>Array(N).fill(''));  // '', 'wrong', 'revealed'
+let cur = {r:0,c:0,dir:'A'};
+let solved = false;
+let touched = false;   // first tap should select, not flip direction
+
+const gridEl = document.getElementById('grid');
+gridEl.style.gridTemplateColumns = 'repeat(' + N + ',1fr)';
+gridEl.style.setProperty('--cellfs', N >= 9 ? 'clamp(14px,4.1vw,20px)' : 'clamp(17px,5.2vw,24px)');
+const cellEls = [];
+for(let r=0;r<N;r++){
+  cellEls[r]=[];
+  for(let c=0;c<N;c++){
+    const d=document.createElement('div');
+    d.className='cell'+(block[r][c]?' block':'');
+    if(!block[r][c]){
+      if(num[r][c]){const s=document.createElement('span');s.className='num';s.textContent=num[r][c];d.appendChild(s);}
+      const l=document.createElement('span');l.className='ltr';d.appendChild(l);
+      d.addEventListener('click',()=>onCellClick(r,c));
+    }
+    gridEl.appendChild(d); cellEls[r][c]=d;
+  }
+}
+// first open cell
+outer: for(let r=0;r<N;r++) for(let c=0;c<N;c++){ if(!block[r][c]){cur={r,c,dir:'A'};break outer;} }
+
+function entryAt(r,c,dir){
+  return entries.find(e=>e.dir===dir && e.cells.some(([er,ec])=>er===r&&ec===c));
+}
+function currentEntry(){ return entryAt(cur.r,cur.c,cur.dir) || entryAt(cur.r,cur.c,cur.dir==='A'?'D':'A'); }
+
+function onCellClick(r,c){
+  if(touched && cur.r===r && cur.c===c) cur.dir = cur.dir==='A'?'D':'A';
+  else { cur.r=r; cur.c=c; }
+  touched = true;
+  if(!entryAt(r,c,cur.dir)) cur.dir = cur.dir==='A'?'D':'A';
+  focusInput(); render();
+}
+function focusInput(){
+  activeGame='xw';
+  const i=document.getElementById('hidden-input');
+  i.value=''; i.focus({preventScroll:true});
+}
+
+function render(){
+  const e = currentEntry();
+  const inWord = new Set(e ? e.cells.map(([r,c])=>r+'-'+c) : []);
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(block[r][c]) continue;
+    const el=cellEls[r][c];
+    el.classList.toggle('inword', inWord.has(r+'-'+c));
+    el.classList.toggle('active', r===cur.r && c===cur.c);
+    el.classList.toggle('wrong', flag[r][c]==='wrong');
+    el.classList.toggle('revealed', flag[r][c]==='revealed');
+    el.querySelector('.ltr').textContent = state[r][c];
+  }
+  const cd=document.getElementById('clue-display');
+  cd.innerHTML = e ? '<span class="cnum">'+e.n+e.dir+'</span>'+e.clue : '';
+  document.querySelectorAll('.cluelists li').forEach(li=>{
+    li.classList.toggle('sel', e && li.dataset.k === e.n+e.dir);
+  });
+  markDone();
+}
+
+function markDone(){
+  entries.forEach(e=>{
+    const full = e.cells.every(([r,c])=>state[r][c]);
+    const li=document.querySelector('[data-k="'+e.n+e.dir+'"]');
+    if(li) li.classList.toggle('done', full);
+  });
+}
+
+function buildLists(){
+  const A=document.getElementById('across-list'), D=document.getElementById('down-list');
+  entries.forEach(e=>{
+    const li=document.createElement('li');
+    li.dataset.k=e.n+e.dir;
+    li.innerHTML='<b>'+e.n+'</b><span>'+e.clue+'</span>';
+    li.addEventListener('click',()=>{cur={r:e.cells[0][0],c:e.cells[0][1],dir:e.dir};focusInput();render();});
+    (e.dir==='A'?A:D).appendChild(li);
+  });
+}
+buildLists();
+
+function advance(back){
+  const e=currentEntry(); if(!e) return;
+  const i=e.cells.findIndex(([r,c])=>r===cur.r&&c===cur.c);
+  const j=back?i-1:i+1;
+  if(j>=0 && j<e.cells.length){ cur.r=e.cells[j][0]; cur.c=e.cells[j][1]; }
+}
+function jumpClue(delta){
+  const e=currentEntry(); if(!e) return;
+  const ordered = entries.slice().sort((a,b)=> a.dir===b.dir ? a.n-b.n : (a.dir==='A'?-1:1));
+  let i=ordered.indexOf(e);
+  i=(i+delta+ordered.length)%ordered.length;
+  const t=ordered[i];
+  cur={r:t.cells[0][0],c:t.cells[0][1],dir:t.dir};
+  focusInput(); render();
+}
+document.getElementById('next-clue').onclick=()=>jumpClue(1);
+document.getElementById('prev-clue').onclick=()=>jumpClue(-1);
+
+function typeLetter(ch){
+  if(solved) return;
+  xwTrack.input();
+  state[cur.r][cur.c]=ch;
+  flag[cur.r][cur.c]='';
+  advance(false); render(); checkWin();
+}
+function backspace(){
+  if(state[cur.r][cur.c]) { state[cur.r][cur.c]=''; flag[cur.r][cur.c]=''; }
+  else { advance(true); state[cur.r][cur.c]=''; flag[cur.r][cur.c]=''; }
+  render();
+}
+
+const hidden=document.getElementById('hidden-input');
+hidden.addEventListener('input',ev=>{
+  const v=ev.target.value.replace(/[^a-zA-Z]/g,'').toUpperCase();
+  if(v) typeLetter(v[v.length-1]);
+  ev.target.value='';
+});
+document.addEventListener('keydown',ev=>{
+  const inGame = document.activeElement===hidden || (document.activeElement===document.body && activeGame==='xw');
+  if(!inGame) return;
+  if(ev.key==='Backspace'){ ev.preventDefault(); backspace(); return; }
+  if(ev.key==='Tab'){ ev.preventDefault(); jumpClue(ev.shiftKey?-1:1); return; }
+  if(ev.key===' '){ ev.preventDefault(); cur.dir=cur.dir==='A'?'D':'A'; if(!entryAt(cur.r,cur.c,cur.dir))cur.dir=cur.dir==='A'?'D':'A'; render(); return; }
+  const moves={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
+  if(moves[ev.key]){
+    ev.preventDefault();
+    const [dr,dc]=moves[ev.key];
+    const want = dr? 'D':'A';
+    if(cur.dir!==want && entryAt(cur.r,cur.c,want)){ cur.dir=want; render(); return; }
+    let r=cur.r+dr,c=cur.c+dc;
+    while(r>=0&&r<N&&c>=0&&c<N&&block[r][c]){r+=dr;c+=dc;}
+    if(r>=0&&r<N&&c>=0&&c<N){cur.r=r;cur.c=c;render();}
+    return;
+  }
+  if(/^[a-zA-Z]$/.test(ev.key) && document.activeElement===document.body && activeGame==='xw'){ typeLetter(ev.key.toUpperCase()); }
+});
+
+document.getElementById('btn-check').onclick=()=>{
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(block[r][c]||!state[r][c]) continue;
+    if(state[r][c]!==sol[r][c] && flag[r][c]!=='revealed') flag[r][c]='wrong';
+  }
+  render();
+};
+document.getElementById('btn-reveal').onclick=()=>{
+  state[cur.r][cur.c]=sol[cur.r][cur.c];
+  flag[cur.r][cur.c]='revealed';
+  xwTrack.reveal();
+  advance(false); render(); checkWin();
+};
+document.getElementById('btn-clear').onclick=()=>{
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){state[r][c]='';flag[r][c]='';}
+  solved=false; document.getElementById('xw-win').classList.remove('show'); render();
+};
+
+const wlVisit = WLGames.startVisit();   // page view + time on site
+let activeGame = null;   // 'xw' | 'wh' — which game owns the keyboard
+const xwTrack = WLGames.track('crossroads', WEEK + 1);
+let secs=0, timer=null, started=false;
+function startTimer(){ if(started)return; started=true; timer=setInterval(()=>{ if(!solved){secs++;paintClock();} },1000); }
+function paintClock(){
+  document.getElementById('clock').textContent = Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0');
+}
+gridEl.addEventListener('click',function(){startTimer();xwTrack.start();},{once:true});
+
+function checkWin(){
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    if(!block[r][c] && state[r][c]!==sol[r][c]) return;
+  }
+  solved=true; clearInterval(timer);
+  xwTrack.finish({solved:true});
+  document.getElementById('xw-win').classList.add('show');
+  document.getElementById('xw-wintext').textContent =
+    '"'+PUZ.title+'" in '+Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0')+'. '+PUZ.note;
+}
+render();
+
+/* decorative hero grid mirrors this week's puzzle */
+(function(){
+  const deco=document.getElementById('deco');
+  deco.style.gridTemplateColumns='repeat('+N+',1fr)';
+  PUZ.rows.forEach((row,r)=>{
+    const full = row.indexOf('#')===-1;
+    row.split('').forEach((ch,c)=>{
+      const d=document.createElement('div');
+      if(ch==='#'){ d.className='off'; }
+      else if(full){ d.className='hi'; d.textContent=ch; }
+      else { d.className='on'; }
+      d.style.animationDelay=((r*N+c)*18)+'ms';
+      deco.appendChild(d);
+    });
+  });
+})();
+
+/* ============================================================
+   WHEATLE
+   ============================================================ */
+const WHEATLE_WORDS = [
+"WHEAT","MAIZE","DERBY","EAGLE","RIVER","CREEK","PLAIN","FLINT","DITCH","LEVEE",
+"BLUFF","GRAIN","SILOS","MARSH","STORM","SIREN","WINDY","CHILL","FROST","DRIFT",
+"GUSTS","HAILS","BEECH","PILOT","PLANE","WINGS","RIVET","CABIN","PROPS","RADAR",
+"TOWER","CRAFT","METAL","ALLOY","SHEET","PLANT","SHIFT","UNION","WAGES","WELDS",
+"STEER","HERDS","DROVE","TRAIL","BRAND","SPURS","BOOTS","RODEO","HORSE","RANCH",
+"FENCE","BARNS","STOCK","WAGON","DEPOT","RAILS","TRACK","POSSE","BADGE","DODGE",
+"TRIBE","PLAZA","MURAL","ARENA","STAGE","OPERA","BRASS","VINYL","BANJO","CHOIR",
+"DANCE","DINER","PATIO","GRILL","STEAK","PIZZA","CRUST","SAUCE","DOUGH","SHAKE",
+"FRIES","CIDER","PECAN","PEACH","MELON","BEANS","BREAD","FLOUR","MILLS","TULIP",
+"PEONY","ROSES","GRASS","CEDAR","BISON","HAWKS","CRANE","GEESE","QUAIL","BLOCK",
+"ALLEY","PORCH","STOOP","BRICK","CIVIC","LOCAL","CROWN","DRIVE","FIELD","ROUTE",
+"MOTEL","SCENE","FRONT","TRUCK","NORTH","SOUTH","CRUDE","SHALE","BASIN","WELLS",
+"PUMPS","SPARK","LIGHT","LAMPS","STOVE","TENTS","CAMPS","SCOUT","SHOCK","SPIKE",
+"COURT","HOOPS","SKATE","PUCKS","SURGE","PITCH","BOOKS","PRESS","PAPER","SCOOP",
+"RADIO","WIRES","LINES","POLES","CHORD","TEMPO","ROYAL","CHIEF","BROWN","FREED",
+"STATE","BALES","ACRES","FARMS","PLOWS","SEEDS","YIELD","STALK","HUSKS","LOESS",
+"CHALK","AMBER","WAVES","RANGE","BLADE","WINDS","POWER","SOLAR","SALTY","SALTS",
+"MINES","STONE","POSTS","HERON","EGRET","OTTER","SKUNK","ROBIN","FINCH","BLOOM",
+"PETAL","SEDGE","REEDS","KNOLL","RIDGE","MOUND","CHASE","SMITH","CIVIL","BLEED",
+"RAIDS","BANKS","TRAIN","STEAM","FORTS","TROOP","SPACE","ORBIT","COMET","MOTOR",
+"SPEED","FRIED","WITCH","SWALE","ADOBE","SODDY","ADIEU","AMORE","BREWS","CHEAP",
+"CLOUD","CONES","CRIME","DREAM","EATON","HARRY","HILLS","HYATT","JAMES","MAPLE",
+"MUSIC","ROXYS","SKIES","SLEEP","STYLE","TASTY","TROLL","WATER"];
+const VALID = new Set("AAHED,AALII,AARGH,ABACA,ABACI,ABACK,ABAFT,ABAKA,ABAMP,ABASE,ABASH,ABATE,ABBAS,ABBES,ABBEY,ABBOT,ABEAM,ABELE,ABETS,ABHOR,ABIDE,ABLER,ABLES,ABMHO,ABODE,ABOHM,ABOIL,ABOMA,ABOON,ABORT,ABOUT,ABOVE,ABRIS,ABUSE,ABUTS,ABUZZ,ABYES,ABYSM,ABYSS,ACARI,ACERB,ACETA,ACHED,ACHES,ACHOO,ACIDS,ACIDY,ACING,ACINI,ACKEE,ACMES,ACMIC,ACNED,ACNES,ACOCK,ACOLD,ACORN,ACRED,ACRES,ACRID,ACTED,ACTIN,ACTOR,ACUTE,ACYLS,ADAGE,ADAPT,ADDAX,ADDED,ADDER,ADDLE,ADEEM,ADEPT,ADIEU,ADIOS,ADITS,ADMAN,ADMEN,ADMIT,ADMIX,ADOBE,ADOBO,ADOPT,ADORE,ADORN,ADOWN,ADOZE,ADULT,ADUNC,ADUST,ADYTA,ADZES,AECIA,AEDES,AEGIS,AEONS,AERIE,AFARS,AFFIX,AFIRE,AFOOT,AFORE,AFOUL,AFRIT,AFTER,AGAIN,AGAMA,AGAPE,AGARS,AGATE,AGAVE,AGAZE,AGENE,AGENT,AGERS,AGGER,AGGIE,AGGRO,AGHAS,AGILE,AGING,AGIOS,AGISM,AGIST,AGLEE,AGLET,AGLEY,AGLOW,AGMAS,AGONE,AGONS,AGONY,AGORA,AGREE,AGRIA,AGUES,AHEAD,AHOLD,AHULL,AIDED,AIDER,AIDES,AILED,AIMED,AIMER,AIOLI,AIRED,AIRER,AIRNS,AIRTH,AIRTS,AISLE,AITCH,AIVER,AJIVA,AJUGA,AKEES,AKELA,AKENE,ALACK,ALAMO,ALAND,ALANE,ALANG,ALANS,ALANT,ALARM,ALARY,ALATE,ALBAS,ALBUM,ALCID,ALDER,ALDOL,ALECS,ALEFS,ALEPH,ALERT,ALFAS,ALGAE,ALGAL,ALGAS,ALGID,ALGIN,ALGOR,ALGUM,ALIAS,ALIBI,ALIEN,ALIFS,ALIGN,ALIKE,ALINE,ALIST,ALIVE,ALIYA,ALKYD,ALKYL,ALLAY,ALLEE,ALLEY,ALLOD,ALLOT,ALLOW,ALLOY,ALLYL,ALMAH,ALMAS,ALMEH,ALMES,ALMUD,ALMUG,ALOES,ALOFT,ALOHA,ALOIN,ALONE,ALONG,ALOOF,ALOUD,ALPHA,ALTAR,ALTER,ALTHO,ALTOS,ALULA,ALUMS,ALWAY,AMAHS,AMAIN,AMASS,AMAZE,AMBER,AMBIT,AMBLE,AMBOS,AMBRY,AMEBA,AMEER,AMEND,AMENS,AMENT,AMIAS,AMICE,AMICI,AMIDE,AMIDO,AMIDS,AMIES,AMIGA,AMIGO,AMINE,AMINO,AMINS,AMIRS,AMISS,AMITY,AMMOS,AMNIA,AMNIC,AMOKS,AMOLE,AMONG,AMORT,AMOUR,AMPLE,AMPLY,AMPUL,AMUCK,AMUSE,AMYLS,ANCON,ANEAR,ANELE,ANENT,ANGAS,ANGEL,ANGER,ANGLE,ANGRY,ANGST,ANILE,ANILS,ANIMA,ANIME,ANIMI,ANION,ANISE,ANKHS,ANKLE,ANKUS,ANLAS,ANNAL,ANNAS,ANNEX,ANNOY,ANNUL,ANOAS,ANODE,ANOLE,ANOMY,ANSAE,ANTAE,ANTAS,ANTED,ANTES,ANTIC,ANTIS,ANTRA,ANTRE,ANTSY,ANVIL,AORTA,APACE,APART,APEAK,APEEK,APERS,APERY,APHID,APHIS,APIAN,APING,APISH,APNEA,APODS,APORT,APPAL,APPEL,APPLE,APPLY,APRES,APRON,APSES,APSIS,APTER,APTLY,AQUAE,AQUAS,ARAKS,ARBOR,ARCED,ARCUS,ARDEB,ARDOR,AREAE,AREAL,AREAS,ARECA,AREIC,ARENA,ARETE,ARGAL,ARGIL,ARGLE,ARGOL,ARGON,ARGOT,ARGUE,ARGUS,ARHAT,ARIAS,ARIEL,ARILS,ARISE,ARLES,ARMED,ARMER,ARMET,ARMOR,AROID,AROMA,AROSE,ARPEN,ARRAS,ARRAY,ARRIS,ARROW,ARSES,ARSIS,ARSON,ARTAL,ARTEL,ARTSY,ARUMS,ARVAL,ARVOS,ARYLS,ASANA,ASCOT,ASCUS,ASDIC,ASHED,ASHEN,ASHES,ASIDE,ASKED,ASKER,ASKEW,ASKOI,ASKOS,ASPEN,ASPER,ASPIC,ASPIS,ASSAI,ASSAY,ASSES,ASSET,ASTER,ASTIR,ASYLA,ATAPS,ATAXY,ATILT,ATLAS,ATMAN,ATMAS,ATOLL,ATOMS,ATOMY,ATONE,ATONY,ATOPY,ATRIA,ATRIP,ATTAR,ATTIC,AUDAD,AUDIO,AUDIT,AUGER,AUGHT,AUGUR,AULIC,AUNTS,AUNTY,AURAE,AURAL,AURAR,AURAS,AUREI,AURES,AURIC,AURIS,AURUM,AUTOS,AUXIN,AVAIL,AVANT,AVAST,AVENS,AVERS,AVERT,AVGAS,AVIAN,AVION,AVISO,AVOID,AVOWS,AWAIT,AWAKE,AWARD,AWARE,AWASH,AWFUL,AWING,AWNED,AWOKE,AWOLS,AXELS,AXIAL,AXILE,AXILS,AXING,AXIOM,AXION,AXITE,AXLED,AXLES,AXMAN,AXMEN,AXONE,AXONS,AYAHS,AYINS,AZANS,AZIDE,AZIDO,AZINE,AZLON,AZOIC,AZOLE,AZONS,AZOTE,AZOTH,AZURE,BAAED,BAALS,BABAS,BABEL,BABES,BABKA,BABOO,BABUL,BABUS,BACCA,BACKS,BACON,BADDY,BADGE,BADLY,BAFFS,BAFFY,BAGEL,BAGGY,BAHTS,BAILS,BAIRN,BAITH,BAITS,BAIZA,BAIZE,BAKED,BAKER,BAKES,BALAS,BALDS,BALDY,BALED,BALER,BALES,BALKS,BALKY,BALLS,BALLY,BALMS,BALMY,BALSA,BANAL,BANCO,BANDS,BANDY,BANED,BANES,BANGS,BANJO,BANKS,BANNS,BANTY,BARBE,BARBS,BARDE,BARDS,BARED,BARER,BARES,BARFS,BARGE,BARIC,BARKS,BARKY,BARMS,BARMY,BARNS,BARNY,BARON,BARRE,BARYE,BASAL,BASED,BASER,BASES,BASIC,BASIL,BASIN,BASIS,BASKS,BASSI,BASSO,BASSY,BASTE,BASTS,BATCH,BATED,BATES,BATHE,BATHS,BATIK,BATON,BATTS,BATTU,BATTY,BAUDS,BAULK,BAWDS,BAWDY,BAWLS,BAWTY,BAYED,BAYOU,BAZAR,BAZOO,BEACH,BEADS,BEADY,BEAKS,BEAKY,BEAMS,BEAMY,BEANO,BEANS,BEARD,BEARS,BEAST,BEATS,BEAUS,BEAUT,BEAUX,BEBOP,BECAP,BECKS,BEDEL,BEDEW,BEDIM,BEECH,BEEFS,BEEFY,BEEPS,BEERS,BEERY,BEETS,BEFIT,BEFOG,BEGAN,BEGAT,BEGET,BEGIN,BEGOT,BEGUM,BEGUN,BEIGE,BEIGY,BEING,BELAY,BELCH,BELGA,BELIE,BELLE,BELLS,BELLY,BELOW,BELTS,BEMAS,BEMIX,BENCH,BENDS,BENDY,BENES,BENNE,BENNI,BENNY,BENTS,BERET,BERGS,BERME,BERMS,BERRY,BERTH,BERYL,BESET,BESOM,BESOT,BESTS,BETAS,BETEL,BETHS,BETON,BETTA,BEVEL,BEVOR,BEWIG,BEZEL,BEZIL,BHANG,BHOOT,BHUTS,BIALI,BIALY,BIBBS,BIBLE,BICES,BIDDY,BIDED,BIDER,BIDES,BIDET,BIELD,BIERS,BIFFS,BIFFY,BIFID,BIGHT,BIGLY,BIGOT,BIJOU,BIKED,BIKER,BIKES,BIKIE,BILBO,BILES,BILGE,BILGY,BILKS,BILLS,BILLY,BIMAH,BIMAS,BIMBO,BINAL,BINDI,BINDS,BINES,BINGE,BINGO,BINIT,BINTS,BIOME,BIONT,BIOTA,BIPED,BIPOD,BIRCH,BIRDS,BIRKS,BIRLE,BIRLS,BIRRS,BIRSE,BIRTH,BISES,BISKS,BISON,BITER,BITES,BITSY,BITTS,BITTY,BIZES,BLABS,BLACK,BLADE,BLAHS,BLAIN,BLAME,BLAMS,BLAND,BLANK,BLARE,BLASE,BLAST,BLATE,BLATS,BLAWN,BLAWS,BLAZE,BLEAK,BLEAR,BLEAT,BLEBS,BLEED,BLEEP,BLEND,BLENT,BLESS,BLEST,BLETS,BLIMP,BLIMY,BLIND,BLINI,BLINK,BLIPS,BLISS,BLITE,BLITZ,BLOAT,BLOBS,BLOCK,BLOCS,BLOKE,BLOND,BLOOD,BLOOM,BLOOP,BLOTS,BLOWN,BLOWS,BLOWY,BLUBS,BLUED,BLUER,BLUES,BLUET,BLUEY,BLUFF,BLUME,BLUNT,BLURB,BLURS,BLURT,BLUSH,BLYPE,BOARD,BOARS,BOART,BOAST,BOATS,BOBBY,BOCCE,BOCCI,BOCHE,BOCKS,BODED,BODES,BOFFO,BOFFS,BOGAN,BOGEY,BOGGY,BOGIE,BOGLE,BOGUS,BOHEA,BOILS,BOING,BOITE,BOLAR,BOLAS,BOLDS,BOLES,BOLLS,BOLOS,BOLTS,BOLUS,BOMBE,BOMBS,BONDS,BONED,BONER,BONES,BONEY,BONGO,BONGS,BONKS,BONNE,BONNY,BONUS,BONZE,BOOBS,BOOBY,BOOED,BOOGY,BOOKS,BOOMS,BOOMY,BOONS,BOORS,BOOST,BOOTH,BOOTS,BOOTY,BOOZE,BOOZY,BORAL,BORAS,BORAX,BORED,BORER,BORES,BORIC,BORNE,BORON,BORTS,BORTY,BORTZ,BOSKS,BOSKY,BOSOM,BOSON,BOSSY,BOSUN,BOTAS,BOTCH,BOTEL,BOTHY,BOTTS,BOUGH,BOULE,BOUND,BOURG,BOURN,BOUSE,BOUSY,BOUTS,BOVID,BOWED,BOWEL,BOWER,BOWLS,BOWSE,BOXED,BOXER,BOXES,BOYAR,BOYLA,BOYOS,BOZOS,BRACE,BRACH,BRACT,BRADS,BRAES,BRAGS,BRAID,BRAIL,BRAIN,BRAKE,BRAKY,BRAND,BRANK,BRANS,BRANT,BRASH,BRASS,BRATS,BRAVA,BRAVE,BRAVI,BRAVO,BRAWL,BRAWN,BRAWS,BRAXY,BRAYS,BRAZA,BRAZE,BREAD,BREAK,BREAM,BREDE,BREED,BREES,BRENS,BRENT,BREVE,BREWS,BRIAR,BRIBE,BRICK,BRIDE,BRIEF,BRIER,BRIES,BRIGS,BRILL,BRIMS,BRINE,BRING,BRINK,BRINS,BRINY,BRIOS,BRISK,BRITS,BRITT,BROAD,BROCK,BROIL,BROKE,BROME,BROMO,BRONC,BROOD,BROOK,BROOM,BROOS,BROSE,BROSY,BROTH,BROWN,BROWS,BRUGH,BRUIN,BRUIT,BRUME,BRUNT,BRUSH,BRUSK,BRUTE,BUBAL,BUBBY,BUCKO,BUCKS,BUDDY,BUDGE,BUFFI,BUFFO,BUFFS,BUFFY,BUGGY,BUGLE,BUHLS,BUHRS,BUILD,BUILT,BULBS,BULGE,BULGY,BULKS,BULKY,BULLA,BULLS,BULLY,BUMFS,BUMPH,BUMPS,BUMPY,BUNCH,BUNCO,BUNDS,BUNDT,BUNGS,BUNKO,BUNKS,BUNNS,BUNNY,BUNTS,BUNYA,BUOYS,BURAN,BURAS,BURBS,BURDS,BURET,BURGH,BURGS,BURIN,BURKE,BURLS,BURLY,BURNS,BURNT,BURPS,BURRO,BURRS,BURRY,BURSA,BURSE,BURST,BUSBY,BUSED,BUSES,BUSHY,BUSKS,BUSTS,BUSTY,BUTCH,BUTEO,BUTLE,BUTTE,BUTTS,BUTTY,BUTUT,BUTYL,BUXOM,BUYER,BWANA,BYLAW,BYRES,BYRLS,BYSSI,BYTES,BYWAY,CABAL,CABBY,CABER,CABIN,CABLE,CABOB,CACAO,CACAS,CACHE,CACTI,CADDY,CADES,CADET,CADGE,CADGY,CADIS,CADRE,CAECA,CAFES,CAFFS,CAGED,CAGER,CAGES,CAGEY,CAHOW,CAIDS,CAINS,CAIRD,CAIRN,CAJON,CAKED,CAKES,CAKEY,CALFS,CALIF,CALIX,CALKS,CALLA,CALLS,CALMS,CALVE,CALYX,CAMAS,CAMEL,CAMEO,CAMES,CAMPI,CAMPO,CAMPS,CAMPY,CANAL,CANDY,CANED,CANER,CANES,CANID,CANNA,CANNY,CANOE,CANON,CANSO,CANST,CANTO,CANTS,CANTY,CAPED,CAPER,CAPES,CAPHS,CAPON,CAPOS,CAPUT,CARAT,CARBO,CARBS,CARDS,CARED,CARER,CARES,CARET,CAREX,CARGO,CARKS,CARLE,CARLS,CARNS,CARNY,CAROB,CAROL,CAROM,CARPI,CARPS,CARRS,CARRY,CARSE,CARTE,CARTS,CARVE,CASAS,CASED,CASES,CASKS,CASKY,CASTE,CASTS,CASUS,CATCH,CATER,CATES,CATTY,CAULD,CAULK,CAULS,CAUSE,CAVED,CAVER,CAVES,CAVIE,CAVIL,CAWED,CEASE,CEBID,CECAL,CECUM,CEDAR,CEDED,CEDER,CEDES,CEDIS,CEIBA,CEILS,CELEB,CELLA,CELLI,CELLO,CELLS,CELOM,CELTS,CENSE,CENTO,CENTS,CEORL,CEPES,CERCI,CERED,CERES,CERIA,CERIC,CEROS,CESTA,CESTI,CETES,CHADS,CHAFE,CHAFF,CHAIN,CHAIR,CHALK,CHAMP,CHAMS,CHANG,CHANT,CHAOS,CHAPE,CHAPS,CHAPT,CHARD,CHARE,CHARK,CHARM,CHARR,CHARS,CHART,CHARY,CHASE,CHASM,CHATS,CHAWS,CHAYS,CHEAP,CHEAT,CHECK,CHEEK,CHEEP,CHEER,CHEFS,CHELA,CHEMO,CHERT,CHESS,CHEST,CHETH,CHEVY,CHEWS,CHEWY,CHIAO,CHIAS,CHICK,CHICO,CHICS,CHIDE,CHIEF,CHIEL,CHILD,CHILE,CHILI,CHILL,CHIMB,CHIME,CHIMP,CHINA,CHINE,CHINO,CHINS,CHIPS,CHIRK,CHIRM,CHIRO,CHIRP,CHIRR,CHITS,CHIVE,CHIVY,CHOCK,CHOIR,CHOKE,CHOKY,CHOLO,CHOMP,CHOOK,CHOPS,CHORD,CHORE,CHOSE,CHOTT,CHOWS,CHUBS,CHUCK,CHUFA,CHUFF,CHUGS,CHUMP,CHUMS,CHUNK,CHURL,CHURN,CHURR,CHUTE,CHYLE,CHYME,CIBOL,CIDER,CIGAR,CILIA,CIMEX,CINCH,CINES,CIONS,CIRCA,CIRES,CIRRI,CISCO,CISSY,CISTS,CITED,CITER,CITES,CIVET,CIVIC,CIVIE,CIVIL,CIVVY,CLACH,CLACK,CLADE,CLADS,CLAGS,CLAIM,CLAMP,CLAMS,CLANG,CLANK,CLANS,CLAPS,CLAPT,CLARO,CLARY,CLASH,CLASP,CLASS,CLAST,CLAVE,CLAVI,CLAWS,CLAYS,CLEAN,CLEAR,CLEAT,CLEEK,CLEFS,CLEFT,CLEPE,CLEPT,CLERK,CLEWS,CLICK,CLIFF,CLIFT,CLIMB,CLIME,CLINE,CLING,CLINK,CLIPS,CLIPT,CLOAK,CLOCK,CLODS,CLOGS,CLOMB,CLOMP,CLONE,CLONK,CLONS,CLOOT,CLOPS,CLOSE,CLOTH,CLOTS,CLOUD,CLOUR,CLOUT,CLOVE,CLOWN,CLOYS,CLOZE,CLUBS,CLUCK,CLUED,CLUES,CLUMP,CLUNG,CLUNK,COACH,COACT,COALA,COALS,COALY,COAPT,COAST,COATI,COATS,COBBS,COBBY,COBIA,COBLE,COBRA,COCAS,COCCI,COCKS,COCKY,COCOA,COCOS,CODAS,CODEC,CODED,CODEN,CODER,CODES,CODEX,CODON,COEDS,COFFS,COGON,COHOG,COHOS,COIFS,COIGN,COILS,COINS,COIRS,COKED,COKES,COLAS,COLDS,COLED,COLES,COLIC,COLIN,COLLY,COLOG,COLON,COLOR,COLTS,COLZA,COMAE,COMAL,COMAS,COMBE,COMBO,COMBS,COMER,COMES,COMET,COMFY,COMIC,COMIX,COMMA,COMMY,COMPO,COMPS,COMPT,COMTE,CONCH,CONDO,CONED,CONES,CONEY,CONGA,CONGE,CONGO,CONIC,CONIN,CONKS,CONKY,CONNS,CONTE,CONTO,CONUS,COOCH,COOED,COOEE,COOER,COOEY,COOFS,COOKS,COOKY,COOLS,COOLY,COOMB,COOPS,COOPT,COOTS,COPAL,COPED,COPEN,COPER,COPES,COPRA,COPSE,CORAL,CORBY,CORDS,CORED,CORER,CORES,CORGI,CORIA,CORKS,CORKY,CORMS,CORNS,CORNU,CORNY,CORPS,CORSE,COSEC,COSES,COSET,COSEY,COSIE,COSTA,COSTS,COTAN,COTED,COTES,COTTA,COUCH,COUDE,COUGH,COULD,COUNT,COUPE,COUPS,COURT,COUTH,COVED,COVEN,COVER,COVES,COVET,COVEY,COVIN,COWED,COWER,COWLS,COWRY,COXAE,COXAL,COXED,COXES,COYED,COYER,COYLY,COYPU,COZEN,COZES,COZEY,COZIE,CRAAL,CRABS,CRACK,CRAFT,CRAGS,CRAKE,CRAMP,CRAMS,CRANE,CRANK,CRAPE,CRAPS,CRASH,CRASS,CRATE,CRAVE,CRAWL,CRAWS,CRAZE,CRAZY,CREAK,CREAM,CREDO,CREED,CREEK,CREEL,CREEP,CREME,CREPE,CREPT,CREPY,CRESS,CREST,CREWS,CRIBS,CRICK,CRIED,CRIER,CRIES,CRIME,CRIMP,CRIPE,CRISP,CROAK,CROCI,CROCK,CROCS,CROFT,CRONE,CRONY,CROOK,CROON,CROPS,CRORE,CROSS,CROUP,CROWD,CROWN,CROWS,CROZE,CRUCK,CRUDE,CRUDS,CRUEL,CRUET,CRUMB,CRUMP,CRUOR,CRURA,CRUSE,CRUSH,CRUST,CRWTH,CRYPT,CUBBY,CUBEB,CUBED,CUBER,CUBES,CUBIC,CUBIT,CUDDY,CUFFS,CUIFS,CUING,CUISH,CUKES,CULCH,CULET,CULEX,CULLS,CULLY,CULMS,CULPA,CULTI,CULTS,CUMIN,CUPEL,CUPID,CUPPA,CUPPY,CURBS,CURCH,CURDS,CURDY,CURED,CURER,CURES,CURET,CURFS,CURIA,CURIE,CURIO,CURLS,CURLY,CURNS,CURRS,CURRY,CURSE,CURST,CURVE,CURVY,CUSEC,CUSHY,CUSKS,CUSPS,CUSSO,CUTCH,CUTER,CUTES,CUTEY,CUTIE,CUTIN,CUTIS,CUTTY,CUTUP,CYANO,CYANS,CYCAD,CYCAS,CYCLE,CYCLO,CYDER,CYLIX,CYMAE,CYMAR,CYMAS,CYMES,CYMOL,CYNIC,CYSTS,CYTON,CZARS,DACES,DACHA,DADAS,DADDY,DADOS,DAFFS,DAFFY,DAGGA,DAHLS,DAILY,DAIRY,DAISY,DALES,DALLY,DAMAN,DAMAR,DAMES,DAMNS,DAMPS,DANCE,DANDY,DANGS,DANIO,DARBS,DARED,DARER,DARES,DARIC,DARKS,DARKY,DARNS,DARTS,DASHI,DASHY,DATED,DATER,DATES,DATOS,DATTO,DATUM,DAUBE,DAUBS,DAUBY,DAUNT,DAUTS,DAVEN,DAVIT,DAWED,DAWEN,DAWKS,DAWNS,DAWTS,DAZED,DAZES,DEADS,DEAIR,DEALS,DEALT,DEANS,DEARS,DEARY,DEASH,DEATH,DEAVE,DEBAR,DEBIT,DEBTS,DEBUG,DEBUT,DEBYE,DECAF,DECAL,DECAY,DECKS,DECOR,DECOS,DECOY,DECRY,DEDAL,DEEDS,DEEDY,DEEMS,DEEPS,DEERS,DEETS,DEFAT,DEFER,DEFIS,DEFOG,DEGAS,DEGUM,DEICE,DEIFY,DEIGN,DEILS,DEISM,DEIST,DEITY,DEKED,DEKES,DEKKO,DELAY,DELED,DELES,DELFS,DELFT,DELIS,DELLS,DELLY,DELTA,DELVE,DEMES,DEMIT,DEMOB,DEMON,DEMOS,DEMUR,DENES,DENIM,DENSE,DENTS,DEOXY,DEPOT,DEPTH,DERAT,DERAY,DERBY,DERMA,DERMS,DERRY,DESEX,DESKS,DETER,DETOX,DEUCE,DEVAS,DEVEL,DEVIL,DEVON,DEWAN,DEWAR,DEWAX,DEWED,DEXES,DEXIE,DHAKS,DHALS,DHOBI,DHOLE,DHOTI,DHOWS,DHUTI,DIALS,DIARY,DIAZO,DICED,DICER,DICES,DICEY,DICKS,DICKY,DICOT,DICTA,DICTY,DIDIE,DIDOS,DIDST,DIENE,DIETS,DIGHT,DIGIT,DIKED,DIKER,DIKES,DIKEY,DILLS,DILLY,DIMER,DIMES,DIMLY,DINAR,DINED,DINER,DINES,DINGE,DINGO,DINGS,DINGY,DINKS,DINKY,DINTS,DIODE,DIOLS,DIPPY,DIPSO,DIRER,DIRGE,DIRKS,DIRLS,DIRTS,DIRTY,DISCI,DISCO,DISCS,DISHY,DISKS,DISME,DITAS,DITCH,DITES,DITSY,DITTO,DITTY,DITZY,DIVAN,DIVAS,DIVED,DIVER,DIVES,DIVOT,DIVVY,DIWAN,DIXIT,DIZEN,DIZZY,DJINN,DJINS,DOATS,DOBBY,DOBIE,DOBLA,DOBRA,DOCKS,DODGE,DODGY,DODOS,DOERS,DOEST,DOETH,DOFFS,DOGES,DOGEY,DOGGO,DOGGY,DOGIE,DOGMA,DOILY,DOING,DOITS,DOJOS,DOLCE,DOLCI,DOLED,DOLES,DOLLS,DOLLY,DOLMA,DOLOR,DOLTS,DOMAL,DOMED,DOMES,DOMIC,DONAS,DONEE,DONGA,DONGS,DONNA,DONNE,DONOR,DONSY,DONUT,DOOLY,DOOMS,DOOMY,DOORS,DOOZY,DOPAS,DOPED,DOPER,DOPES,DOPEY,DORKS,DORKY,DORMS,DORMY,DORPS,DORRS,DORSA,DORTY,DOSED,DOSER,DOSES,DOTAL,DOTED,DOTER,DOTES,DOTTY,DOUBT,DOUCE,DOUGH,DOUMA,DOUMS,DOURA,DOUSE,DOVEN,DOVES,DOWDY,DOWED,DOWEL,DOWER,DOWIE,DOWNS,DOWNY,DOWRY,DOWSE,DOXIE,DOYEN,DOYLY,DOZED,DOZEN,DOZER,DOZES,DRABS,DRAFF,DRAFT,DRAGS,DRAIL,DRAIN,DRAKE,DRAMA,DRAMS,DRANK,DRAPE,DRATS,DRAVE,DRAWL,DRAWN,DRAWS,DRAYS,DREAD,DREAM,DREAR,DRECK,DREED,DREES,DREGS,DREKS,DRESS,DREST,DRIBS,DRIED,DRIER,DRIES,DRIFT,DRILL,DRILY,DRINK,DRIPS,DRIPT,DRIVE,DROIT,DROLL,DRONE,DROOL,DROOP,DROPS,DROPT,DROSS,DROUK,DROVE,DROWN,DRUBS,DRUGS,DRUID,DRUMS,DRUNK,DRUPE,DRUSE,DRYAD,DRYER,DRYLY,DUADS,DUALS,DUCAL,DUCAT,DUCES,DUCHY,DUCKS,DUCKY,DUCTS,DUDDY,DUDED,DUDES,DUELS,DUETS,DUFFS,DUITS,DUKED,DUKES,DULIA,DULLS,DULLY,DULSE,DUMAS,DUMBS,DUMKA,DUMKY,DUMMY,DUMPS,DUMPY,DUNAM,DUNCE,DUNCH,DUNES,DUNGS,DUNGY,DUNKS,DUNTS,DUOMI,DUOMO,DUPED,DUPER,DUPES,DUPLE,DURAL,DURAS,DURED,DURES,DURNS,DUROC,DUROS,DURRA,DURRS,DURST,DURUM,DUSKS,DUSKY,DUSTS,DUSTY,DUTCH,DUVET,DWARF,DWEEB,DWELL,DWELT,DWINE,DYADS,DYERS,DYING,DYKED,DYKEY,DYNEL,DYNES,EAGER,EAGLE,EAGRE,EARED,EARLS,EARLY,EARNS,EARTH,EASED,EASEL,EASES,EASTS,EATEN,EATER,EAVED,EAVES,EBBED,EBBET,EBONS,EBONY,ECHED,ECHES,ECHOS,ECLAT,ECRUS,EDEMA,EDGED,EDGER,EDGES,EDICT,EDIFY,EDILE,EDITS,EDUCE,EDUCT,EERIE,EGADS,EGERS,EGEST,EGGAR,EGGED,EGGER,EGRET,EIDER,EIDOS,EIGHT,EIKON,EJECT,EKING,ELAIN,ELAND,ELANS,ELATE,ELBOW,ELDER,ELECT,ELEGY,ELEMI,ELFIN,ELIDE,ELINT,ELITE,ELOIN,ELOPE,ELUDE,ELUTE,ELVER,ELVES,EMBAR,EMBAY,EMBED,EMBER,EMBOW,EMCEE,EMEER,EMEND,EMERY,EMEUS,EMIRS,EMITS,EMMER,EMMET,EMOTE,EMPTY,EMYDE,EMYDS,ENACT,ENATE,ENDED,ENDER,ENDOW,ENDUE,ENEMA,ENEMY,ENJOY,ENNUI,ENOKI,ENOLS,ENORM,ENOWS,ENROL,ENSKY,ENSUE,ENTER,ENTIA,ENTRY,ENURE,ENVOI,ENVOY,ENZYM,EOSIN,EPACT,EPEES,EPHAH,EPHAS,EPHOD,EPHOR,EPICS,EPOCH,EPODE,EPOXY,EQUAL,EQUID,EQUIP,ERASE,ERECT,ERGOT,ERICA,ERNES,ERODE,EROSE,ERRED,ERROR,ERSES,ERUCT,ERUGO,ERUPT,ERVIL,ESCAR,ESCOT,ESKAR,ESKER,ESSAY,ESSES,ESTER,ESTOP,ETAPE,ETHER,ETHIC,ETHOS,ETHYL,ETNAS,ETUDE,ETUIS,ETWEE,ETYMA,EUROS,EVADE,EVENS,EVENT,EVERT,EVERY,EVICT,EVILS,EVITE,EVOKE,EWERS,EXACT,EXALT,EXAMS,EXCEL,EXECS,EXERT,EXILE,EXINE,EXIST,EXITS,EXONS,EXPAT,EXPEL,EXPOS,EXTOL,EXTRA,EXUDE,EXULT,EXURB,EYERS,EYING,EYRAS,EYRES,EYRIE,EYRIR,FABLE,FACED,FACER,FACES,FACET,FACIA,FACTS,FADDY,FADED,FADER,FADES,FADGE,FADOS,FAENA,FAERY,FAGGY,FAGIN,FAILS,FAINT,FAIRS,FAIRY,FAITH,FAKED,FAKER,FAKES,FAKEY,FAKIR,FALLS,FALSE,FAMED,FAMES,FANCY,FANES,FANGA,FANGS,FANNY,FANON,FANOS,FANUM,FAQIR,FARAD,FARCE,FARCI,FARCY,FARDS,FARED,FARER,FARES,FARLE,FARLS,FARMS,FAROS,FARTS,FASTS,FATAL,FATED,FATES,FATLY,FATSO,FATTY,FATWA,FAUGH,FAULD,FAULT,FAUNA,FAUNS,FAUVE,FAVAS,FAVES,FAVOR,FAVUS,FAWNS,FAWNY,FAXED,FAXES,FAYED,FAZED,FAZES,FEARS,FEASE,FEAST,FEATS,FEAZE,FECAL,FECES,FECKS,FEEDS,FEELS,FEEZE,FEIGN,FEINT,FEIST,FELID,FELLA,FELLS,FELLY,FELON,FELTS,FEMES,FEMME,FEMUR,FENCE,FENDS,FENNY,FEODS,FEOFF,FERAL,FERES,FERIA,FERLY,FERMI,FERNS,FERNY,FERRY,FESSE,FETAL,FETAS,FETCH,FETED,FETES,FETID,FETOR,FETUS,FEUAR,FEUDS,FEUED,FEVER,FEWER,FEYER,FEYLY,FEZES,FIARS,FIATS,FIBER,FIBRE,FICES,FICHE,FICHU,FICIN,FICUS,FIDGE,FIDOS,FIEFS,FIELD,FIEND,FIERY,FIFED,FIFER,FIFES,FIFTH,FIFTY,FIGHT,FILAR,FILCH,FILED,FILER,FILES,FILET,FILLE,FILLO,FILLS,FILLY,FILMS,FILMY,FILOS,FILTH,FILUM,FINAL,FINCH,FINDS,FINED,FINER,FINES,FINIS,FINKS,FINNY,FINOS,FIORD,FIQUE,FIRED,FIRER,FIRES,FIRMS,FIRNS,FIRRY,FIRST,FIRTH,FISCS,FISHY,FISTS,FITCH,FITLY,FIVER,FIVES,FIXED,FIXER,FIXES,FIXIT,FIZZY,FJELD,FJORD,FLABS,FLACK,FLAGS,FLAIL,FLAIR,FLAKE,FLAKY,FLAME,FLAMS,FLAMY,FLANK,FLANS,FLAPS,FLARE,FLASH,FLASK,FLATS,FLAWS,FLAWY,FLAXY,FLAYS,FLEAM,FLEAS,FLECK,FLEER,FLEES,FLEET,FLESH,FLEWS,FLEYS,FLICK,FLICS,FLIED,FLIER,FLIES,FLING,FLINT,FLIPS,FLIRT,FLITE,FLITS,FLOAT,FLOCK,FLOCS,FLOES,FLOGS,FLONG,FLOOD,FLOOR,FLOPS,FLORA,FLOSS,FLOTA,FLOUR,FLOUT,FLOWN,FLOWS,FLUBS,FLUED,FLUES,FLUFF,FLUID,FLUKE,FLUKY,FLUME,FLUMP,FLUNG,FLUNK,FLUOR,FLUSH,FLUTE,FLUTY,FLUYT,FLYBY,FLYER,FLYTE,FOALS,FOAMS,FOAMY,FOCAL,FOCUS,FOEHN,FOGEY,FOGGY,FOGIE,FOHNS,FOILS,FOINS,FOIST,FOLDS,FOLIA,FOLIO,FOLKS,FOLKY,FOLLY,FONDS,FONDU,FONTS,FOODS,FOOLS,FOOTS,FOOTY,FORAM,FORAY,FORBS,FORBY,FORCE,FORDO,FORDS,FORES,FORGE,FORGO,FORKS,FORKY,FORME,FORMS,FORTE,FORTH,FORTS,FORTY,FORUM,FOSSA,FOSSE,FOULS,FOUND,FOUNT,FOURS,FOVEA,FOWLS,FOXED,FOXES,FOYER,FRAGS,FRAIL,FRAME,FRANC,FRANK,FRAPS,FRASS,FRATS,FRAUD,FRAYS,FREAK,FREED,FREER,FREES,FREMD,FRENA,FRERE,FRESH,FRETS,FRIAR,FRIED,FRIER,FRIES,FRIGS,FRILL,FRISE,FRISK,FRITH,FRITS,FRITT,FRITZ,FRIZZ,FROCK,FROES,FROGS,FROND,FRONS,FRONT,FRORE,FROSH,FROST,FROTH,FROWN,FROWS,FROZE,FRUGS,FRUIT,FRUMP,FRYER,FUBSY,FUCUS,FUDGE,FUELS,FUGAL,FUGGY,FUGIO,FUGLE,FUGUE,FUGUS,FUJIS,FULLS,FULLY,FUMED,FUMER,FUMES,FUMET,FUNDI,FUNDS,FUNGI,FUNGO,FUNKS,FUNKY,FUNNY,FURAN,FURLS,FUROR,FURRY,FURZE,FURZY,FUSED,FUSEE,FUSEL,FUSES,FUSIL,FUSSY,FUSTY,FUTON,FUZED,FUZEE,FUZES,FUZIL,FUZZY,FYCES,FYKES,FYTTE,GABBY,GABLE,GADDI,GADID,GADIS,GAFFE,GAFFS,GAGED,GAGER,GAGES,GAILY,GAINS,GAITS,GALAH,GALAS,GALAX,GALEA,GALES,GALLS,GALLY,GALOP,GAMAS,GAMAY,GAMBA,GAMBE,GAMBS,GAMED,GAMER,GAMES,GAMEY,GAMIC,GAMIN,GAMMA,GAMMY,GAMPS,GAMUT,GANEF,GANEV,GANGS,GANJA,GANOF,GAOLS,GAPED,GAPER,GAPES,GAPPY,GARBS,GARNI,GARTH,GASES,GASPS,GASSY,GASTS,GATED,GATES,GATOR,GAUDS,GAUDY,GAUGE,GAULT,GAUMS,GAUNT,GAURS,GAUSS,GAUZE,GAUZY,GAVEL,GAVOT,GAWKS,GAWKY,GAWPS,GAWSY,GAYAL,GAYER,GAYLY,GAZAR,GAZED,GAZER,GAZES,GEARS,GECKO,GECKS,GEEKS,GEEKY,GEESE,GEEST,GELDS,GELEE,GELID,GELTS,GEMMA,GEMMY,GEMOT,GENES,GENET,GENIC,GENIE,GENII,GENIP,GENOA,GENOM,GENRE,GENRO,GENTS,GENUA,GENUS,GEODE,GEOID,GERAH,GERMS,GERMY,GESSO,GESTE,GESTS,GETAS,GETUP,GEUMS,GHAST,GHATS,GHAUT,GHAZI,GHEES,GHOST,GHOUL,GHYLL,GIANT,GIBED,GIBER,GIBES,GIDDY,GIFTS,GIGAS,GIGHE,GIGOT,GIGUE,GILDS,GILLS,GILLY,GILTS,GIMEL,GIMME,GIMPS,GIMPY,GINKS,GINNY,GIPON,GIPSY,GIRDS,GIRLS,GIRLY,GIRNS,GIRON,GIROS,GIRSH,GIRTH,GIRTS,GISMO,GISTS,GIVEN,GIVER,GIVES,GIZMO,GLACE,GLADE,GLADS,GLADY,GLAIR,GLAND,GLANS,GLARE,GLARY,GLASS,GLAZE,GLAZY,GLEAM,GLEAN,GLEBA,GLEBE,GLEDE,GLEDS,GLEED,GLEEK,GLEES,GLEET,GLENS,GLEYS,GLIAL,GLIAS,GLIDE,GLIFF,GLIME,GLIMS,GLINT,GLITZ,GLOAM,GLOAT,GLOBE,GLOBS,GLOGG,GLOMS,GLOOM,GLOPS,GLORY,GLOSS,GLOST,GLOUT,GLOVE,GLOWS,GLOZE,GLUED,GLUER,GLUES,GLUEY,GLUGS,GLUME,GLUON,GLUTS,GLYPH,GNARL,GNARR,GNARS,GNASH,GNATS,GNAWN,GNAWS,GNOME,GOADS,GOALS,GOATS,GOBAN,GOBOS,GODET,GODLY,GOERS,GOFER,GOGOS,GOING,GOLDS,GOLEM,GOLFS,GOLLY,GOMBO,GONAD,GONEF,GONER,GONGS,GONIA,GONIF,GONOF,GONZO,GOODS,GOODY,GOOEY,GOOFS,GOOFY,GOOKY,GOONS,GOONY,GOOPS,GOOPY,GOOSE,GOOSY,GORAL,GORED,GORES,GORGE,GORPS,GORSE,GORSY,GOUGE,GOURD,GOUTS,GOUTY,GOWAN,GOWDS,GOWKS,GOWNS,GOXES,GOYIM,GRAAL,GRABS,GRACE,GRADE,GRADS,GRAFT,GRAIL,GRAIN,GRAMA,GRAMP,GRAMS,GRANA,GRAND,GRANS,GRANT,GRAPE,GRAPH,GRAPY,GRASP,GRASS,GRATE,GRAVE,GRAVY,GRAYS,GRAZE,GREAT,GREBE,GREED,GREEK,GREEN,GREES,GREET,GREGO,GREYS,GRIDE,GRIDS,GRIEF,GRIFF,GRIFT,GRIGS,GRILL,GRIME,GRIMY,GRIND,GRINS,GRIOT,GRIPE,GRIPS,GRIPT,GRIPY,GRIST,GRITH,GRITS,GROAN,GROAT,GROGS,GROIN,GROOM,GROPE,GROSS,GROSZ,GROTS,GROUP,GROUT,GROVE,GROWL,GROWN,GROWS,GRUBS,GRUEL,GRUES,GRUFF,GRUME,GRUMP,GRUNT,GUACO,GUANO,GUANS,GUARD,GUARS,GUAVA,GUCKS,GUDES,GUESS,GUEST,GUFFS,GUIDE,GUIDS,GUILD,GUILE,GUILT,GUIRO,GUISE,GULAG,GULAR,GULCH,GULES,GULFS,GULFY,GULLS,GULLY,GULPS,GULPY,GUMBO,GUMMA,GUMMY,GUNKS,GUNKY,GUNNY,GUPPY,GURGE,GURRY,GURSH,GURUS,GUSHY,GUSSY,GUSTO,GUSTS,GUSTY,GUTSY,GUTTA,GUTTY,GUYED,GUYOT,GYBED,GYBES,GYPSY,GYRAL,GYRED,GYRES,GYRON,GYROS,GYRUS,GYVED,GYVES,HAAFS,HAARS,HABIT,HABUS,HACEK,HACKS,HADAL,HADED,HADES,HADJI,HADST,HAEMS,HAETS,HAFIS,HAFIZ,HAFTS,HAHAS,HAIKA,HAIKS,HAIKU,HAILS,HAIRS,HAIRY,HAJES,HAJIS,HAJJI,HAKES,HAKIM,HALED,HALER,HALES,HALID,HALLO,HALLS,HALMA,HALMS,HALOS,HALTS,HALVA,HALVE,HAMAL,HAMES,HAMMY,HAMZA,HANCE,HANDS,HANDY,HANGS,HANKS,HANKY,HANSA,HANSE,HANTS,HAOLE,HAPAX,HAPLY,HAPPY,HARDS,HARDY,HARED,HAREM,HARES,HARKS,HARLS,HARMS,HARPS,HARPY,HARRY,HARSH,HARTS,HASPS,HASTE,HASTY,HATCH,HATED,HATER,HATES,HAUGH,HAULM,HAULS,HAUNT,HAUTE,HAVEN,HAVER,HAVES,HAVOC,HAWED,HAWKS,HAWSE,HAYED,HAYER,HAZAN,HAZED,HAZEL,HAZER,HAZES,HEADS,HEADY,HEALS,HEAPS,HEARD,HEARS,HEART,HEATH,HEATS,HEAVE,HEAVY,HEBES,HECKS,HEDER,HEDGE,HEDGY,HEEDS,HEELS,HEEZE,HEFTS,HEFTY,HEIGH,HEILS,HEIRS,HEIST,HELIO,HELIX,HELLO,HELLS,HELMS,HELOS,HELOT,HELPS,HELVE,HEMAL,HEMES,HEMIC,HEMIN,HEMPS,HEMPY,HENCE,HENNA,HENRY,HENTS,HERBS,HERBY,HERDS,HERES,HERLS,HERMA,HERMS,HERNS,HERON,HEROS,HERRY,HERTZ,HESTS,HETHS,HEUCH,HEUGH,HEWED,HEWER,HEXAD,HEXED,HEXER,HEXES,HEXYL,HICKS,HIDED,HIDER,HIDES,HIGHS,HIGHT,HIKED,HIKER,HIKES,HILAR,HILLO,HILLS,HILLY,HILTS,HILUM,HILUS,HINDS,HINGE,HINNY,HINTS,HIPPO,HIPPY,HIRED,HIRER,HIRES,HISSY,HISTS,HITCH,HIVED,HIVES,HOAGY,HOARD,HOARS,HOARY,HOBBY,HOBOS,HOCKS,HOCUS,HODAD,HOERS,HOGAN,HOGGS,HOICK,HOISE,HOIST,HOKED,HOKES,HOKEY,HOKKU,HOKUM,HOLDS,HOLED,HOLES,HOLEY,HOLKS,HOLLA,HOLLO,HOLLY,HOLMS,HOLTS,HOMED,HOMER,HOMES,HOMEY,HOMOS,HONAN,HONDA,HONED,HONER,HONES,HONEY,HONGS,HONKS,HONOR,HOOCH,HOODS,HOODY,HOOEY,HOOFS,HOOKA,HOOKS,HOOKY,HOOLY,HOOPS,HOOTS,HOOTY,HOPED,HOPER,HOPES,HOPPY,HORAH,HORAL,HORAS,HORDE,HORNS,HORNY,HORSE,HORST,HORSY,HOSED,HOSEL,HOSEN,HOSES,HOSTA,HOSTS,HOTCH,HOTEL,HOTLY,HOUND,HOURI,HOURS,HOUSE,HOVEL,HOVER,HOWDY,HOWES,HOWFF,HOWFS,HOWKS,HOWLS,HOYAS,HOYLE,HUBBY,HUCKS,HUFFS,HUFFY,HUGER,HULAS,HULKS,HULKY,HULLO,HULLS,HUMAN,HUMIC,HUMID,HUMOR,HUMPH,HUMPS,HUMPY,HUMUS,HUNCH,HUNKS,HUNKY,HUNTS,HURDS,HURLS,HURLY,HURRY,HURST,HURTS,HUSKS,HUSKY,HUSSY,HUTCH,HUZZA,HYDRA,HYDRO,HYENA,HYING,HYLAS,HYMEN,HYMNS,HYOID,HYPED,HYPER,HYPES,HYPHA,HYPOS,HYRAX,HYSON,IAMBI,IAMBS,ICHOR,ICIER,ICILY,ICING,ICKER,ICONS,ICTIC,ICTUS,IDEAL,IDEAS,IDIOM,IDIOT,IDLED,IDLER,IDLES,IDOLS,IDYLL,IDYLS,IGLOO,IGLUS,IHRAM,IKATS,IKONS,ILEAC,ILEAL,ILEUM,ILEUS,ILIAC,ILIAD,ILIAL,ILIUM,ILLER,IMAGE,IMAGO,IMAMS,IMAUM,IMBED,IMBUE,IMIDE,IMIDO,IMIDS,IMINE,IMINO,IMMIX,IMPED,IMPEL,IMPIS,IMPLY,INANE,INAPT,INARM,INBYE,INCOG,INCUR,INCUS,INDEX,INDIE,INDOL,INDOW,INDRI,INDUE,INEPT,INERT,INFER,INFIX,INFOS,INFRA,INGLE,INGOT,INION,INKED,INKER,INKLE,INLAY,INLET,INNED,INNER,INPUT,INSET,INTER,INTIS,INTRO,INURE,INURN,INVAR,IODIC,IODID,IODIN,IONIC,IOTAS,IRADE,IRATE,IRIDS,IRING,IRKED,IROKO,IRONE,IRONS,IRONY,ISBAS,ISLED,ISLES,ISLET,ISSEI,ISSUE,ISTLE,ITCHY,ITEMS,ITHER,IVIED,IVIES,IVORY,IXIAS,IXORA,IXTLE,IZARS,JABOT,JACAL,JACKS,JACKY,JADED,JADES,JAGER,JAGGS,JAGGY,JAGRA,JAILS,JAKES,JALAP,JALOP,JAMBE,JAMBS,JAMMY,JANES,JANTY,JAPAN,JAPED,JAPER,JAPES,JARLS,JATOS,JAUKS,JAUNT,JAUPS,JAVAS,JAWAN,JAWED,JAZZY,JEANS,JEBEL,JEEPS,JEERS,JEFES,JEHAD,JEHUS,JELLS,JELLY,JEMMY,JENNY,JERID,JERKS,JERKY,JERRY,JESSE,JESTS,JETES,JETON,JETTY,JEWED,JEWEL,JIBBS,JIBED,JIBER,JIBES,JIFFS,JIFFY,JIHAD,JILLS,JILTS,JIMMY,JIMPY,JINGO,JINKS,JINNI,JINNS,JIVED,JIVER,JIVES,JIVEY,JNANA,JOCKO,JOCKS,JOEYS,JOHNS,JOINS,JOINT,JOIST,JOKED,JOKER,JOKES,JOKEY,JOLES,JOLLY,JOLTS,JOLTY,JONES,JORAM,JORUM,JOTAS,JOTTY,JOUAL,JOUKS,JOULE,JOUST,JOWAR,JOWED,JOWLS,JOWLY,JOYED,JUBAS,JUBES,JUDAS,JUDGE,JUDOS,JUGAL,JUGUM,JUICE,JUICY,JUJUS,JUKED,JUKES,JULEP,JUMBO,JUMPS,JUMPY,JUNCO,JUNKS,JUNKY,JUNTA,JUNTO,JUPES,JUPON,JURAL,JURAT,JUREL,JUROR,JUSTS,JUTES,JUTTY,KABAB,KABAR,KABOB,KADIS,KAFIR,KAGUS,KAIAK,KAIFS,KAILS,KAINS,KAKAS,KAKIS,KALAM,KALES,KALIF,KALPA,KAMES,KAMIK,KANAS,KANES,KANJI,KAONS,KAPAS,KAPHS,KAPOK,KAPPA,KAPUT,KARAT,KARMA,KARNS,KAROO,KARST,KARTS,KASHA,KATAS,KAURI,KAURY,KAVAS,KAYAK,KAYOS,KAZOO,KBARS,KEBAB,KEBAR,KEBOB,KECKS,KEDGE,KEEFS,KEEKS,KEELS,KEENS,KEEPS,KEETS,KEEVE,KEFIR,KEIRS,KELEP,KELIM,KELLY,KELPS,KELPY,KEMPS,KEMPT,KENAF,KENCH,KENDO,KENOS,KEPIS,KERBS,KERFS,KERNE,KERNS,KERRY,KETCH,KETOL,KEVEL,KEVIL,KEXES,KEYED,KHADI,KHAFS,KHAKI,KHANS,KHAPH,KHATS,KHEDA,KHETH,KHETS,KHOUM,KIANG,KIBBE,KIBBI,KIBEI,KIBES,KIBLA,KICKS,KICKY,KIDDO,KIDDY,KIEFS,KIERS,KILIM,KILLS,KILNS,KILOS,KILTS,KILTY,KINAS,KINDS,KINES,KINGS,KININ,KINKS,KINKY,KINOS,KIOSK,KIRKS,KIRNS,KISSY,KISTS,KITED,KITER,KITES,KITHE,KITHS,KITTY,KIVAS,KIWIS,KLONG,KLOOF,KLUGE,KLUTZ,KNACK,KNAPS,KNARS,KNAUR,KNAVE,KNEAD,KNEED,KNEEL,KNEES,KNELL,KNELT,KNIFE,KNISH,KNITS,KNOBS,KNOCK,KNOLL,KNOPS,KNOSP,KNOTS,KNOUT,KNOWN,KNOWS,KNURL,KNURS,KOALA,KOANS,KOELS,KOHLS,KOINE,KOLAS,KOLOS,KONKS,KOOKS,KOOKY,KOPEK,KOPHS,KOPJE,KOPPA,KORAI,KORAT,KORUN,KOTOS,KOTOW,KRAAL,KRAFT,KRAIT,KRAUT,KREEP,KRILL,KRONA,KRONE,KROON,KRUBI,KUDOS,KUDUS,KUDZU,KUGEL,KUKRI,KULAK,KUMYS,KURTA,KURUS,KUSSO,KVASS,KYACK,KYAKS,KYARS,KYATS,KYLIX,KYRIE,KYTES,KYTHE,LAARI,LABEL,LABIA,LABOR,LABRA,LACED,LACER,LACES,LACEY,LACKS,LADED,LADEN,LADER,LADES,LADLE,LAEVO,LAGAN,LAGER,LAHAR,LAICH,LAICS,LAIGH,LAIRD,LAIRS,LAITH,LAITY,LAKED,LAKER,LAKES,LAKHS,LALLS,LAMAS,LAMBS,LAMBY,LAMED,LAMER,LAMES,LAMIA,LAMPS,LANAI,LANCE,LANDS,LANES,LANKY,LAPEL,LAPIN,LAPIS,LAPSE,LARCH,LARDS,LARDY,LAREE,LARES,LARGE,LARGO,LARIS,LARKS,LARKY,LARUM,LARVA,LASED,LASER,LASES,LASSO,LASTS,LATCH,LATED,LATEN,LATER,LATEX,LATHE,LATHI,LATHS,LATHY,LATKE,LATTE,LAUAN,LAUDS,LAUGH,LAURA,LAVAS,LAVED,LAVER,LAVES,LAWED,LAWNS,LAWNY,LAXER,LAXLY,LAYED,LAYER,LAYUP,LAZAR,LAZED,LAZES,LEACH,LEADS,LEADY,LEAFS,LEAFY,LEAKS,LEAKY,LEANS,LEANT,LEAPS,LEAPT,LEARN,LEARS,LEARY,LEASE,LEASH,LEAST,LEAVE,LEAVY,LEBEN,LEDGE,LEDGY,LEECH,LEEKS,LEERS,LEERY,LEETS,LEFTS,LEFTY,LEGAL,LEGER,LEGES,LEGGY,LEGIT,LEHRS,LEHUA,LEMAN,LEMMA,LEMON,LEMUR,LENDS,LENES,LENIS,LENOS,LENSE,LENTO,LEONE,LEPER,LEPTA,LETCH,LETHE,LETUP,LEUDS,LEVEE,LEVEL,LEVER,LEVIN,LEWIS,LEXES,LEXIS,LEZZY,LIANA,LIANE,LIANG,LIARD,LIARS,LIBEL,LIBER,LIBRA,LIBRI,LICHI,LICHT,LICIT,LICKS,LIDAR,LIDOS,LIEGE,LIENS,LIERS,LIEUS,LIEVE,LIFER,LIFTS,LIGAN,LIGER,LIGHT,LIKED,LIKEN,LIKER,LIKES,LILAC,LILTS,LIMAN,LIMAS,LIMBA,LIMBI,LIMBO,LIMBS,LIMBY,LIMED,LIMEN,LIMES,LIMEY,LIMIT,LIMNS,LIMOS,LIMPA,LIMPS,LINAC,LINDY,LINED,LINEN,LINER,LINES,LINEY,LINGA,LINGO,LINGS,LINGY,LININ,LINKS,LINKY,LINNS,LINOS,LINTS,LINTY,LINUM,LIONS,LIPID,LIPIN,LIPPY,LIRAS,LIROT,LISLE,LISPS,LISTS,LITAI,LITAS,LITER,LITHE,LITHO,LITRE,LIVED,LIVEN,LIVER,LIVES,LIVID,LIVRE,LLAMA,LLANO,LOACH,LOADS,LOAFS,LOAMS,LOAMY,LOANS,LOATH,LOBAR,LOBBY,LOBED,LOBES,LOBOS,LOCAL,LOCHS,LOCKS,LOCOS,LOCUM,LOCUS,LODEN,LODES,LODGE,LOESS,LOFTS,LOFTY,LOGAN,LOGES,LOGGY,LOGIA,LOGIC,LOGOI,LOGOS,LOINS,LOLLS,LOLLY,LONER,LONGE,LONGS,LOOBY,LOOED,LOOEY,LOOFA,LOOFS,LOOIE,LOOKS,LOOMS,LOONS,LOONY,LOOPS,LOOPY,LOOSE,LOOTS,LOPED,LOPER,LOPES,LOPPY,LORAL,LORAN,LORDS,LORES,LORIS,LORRY,LOSEL,LOSER,LOSES,LOSSY,LOTAH,LOTAS,LOTIC,LOTOS,LOTTE,LOTTO,LOTUS,LOUGH,LOUIE,LOUIS,LOUPE,LOUPS,LOURS,LOURY,LOUSE,LOUSY,LOUTS,LOVAT,LOVED,LOVER,LOVES,LOWED,LOWER,LOWES,LOWLY,LOWSE,LOXED,LOXES,LOYAL,LUAUS,LUBES,LUCES,LUCID,LUCKS,LUCKY,LUCRE,LUDES,LUDIC,LUFFA,LUFFS,LUGED,LUGER,LUGES,LULLS,LULUS,LUMEN,LUMPS,LUMPY,LUNAR,LUNAS,LUNCH,LUNES,LUNET,LUNGE,LUNGI,LUNGS,LUNKS,LUNTS,LUPIN,LUPUS,LURCH,LURED,LURER,LURES,LURID,LURKS,LUSTS,LUSTY,LUSUS,LUTEA,LUTED,LUTES,LUXES,LWEIS,LYARD,LYART,LYASE,LYCEA,LYCEE,LYING,LYMPH,LYNCH,LYRES,LYRIC,LYSED,LYSES,LYSIN,LYSIS,LYSSA,LYTIC,LYTTA,MAARS,MABES,MACAW,MACED,MACER,MACES,MACHE,MACHO,MACHS,MACKS,MACLE,MACON,MACRO,MADAM,MADLY,MADRE,MAFIA,MAFIC,MAGES,MAGIC,MAGMA,MAGOT,MAGUS,MAHOE,MAIDS,MAILE,MAILL,MAILS,MAIMS,MAINS,MAIRS,MAIST,MAIZE,MAJOR,MAKAR,MAKER,MAKES,MAKOS,MALAR,MALES,MALIC,MALLS,MALMS,MALMY,MALTS,MALTY,MAMAS,MAMBA,MAMBO,MAMEY,MAMIE,MAMMA,MAMMY,MANAS,MANED,MANES,MANGE,MANGO,MANGY,MANIA,MANIC,MANLY,MANNA,MANOR,MANOS,MANSE,MANTA,MANUS,MAPLE,MAQUI,MARCH,MARCS,MARES,MARGE,MARIA,MARKS,MARLS,MARLY,MARRY,MARSE,MARSH,MARTS,MARVY,MASER,MASHY,MASKS,MASON,MASSA,MASSE,MASSY,MASTS,MATCH,MATED,MATER,MATES,MATEY,MATHS,MATIN,MATTE,MATTS,MATZA,MATZO,MAUDS,MAULS,MAUND,MAUTS,MAUVE,MAVEN,MAVIE,MAVIN,MAVIS,MAWED,MAXES,MAXIM,MAXIS,MAYAN,MAYAS,MAYBE,MAYED,MAYOR,MAYOS,MAYST,MAZED,MAZER,MAZES,MBIRA,MEADS,MEALS,MEALY,MEANS,MEANT,MEANY,MEATS,MEATY,MECCA,MEDAL,MEDIA,MEDIC,MEDII,MEEDS,MEETS,MEINY,MELDS,MELEE,MELIC,MELLS,MELON,MELTS,MEMOS,MENAD,MENDS,MENSA,MENSE,MENTA,MENUS,MEOUS,MEOWS,MERCY,MERDE,MERER,MERES,MERGE,MERIT,MERKS,MERLE,MERLS,MERRY,MESAS,MESHY,MESIC,MESNE,MESON,MESSY,METAL,METED,METER,METES,METHS,METIS,METRE,METRO,MEWED,MEWLS,MEZES,MEZZO,MIAOU,MIAOW,MIASM,MIAUL,MICAS,MICHE,MICRA,MICRO,MIDDY,MIDGE,MIDIS,MIDST,MIENS,MIFFS,MIFFY,MIGGS,MIGHT,MIKED,MIKES,MIKRA,MILCH,MILER,MILES,MILIA,MILKS,MILKY,MILLE,MILLS,MILOS,MILPA,MILTS,MILTY,MIMED,MIMEO,MIMER,MIMES,MIMIC,MINAE,MINAS,MINCE,MINCY,MINDS,MINED,MINER,MINES,MINGY,MINIM,MINIS,MINKE,MINKS,MINNY,MINOR,MINTS,MINTY,MINUS,MIRED,MIRES,MIREX,MIRKS,MIRKY,MIRTH,MIRZA,MISDO,MISER,MISES,MISOS,MISSY,MISTS,MISTY,MITER,MITES,MITIS,MITRE,MITTS,MIXED,MIXER,MIXES,MIXUP,MIZEN,MOANS,MOATS,MOCHA,MOCKS,MODAL,MODEL,MODEM,MODES,MODUS,MOGGY,MOGUL,MOHEL,MOHUR,MOILS,MOIRA,MOIRE,MOIST,MOJOS,MOKES,MOLAL,MOLAR,MOLAS,MOLDS,MOLDY,MOLES,MOLLS,MOLLY,MOLTO,MOLTS,MOMES,MOMMA,MOMMY,MOMUS,MONAD,MONAS,MONDE,MONDO,MONEY,MONGO,MONIE,MONKS,MONOS,MONTE,MONTH,MOOCH,MOODS,MOODY,MOOED,MOOLA,MOOLS,MOONS,MOONY,MOORS,MOORY,MOOSE,MOOTS,MOPED,MOPER,MOPES,MOPEY,MORAE,MORAL,MORAS,MORAY,MOREL,MORES,MORNS,MORON,MORPH,MORRO,MORSE,MORTS,MOSEY,MOSKS,MOSSO,MOSSY,MOSTE,MOSTS,MOTEL,MOTES,MOTET,MOTEY,MOTHS,MOTHY,MOTIF,MOTOR,MOTTE,MOTTO,MOTTS,MOUCH,MOUES,MOULD,MOULT,MOUND,MOUNT,MOURN,MOUSE,MOUSY,MOUTH,MOVED,MOVER,MOVES,MOVIE,MOWED,MOWER,MOXAS,MOXIE,MOZOS,MUCID,MUCIN,MUCKS,MUCKY,MUCOR,MUCRO,MUCUS,MUDDY,MUDRA,MUFFS,MUFTI,MUGGS,MUGGY,MUHLY,MUJIK,MULCH,MULCT,MULED,MULES,MULEY,MULLA,MULLS,MUMMS,MUMMY,MUMPS,MUMUS,MUNCH,MUNGO,MUNIS,MUONS,MURAL,MURAS,MURED,MURES,MUREX,MURID,MURKS,MURKY,MURRA,MURRE,MURRS,MURRY,MUSCA,MUSED,MUSER,MUSES,MUSHY,MUSIC,MUSKS,MUSKY,MUSSY,MUSTH,MUSTS,MUSTY,MUTCH,MUTED,MUTER,MUTES,MUTON,MUTTS,MUZZY,MYNAH,MYNAS,MYOID,MYOMA,MYOPE,MYOPY,MYRRH,MYSID,MYTHS,MYTHY,NAANS,NABES,NABIS,NABOB,NACHO,NACRE,NADAS,NADIR,NAEVI,NAGGY,NAIAD,NAIFS,NAILS,NAIRA,NAIVE,NAKED,NALED,NAMED,NAMER,NAMES,NANAS,NANCE,NANCY,NANNY,NAPES,NAPPE,NAPPY,NARCO,NARCS,NARDS,NARES,NARIC,NARIS,NARKS,NARKY,NASAL,NASTY,NATAL,NATCH,NATES,NATTY,NAVAL,NAVAR,NAVEL,NAVES,NAVVY,NAWAB,NAZIS,NEAPS,NEARS,NEATH,NEATS,NECKS,NEEDS,NEEDY,NEEMS,NEEPS,NEGUS,NEIFS,NEIGH,NEIST,NELLY,NEMAS,NEONS,NERDS,NERDY,NEROL,NERTS,NERTZ,NERVE,NERVY,NESTS,NETOP,NETTS,NETTY,NEUKS,NEUME,NEUMS,NEVER,NEVES,NEVUS,NEWEL,NEWER,NEWIE,NEWLY,NEWSY,NEWTS,NEXUS,NGWEE,NICAD,NICER,NICHE,NICKS,NICOL,NIDAL,NIDED,NIDES,NIDUS,NIECE,NIEVE,NIFTY,NIGHS,NIGHT,NIHIL,NILLS,NIMBI,NINES,NINJA,NINNY,NINON,NINTH,NIPAS,NIPPY,NISEI,NISUS,NITER,NITES,NITID,NITON,NITRE,NITRO,NITTY,NIVAL,NIXED,NIXES,NIXIE,NIZAM,NOBBY,NOBLE,NOBLY,NOCKS,NODAL,NODDY,NODES,NODUS,NOELS,NOGGS,NOHOW,NOILS,NOILY,NOIRS,NOISE,NOISY,NOLOS,NOMAD,NOMAS,NOMEN,NOMES,NOMOI,NOMOS,NONAS,NONCE,NONES,NONET,NONYL,NOOKS,NOOKY,NOONS,NOOSE,NOPAL,NORIA,NORIS,NORMS,NORTH,NOSED,NOSES,NOSEY,NOTAL,NOTCH,NOTED,NOTER,NOTES,NOTUM,NOUNS,NOVAE,NOVAS,NOVEL,NOWAY,NOWTS,NUBBY,NUBIA,NUCHA,NUDER,NUDES,NUDGE,NUDIE,NUDZH,NUKED,NUKES,NULLS,NUMBS,NUMEN,NURDS,NURLS,NURSE,NUTSY,NUTTY,NYALA,NYLON,NYMPH,OAKEN,OAKUM,OARED,OASES,OASIS,OASTS,OATEN,OATER,OATHS,OAVES,OBEAH,OBELI,OBESE,OBEYS,OBIAS,OBITS,OBJET,OBOES,OBOLE,OBOLI,OBOLS,OCCUR,OCEAN,OCHER,OCHRE,OCHRY,OCKER,OCREA,OCTAD,OCTAL,OCTAN,OCTET,OCTYL,OCULI,ODDER,ODDLY,ODEON,ODEUM,ODIST,ODIUM,ODORS,ODOUR,ODYLE,ODYLS,OFAYS,OFFAL,OFFED,OFFER,OFTEN,OFTER,OGAMS,OGEES,OGHAM,OGIVE,OGLED,OGLER,OGLES,OGRES,OHIAS,OHING,OHMIC,OIDIA,OILED,OILER,OINKS,OKAPI,OKAYS,OKEHS,OKRAS,OLDEN,OLDER,OLDIE,OLEIC,OLEIN,OLEOS,OLEUM,OLIOS,OLIVE,OLLAS,OLOGY,OMASA,OMBER,OMBRE,OMEGA,OMENS,OMERS,OMITS,ONERY,ONION,ONIUM,ONSET,ONTIC,OOHED,OOMPH,OORIE,OOTID,OOZED,OOZES,OPAHS,OPALS,OPENS,OPERA,OPINE,OPING,OPIUM,OPSIN,OPTED,OPTIC,ORACH,ORALS,ORANG,ORATE,ORBED,ORBIT,ORCAS,ORCIN,ORDER,ORDOS,OREAD,ORGAN,ORGIC,ORIBI,ORIEL,ORLES,ORLOP,ORMER,ORNIS,ORPIN,ORRIS,ORTHO,ORZOS,OSIER,OSMIC,OSMOL,OSSIA,OSTIA,OTHER,OTTAR,OTTER,OTTOS,OUGHT,OUNCE,OUPHE,OUPHS,OURIE,OUSEL,OUSTS,OUTBY,OUTDO,OUTED,OUTER,OUTGO,OUTRE,OUZEL,OUZOS,OVALS,OVARY,OVATE,OVENS,OVERS,OVERT,OVINE,OVOID,OVOLI,OVOLO,OVULE,OWING,OWLET,OWNED,OWNER,OWSEN,OXBOW,OXEYE,OXIDE,OXIDS,OXIME,OXIMS,OXLIP,OXTER,OYERS,OZONE,PACAS,PACED,PACER,PACES,PACHA,PACKS,PACTS,PADDY,PADIS,PADLE,PADRE,PADRI,PAEAN,PAEON,PAGAN,PAGED,PAGER,PAGES,PAGOD,PAIKS,PAILS,PAINS,PAINT,PAIRS,PAISA,PAISE,PALEA,PALED,PALER,PALES,PALET,PALLS,PALLY,PALMS,PALMY,PALPI,PALPS,PALSY,PAMPA,PANDA,PANDY,PANED,PANEL,PANES,PANGA,PANGS,PANIC,PANNE,PANSY,PANTO,PANTS,PANTY,PAPAL,PAPAS,PAPAW,PAPER,PAPPI,PAPPY,PARAS,PARCH,PARDI,PARDS,PARDY,PARED,PAREO,PARER,PARES,PAREU,PARGE,PARGO,PARIS,PARKA,PARKS,PARLE,PAROL,PARRS,PARRY,PARSE,PARTS,PARTY,PARVE,PARVO,PASEO,PASES,PASHA,PASSE,PASTA,PASTE,PASTS,PASTY,PATCH,PATED,PATEN,PATER,PATES,PATHS,PATIN,PATIO,PATLY,PATSY,PATTY,PAUSE,PAVAN,PAVED,PAVER,PAVES,PAVID,PAVIN,PAVIS,PAWED,PAWER,PAWKY,PAWLS,PAWNS,PAXES,PAYED,PAYEE,PAYER,PAYOR,PEACE,PEACH,PEAGE,PEAGS,PEAKS,PEAKY,PEALS,PEANS,PEARL,PEARS,PEART,PEASE,PEATS,PEATY,PEAVY,PECAN,PECHS,PECKS,PECKY,PEDAL,PEDES,PEDRO,PEEKS,PEELS,PEENS,PEEPS,PEERS,PEERY,PEEVE,PEINS,PEISE,PEKAN,PEKES,PEKIN,PEKOE,PELES,PELFS,PELON,PELTS,PENAL,PENCE,PENDS,PENES,PENGO,PENNA,PENNE,PENNI,PENNY,PEONS,PEONY,PEPLA,PEPOS,PEPPY,PERCH,PERDU,PERDY,PEREA,PERIL,PERIS,PERKS,PERKY,PERMS,PERRY,PERSE,PESKY,PESOS,PESTO,PESTS,PESTY,PETAL,PETER,PETIT,PETTI,PETTO,PETTY,PEWEE,PEWIT,PHAGE,PHASE,PHIAL,PHLOX,PHONE,PHONO,PHONS,PHONY,PHOTO,PHOTS,PHPHT,PHUTS,PHYLA,PHYLE,PIANO,PIANS,PIBAL,PICAL,PICAS,PICKS,PICKY,PICOT,PICUL,PIECE,PIERS,PIETA,PIETY,PIGGY,PIGMY,PIING,PIKAS,PIKED,PIKER,PIKES,PIKIS,PILAF,PILAR,PILAU,PILAW,PILEA,PILED,PILEI,PILES,PILIS,PILLS,PILOT,PILUS,PIMAS,PIMPS,PINAS,PINCH,PINED,PINES,PINEY,PINGO,PINGS,PINKO,PINKS,PINKY,PINNA,PINNY,PINON,PINOT,PINTA,PINTO,PINTS,PINUP,PIONS,PIOUS,PIPAL,PIPED,PIPER,PIPES,PIPET,PIPIT,PIQUE,PIRNS,PIROG,PISCO,PISOS,PISTE,PITAS,PITCH,PITHS,PITHY,PITON,PIVOT,PIXEL,PIXES,PIXIE,PIZZA,PLACE,PLACK,PLAGE,PLAID,PLAIN,PLAIT,PLANE,PLANK,PLANS,PLANT,PLASH,PLASM,PLATE,PLATS,PLATY,PLAYA,PLAYS,PLAZA,PLEAD,PLEAS,PLEAT,PLEBE,PLEBS,PLENA,PLEWS,PLICA,PLIED,PLIER,PLIES,PLINK,PLODS,PLONK,PLOPS,PLOTS,PLOTZ,PLOWS,PLOYS,PLUCK,PLUGS,PLUMB,PLUME,PLUMP,PLUMS,PLUMY,PLUNK,PLUSH,PLYER,POACH,POCKS,POCKY,PODGY,PODIA,POEMS,POESY,POETS,POGEY,POILU,POIND,POINT,POISE,POKED,POKER,POKES,POKEY,POLAR,POLED,POLER,POLES,POLIO,POLIS,POLKA,POLLS,POLOS,POLYP,POLYS,POMES,POMMY,POMPS,PONCE,PONDS,PONES,PONGS,POOCH,POODS,POOFS,POOFY,POOHS,POOLS,POONS,POOPS,POORI,POOVE,POPES,POPPA,POPPY,POPSY,PORCH,PORED,PORES,PORGY,PORKS,PORKY,PORNO,PORNS,PORNY,PORTS,POSED,POSER,POSES,POSIT,POSSE,POSTS,POTSY,POTTO,POTTY,POUCH,POUFF,POUFS,POULT,POUND,POURS,POUTS,POUTY,POWER,POXED,POXES,POYOU,PRAAM,PRAHU,PRAMS,PRANG,PRANK,PRAOS,PRASE,PRATE,PRATS,PRAUS,PRAWN,PRAYS,PREED,PREEN,PREES,PREPS,PRESA,PRESE,PRESS,PREST,PREXY,PREYS,PRICE,PRICY,PRIDE,PRIED,PRIER,PRIES,PRIGS,PRILL,PRIMA,PRIME,PRIMI,PRIMO,PRIMP,PRIMS,PRINK,PRINT,PRION,PRIOR,PRISE,PRISM,PRISS,PRIVY,PRIZE,PROAS,PROBE,PRODS,PROEM,PROFS,PROGS,PROLE,PROMO,PROMS,PRONE,PRONG,PROOF,PROPS,PROSE,PROSO,PROSS,PROST,PROSY,PROUD,PROVE,PROWL,PROWS,PROXY,PRUDE,PRUNE,PRUTA,PRYER,PSALM,PSEUD,PSHAW,PSOAE,PSOAI,PSOAS,PSYCH,PUBES,PUBIC,PUBIS,PUCES,PUCKA,PUCKS,PUDGY,PUDIC,PUFFS,PUFFY,PUGGY,PUJAH,PUJAS,PUKED,PUKES,PUKKA,PULED,PULER,PULES,PULIK,PULIS,PULLS,PULPS,PULPY,PULSE,PUMAS,PUMPS,PUNAS,PUNCH,PUNGS,PUNKA,PUNKS,PUNKY,PUNNY,PUNTO,PUNTS,PUNTY,PUPAE,PUPAL,PUPAS,PUPIL,PUPPY,PURDA,PUREE,PURER,PURGE,PURIN,PURIS,PURLS,PURRS,PURSE,PURSY,PUSES,PUSHY,PUTON,PUTTI,PUTTO,PUTTS,PUTTY,PYGMY,PYINS,PYLON,PYOID,PYRAN,PYRES,PYRIC,PYXES,PYXIE,PYXIS,QAIDS,QANAT,QOPHS,QUACK,QUADS,QUAFF,QUAGS,QUAIL,QUAIS,QUAKE,QUAKY,QUALE,QUALM,QUANT,QUARE,QUARK,QUART,QUASH,QUASI,QUASS,QUATE,QUAYS,QUEAN,QUEEN,QUELL,QUERN,QUERY,QUEST,QUEUE,QUEYS,QUICK,QUIDS,QUIET,QUIFF,QUILL,QUILT,QUINS,QUINT,QUIPS,QUIPU,QUIRE,QUIRK,QUIRT,QUITE,QUITS,QUODS,QUOIN,QUOIT,QUOTA,QUOTE,QUOTH,QURSH,RABAT,RABBI,RABIC,RABID,RACED,RACER,RACES,RACKS,RACON,RADAR,RADII,RADIO,RADIX,RADON,RAFFS,RAFTS,RAGAS,RAGED,RAGEE,RAGES,RAGGY,RAGIS,RAIAS,RAIDS,RAILS,RAINS,RAINY,RAISE,RAJAH,RAJAS,RAJES,RAKED,RAKEE,RAKER,RAKES,RAKIS,RALES,RALLY,RALPH,RAMEE,RAMET,RAMIE,RAMMY,RAMPS,RAMUS,RANCE,RANCH,RANDS,RANDY,RANEE,RANGE,RANGY,RANID,RANIS,RANKS,RANTS,RAPED,RAPER,RAPES,RAPHE,RAPID,RARED,RARER,RARES,RASED,RASER,RASES,RASPS,RASPY,RATAL,RATAN,RATCH,RATED,RATEL,RATER,RATES,RATHE,RATIO,RATOS,RATTY,RAVED,RAVEL,RAVEN,RAVER,RAVES,RAVIN,RAWER,RAWIN,RAWLY,RAXED,RAXES,RAYAH,RAYAS,RAYED,RAYON,RAZED,RAZEE,RAZER,RAZES,RAZOR,REACH,REACT,READD,READS,READY,REALM,REALS,REAMS,REAPS,REARM,REARS,REATA,REAVE,REBAR,REBBE,REBEC,REBEL,REBID,REBOP,REBUS,REBUT,REBUY,RECAP,RECCE,RECKS,RECON,RECTA,RECTI,RECTO,RECUR,RECUT,REDAN,REDDS,REDED,REDES,REDIA,REDID,REDIP,REDLY,REDON,REDOS,REDOX,REDRY,REDUB,REDUX,REDYE,REEDS,REEDY,REEFS,REEFY,REEKS,REEKY,REELS,REEST,REEVE,REFED,REFEL,REFER,REFIT,REFIX,REFLY,REFRY,REGAL,REGES,REGMA,REGNA,REHAB,REHEM,REIFS,REIFY,REIGN,REINK,REINS,REIVE,REKEY,RELAX,RELAY,RELET,RELIC,RELIT,REMAN,REMAP,REMET,REMEX,REMIT,REMIX,RENAL,RENDS,RENEW,RENIG,RENIN,RENTE,RENTS,REOIL,REPAY,REPEG,REPEL,REPIN,REPLY,REPOS,REPOT,REPPS,REPRO,RERAN,RERIG,RERUN,RESAW,RESAY,RESEE,RESET,RESEW,RESID,RESIN,RESOD,RESOW,RESTS,RETAG,RETAX,RETCH,RETEM,RETIA,RETIE,RETRO,RETRY,REUSE,REVEL,REVET,REVUE,REWAN,REWAX,REWED,REWET,REWIN,REWON,REXES,RHEAS,RHEUM,RHINO,RHOMB,RHUMB,RHYME,RHYTA,RIALS,RIANT,RIATA,RIBBY,RIBES,RICED,RICER,RICES,RICIN,RICKS,RIDER,RIDES,RIDGE,RIDGY,RIELS,RIFER,RIFFS,RIFLE,RIFTS,RIGHT,RIGID,RIGOR,RILED,RILES,RILEY,RILLE,RILLS,RIMED,RIMER,RIMES,RINDS,RINGS,RINKS,RINSE,RIOJA,RIOTS,RIPED,RIPEN,RIPER,RIPES,RISEN,RISER,RISES,RISHI,RISKS,RISKY,RISUS,RITES,RITZY,RIVAL,RIVED,RIVEN,RIVER,RIVES,RIVET,RIYAL,ROACH,ROADS,ROAMS,ROANS,ROARS,ROAST,ROBED,ROBES,ROBIN,ROBLE,ROBOT,ROCKS,ROCKY,RODEO,ROGER,ROGUE,ROILS,ROILY,ROLES,ROLFS,ROLLS,ROMAN,ROMEO,ROMPS,RONDO,ROODS,ROOFS,ROOKS,ROOKY,ROOMS,ROOMY,ROOSE,ROOST,ROOTS,ROOTY,ROPED,ROPER,ROPES,ROPEY,ROQUE,ROSED,ROSES,ROSET,ROSIN,ROTAS,ROTCH,ROTES,ROTIS,ROTLS,ROTOR,ROTOS,ROTTE,ROUEN,ROUES,ROUGE,ROUGH,ROUND,ROUPS,ROUPY,ROUSE,ROUST,ROUTE,ROUTH,ROUTS,ROVED,ROVEN,ROVER,ROVES,ROWAN,ROWDY,ROWED,ROWEL,ROWEN,ROWER,ROWTH,ROYAL,RUANA,RUBES,RUBLE,RUBUS,RUCHE,RUCKS,RUDDS,RUDDY,RUDER,RUERS,RUFFE,RUFFS,RUGAE,RUGAL,RUGBY,RUING,RUINS,RULED,RULER,RULES,RUMBA,RUMEN,RUMMY,RUMOR,RUMPS,RUNES,RUNGS,RUNIC,RUNNY,RUNTS,RUNTY,RUPEE,RURAL,RUSES,RUSHY,RUSKS,RUSTS,RUSTY,RUTHS,RUTIN,RUTTY,RYKED,RYKES,RYNDS,RYOTS,SABED,SABER,SABES,SABIN,SABIR,SABLE,SABOT,SABRA,SABRE,SACKS,SACRA,SADES,SADHE,SADHU,SADIS,SADLY,SAFER,SAFES,SAGAS,SAGER,SAGES,SAGGY,SAGOS,SAGUM,SAHIB,SAICE,SAIDS,SAIGA,SAILS,SAINS,SAINT,SAITH,SAJOU,SAKER,SAKES,SAKIS,SALAD,SALAL,SALEP,SALES,SALIC,SALLY,SALMI,SALOL,SALON,SALPA,SALPS,SALSA,SALTS,SALTY,SALVE,SALVO,SAMBA,SAMBO,SAMEK,SAMPS,SANDS,SANDY,SANED,SANER,SANES,SANGA,SANGH,SANTO,SAPID,SAPOR,SAPPY,SARAN,SARDS,SAREE,SARGE,SARIN,SARIS,SARKS,SARKY,SAROD,SAROS,SASIN,SASSY,SATAY,SATED,SATEM,SATES,SATIN,SATIS,SATYR,SAUCE,SAUCH,SAUCY,SAUGH,SAULS,SAULT,SAUNA,SAURY,SAUTE,SAVED,SAVER,SAVES,SAVIN,SAVOR,SAVOY,SAVVY,SAWED,SAWER,SAXES,SAYER,SAYID,SAYST,SCABS,SCADS,SCAGS,SCALD,SCALE,SCALL,SCALP,SCALY,SCAMP,SCAMS,SCANS,SCANT,SCAPE,SCARE,SCARF,SCARP,SCARS,SCART,SCARY,SCATS,SCATT,SCAUP,SCAUR,SCENA,SCEND,SCENE,SCENT,SCHAV,SCHMO,SCHUL,SCHWA,SCION,SCOFF,SCOLD,SCONE,SCOOP,SCOOT,SCOPE,SCOPS,SCORE,SCORN,SCOTS,SCOUR,SCOUT,SCOWL,SCOWS,SCRAG,SCRAM,SCRAP,SCREE,SCREW,SCRIM,SCRIP,SCROD,SCRUB,SCRUM,SCUBA,SCUDI,SCUDO,SCUDS,SCUFF,SCULK,SCULL,SCULP,SCUMS,SCUPS,SCURF,SCUTA,SCUTE,SCUTS,SEALS,SEAMS,SEAMY,SEARS,SEATS,SEBUM,SECCO,SECTS,SEDAN,SEDER,SEDGE,SEDGY,SEDUM,SEEDS,SEEDY,SEEKS,SEELS,SEELY,SEEMS,SEEPS,SEEPY,SEERS,SEGNI,SEGNO,SEGOS,SEGUE,SEIFS,SEINE,SEISE,SEISM,SEIZE,SELAH,SELFS,SELLE,SELLS,SELVA,SEMES,SEMIS,SENDS,SENGI,SENNA,SENOR,SENSA,SENSE,SENTE,SENTI,SEPAL,SEPIA,SEPIC,SEPOY,SEPTA,SEPTS,SERAC,SERAI,SERAL,SERED,SERER,SERES,SERFS,SERGE,SERIF,SERIN,SEROW,SERRY,SERUM,SERVE,SERVO,SETAE,SETAL,SETON,SETTS,SETUP,SEVEN,SEVER,SEWAN,SEWAR,SEWED,SEWER,SEXED,SEXES,SEXTO,SEXTS,SHACK,SHADE,SHADS,SHADY,SHAFT,SHAGS,SHAHS,SHAKE,SHAKO,SHAKY,SHALE,SHALL,SHALT,SHALY,SHAME,SHAMS,SHANK,SHAPE,SHARD,SHARE,SHARK,SHARN,SHARP,SHAUL,SHAVE,SHAWL,SHAWM,SHAWN,SHAWS,SHAYS,SHEAF,SHEAL,SHEAR,SHEAS,SHEDS,SHEEN,SHEEP,SHEER,SHEET,SHEIK,SHELF,SHELL,SHEND,SHENT,SHEOL,SHERD,SHEWN,SHEWS,SHIED,SHIEL,SHIER,SHIES,SHIFT,SHILL,SHILY,SHIMS,SHINE,SHINS,SHINY,SHIPS,SHIRE,SHIRK,SHIRR,SHIRT,SHIST,SHIVA,SHIVE,SHIVS,SHLEP,SHOAL,SHOAT,SHOCK,SHOED,SHOER,SHOES,SHOGS,SHOJI,SHONE,SHOOK,SHOOL,SHOON,SHOOS,SHOOT,SHOPS,SHORE,SHORL,SHORN,SHORT,SHOTE,SHOTS,SHOTT,SHOUT,SHOVE,SHOWN,SHOWS,SHOWY,SHOYU,SHRED,SHREW,SHRIS,SHRUB,SHRUG,SHTIK,SHUCK,SHULN,SHULS,SHUNS,SHUNT,SHUSH,SHUTE,SHUTS,SHYER,SHYLY,SIALS,SIBBS,SIBYL,SICES,SICKO,SICKS,SIDED,SIDES,SIDLE,SIEGE,SIEUR,SIEVE,SIFTS,SIGHS,SIGHT,SIGIL,SIGMA,SIGNS,SIKER,SIKES,SILDS,SILEX,SILKS,SILKY,SILLS,SILLY,SILOS,SILTS,SILTY,SILVA,SIMAR,SIMAS,SIMPS,SINCE,SINES,SINEW,SINGE,SINGS,SINHS,SINKS,SINUS,SIPED,SIPES,SIRED,SIREE,SIREN,SIRES,SIRRA,SIRUP,SISAL,SISES,SISSY,SITAR,SITED,SITES,SITUP,SITUS,SIVER,SIXES,SIXMO,SIXTE,SIXTH,SIXTY,SIZAR,SIZED,SIZER,SIZES,SKAGS,SKALD,SKATE,SKATS,SKEAN,SKEED,SKEEN,SKEES,SKEET,SKEGS,SKEIN,SKELM,SKELP,SKENE,SKEPS,SKEWS,SKIDS,SKIED,SKIER,SKIES,SKIEY,SKIFF,SKILL,SKIMO,SKIMP,SKIMS,SKINK,SKINS,SKINT,SKIPS,SKIRL,SKIRR,SKIRT,SKITE,SKITS,SKIVE,SKOAL,SKOSH,SKUAS,SKULK,SKULL,SKUNK,SKYED,SKYEY,SLABS,SLACK,SLAGS,SLAIN,SLAKE,SLAMS,SLANG,SLANK,SLANT,SLAPS,SLASH,SLATE,SLATS,SLATY,SLAVE,SLAWS,SLAYS,SLEDS,SLEEK,SLEEP,SLEET,SLEPT,SLEWS,SLICE,SLICK,SLIDE,SLIER,SLILY,SLIME,SLIMS,SLIMY,SLING,SLINK,SLIPE,SLIPS,SLIPT,SLITS,SLOBS,SLOES,SLOGS,SLOID,SLOJD,SLOOP,SLOPE,SLOPS,SLOSH,SLOTH,SLOTS,SLOWS,SLOYD,SLUBS,SLUED,SLUES,SLUFF,SLUGS,SLUMP,SLUMS,SLUNG,SLUNK,SLURB,SLURP,SLURS,SLUSH,SLYER,SLYLY,SLYPE,SMACK,SMALL,SMALT,SMARM,SMART,SMASH,SMAZE,SMEAR,SMEEK,SMELL,SMELT,SMERK,SMEWS,SMILE,SMIRK,SMITE,SMITH,SMOCK,SMOGS,SMOKE,SMOKY,SMOLT,SMOTE,SMUTS,SNACK,SNAFU,SNAGS,SNAIL,SNAKE,SNAKY,SNAPS,SNARE,SNARK,SNARL,SNASH,SNATH,SNAWS,SNEAK,SNEAP,SNECK,SNEDS,SNEER,SNELL,SNIBS,SNICK,SNIDE,SNIFF,SNIPE,SNIPS,SNITS,SNOBS,SNOGS,SNOOD,SNOOK,SNOOL,SNOOP,SNOOT,SNORE,SNORT,SNOTS,SNOUT,SNOWS,SNOWY,SNUBS,SNUCK,SNUFF,SNUGS,SNYES,SOAKS,SOAPS,SOAPY,SOARS,SOAVE,SOBER,SOCKO,SOCKS,SOCLE,SODAS,SODDY,SODIC,SODOM,SOFAR,SOFAS,SOFTA,SOFTS,SOFTY,SOGGY,SOILS,SOJAS,SOKES,SOKOL,SOLAN,SOLAR,SOLDI,SOLDO,SOLED,SOLEI,SOLES,SOLID,SOLON,SOLOS,SOLUM,SOLUS,SOLVE,SOMAS,SONAR,SONDE,SONES,SONGS,SONIC,SONLY,SONNY,SONSY,SOOEY,SOOKS,SOOTH,SOOTS,SOOTY,SOPHS,SOPHY,SOPOR,SOPPY,SORAS,SORBS,SORDS,SOREL,SORER,SORES,SORGO,SORNS,SORRY,SORTS,SORUS,SOTHS,SOTOL,SOUGH,SOUKS,SOULS,SOUND,SOUPS,SOUPY,SOURS,SOUSE,SOUTH,SOWAR,SOWED,SOWER,SOYAS,SOYUZ,SOZIN,SPACE,SPACY,SPADE,SPADO,SPAED,SPAES,SPAHI,SPAIL,SPAIT,SPAKE,SPALE,SPALL,SPANG,SPANK,SPANS,SPARE,SPARK,SPARS,SPASM,SPATE,SPATS,SPAWN,SPAYS,SPEAK,SPEAN,SPEAR,SPECK,SPECS,SPEED,SPEEL,SPEER,SPEIL,SPEIR,SPELL,SPELT,SPEND,SPENT,SPERM,SPEWS,SPICA,SPICE,SPICK,SPICY,SPIED,SPIEL,SPIER,SPIES,SPIFF,SPIKE,SPIKS,SPIKY,SPILE,SPILL,SPILT,SPINE,SPINS,SPINY,SPIRE,SPIRT,SPIRY,SPITE,SPITS,SPITZ,SPIVS,SPLAT,SPLAY,SPLIT,SPODE,SPOIL,SPOKE,SPOOF,SPOOK,SPOOL,SPOON,SPOOR,SPORE,SPORT,SPOTS,SPOUT,SPRAG,SPRAT,SPRAY,SPREE,SPRIG,SPRIT,SPRUE,SPRUG,SPUDS,SPUED,SPUES,SPUME,SPUMY,SPURN,SPURS,SPURT,SPUTA,SQUAB,SQUAD,SQUAT,SQUAW,SQUEG,SQUIB,SQUID,STABS,STACK,STADE,STAFF,STAGE,STAGS,STAGY,STAID,STAIG,STAIN,STAIR,STAKE,STALE,STALK,STALL,STAMP,STAND,STANE,STANG,STANK,STAPH,STARE,STARK,STARS,START,STASH,STATE,STATS,STAVE,STAYS,STEAD,STEAK,STEAL,STEAM,STEED,STEEK,STEEL,STEEP,STEER,STEIN,STELA,STELE,STEMS,STENO,STEPS,STERE,STERN,STETS,STEWS,STICH,STICK,STIED,STIES,STIFF,STILE,STILL,STILT,STIME,STIMY,STING,STINK,STINT,STIPE,STIRK,STIRP,STIRS,STOAE,STOAI,STOAS,STOAT,STOBS,STOCK,STOGY,STOIC,STOKE,STOLE,STOMA,STOMP,STONE,STONY,STOOD,STOOK,STOOL,STOOP,STOPE,STOPS,STOPT,STORE,STORK,STORM,STORY,STOSS,STOUP,STOUR,STOUT,STOVE,STOWP,STOWS,STRAP,STRAW,STRAY,STREP,STREW,STRIA,STRIP,STROP,STROW,STROY,STRUM,STRUT,STUBS,STUCK,STUDS,STUDY,STUFF,STULL,STUMP,STUMS,STUNG,STUNK,STUNS,STUNT,STUPA,STUPE,STURT,STYED,STYES,STYLE,STYLI,STYMY,SUAVE,SUBAH,SUBAS,SUBER,SUCKS,SUCRE,SUDDS,SUDOR,SUDSY,SUEDE,SUERS,SUETS,SUETY,SUGAR,SUGHS,SUING,SUINT,SUITE,SUITS,SULCI,SULFA,SULFO,SULKS,SULKY,SULLY,SULUS,SUMAC,SUMMA,SUMOS,SUMPS,SUNNA,SUNNS,SUNNY,SUNUP,SUPER,SUPES,SUPRA,SURAH,SURAL,SURAS,SURDS,SURER,SURFS,SURFY,SURGE,SURGY,SURLY,SURRA,SUSHI,SUTRA,SUTTA,SWABS,SWAGE,SWAGS,SWAIL,SWAIN,SWALE,SWAMI,SWAMP,SWAMY,SWANG,SWANK,SWANS,SWAPS,SWARD,SWARE,SWARF,SWARM,SWART,SWASH,SWATH,SWATS,SWAYS,SWEAR,SWEAT,SWEDE,SWEEP,SWEER,SWEET,SWELL,SWEPT,SWIFT,SWIGS,SWILL,SWIMS,SWINE,SWING,SWINK,SWIPE,SWIRL,SWISH,SWISS,SWITH,SWIVE,SWOBS,SWOON,SWOOP,SWOPS,SWORD,SWORE,SWORN,SWOTS,SWOUN,SWUNG,SYCEE,SYCES,SYKES,SYLIS,SYLPH,SYLVA,SYNCH,SYNCS,SYNOD,SYNTH,SYPHS,SYREN,SYRUP,SYSOP,TABBY,TABER,TABES,TABID,TABLA,TABLE,TABOO,TABOR,TABUN,TABUS,TACES,TACET,TACHE,TACHS,TACIT,TACKS,TACKY,TACOS,TACTS,TAELS,TAFFY,TAFIA,TAHRS,TAIGA,TAILS,TAINS,TAINT,TAJES,TAKEN,TAKER,TAKES,TAKIN,TALAR,TALAS,TALCS,TALER,TALES,TALKS,TALKY,TALLY,TALON,TALUK,TALUS,TAMAL,TAMED,TAMER,TAMES,TAMIS,TAMMY,TAMPS,TANGO,TANGS,TANGY,TANKA,TANKS,TANSY,TANTO,TAPAS,TAPED,TAPER,TAPES,TAPIR,TAPIS,TARDO,TARDY,TARED,TARES,TARGE,TARNS,TAROC,TAROK,TAROS,TAROT,TARPS,TARRE,TARRY,TARSI,TARTS,TARTY,TASKS,TASSE,TASTE,TASTY,TATAR,TATER,TATES,TATTY,TAUNT,TAUPE,TAUTS,TAWED,TAWER,TAWIE,TAWNY,TAWSE,TAXED,TAXER,TAXES,TAXIS,TAXON,TAXUS,TAZZA,TAZZE,TEACH,TEAKS,TEALS,TEAMS,TEARS,TEARY,TEASE,TEATS,TECHY,TECTA,TEDDY,TEELS,TEEMS,TEENS,TEENY,TEETH,TEFFS,TEGUA,TEIID,TEIND,TELAE,TELES,TELEX,TELIA,TELIC,TELLS,TELLY,TELOI,TELOS,TEMPI,TEMPO,TEMPS,TEMPT,TENCH,TENDS,TENET,TENIA,TENON,TENOR,TENSE,TENTH,TENTS,TENTY,TEPAL,TEPAS,TEPEE,TEPID,TEPOY,TERAI,TERCE,TERGA,TERMS,TERNE,TERNS,TERRA,TERRY,TERSE,TESLA,TESTA,TESTS,TESTY,TETHS,TETRA,TEUCH,TEUGH,TEWED,TEXAS,TEXTS,THACK,THANE,THANK,THARM,THAWS,THEBE,THECA,THEFT,THEGN,THEIN,THEIR,THEME,THENS,THERE,THERM,THESE,THETA,THEWS,THEWY,THICK,THIEF,THIGH,THILL,THINE,THING,THINK,THINS,THIOL,THIRD,THIRL,THOLE,THONG,THORN,THORO,THORP,THOSE,THOUS,THRAW,THREE,THREW,THRIP,THROB,THROE,THROW,THRUM,THUDS,THUGS,THUJA,THUMB,THUMP,THUNK,THURL,THUYA,THYME,THYMI,THYMY,TIARA,TIBIA,TICAL,TICKS,TIDAL,TIDED,TIDES,TIERS,TIFFS,TIGER,TIGHT,TIGON,TIKES,TIKIS,TILAK,TILDE,TILED,TILER,TILES,TILLS,TILTH,TILTS,TIMED,TIMER,TIMES,TIMID,TINCT,TINEA,TINED,TINES,TINGE,TINGS,TINNY,TINTS,TIPIS,TIPPY,TIPSY,TIRED,TIRES,TIRLS,TIROS,TITAN,TITER,TITHE,TITIS,TITLE,TITRE,TIZZY,TOADS,TOADY,TOAST,TODAY,TODDY,TOFFS,TOFFY,TOFTS,TOFUS,TOGAE,TOGAS,TOGUE,TOILE,TOILS,TOITS,TOKAY,TOKED,TOKEN,TOKER,TOKES,TOLAN,TOLAS,TOLED,TOLES,TOLLS,TOLUS,TOLYL,TOMAN,TOMBS,TOMES,TOMMY,TONAL,TONDI,TONDO,TONED,TONER,TONES,TONEY,TONGA,TONGS,TONIC,TONNE,TONUS,TOOLS,TOONS,TOOTH,TOOTS,TOPAZ,TOPED,TOPEE,TOPER,TOPES,TOPHE,TOPHI,TOPHS,TOPIC,TOPIS,TOPOI,TOPOS,TOQUE,TORAH,TORAS,TORCH,TORCS,TORES,TORIC,TORII,TOROS,TOROT,TORSE,TORSI,TORSK,TORSO,TORTE,TORTS,TORUS,TOTAL,TOTED,TOTEM,TOTER,TOTES,TOUCH,TOUGH,TOURS,TOUSE,TOUTS,TOWED,TOWEL,TOWER,TOWIE,TOWNS,TOWNY,TOXIC,TOXIN,TOYED,TOYER,TOYON,TOYOS,TRACE,TRACK,TRACT,TRADE,TRAGI,TRAIK,TRAIL,TRAIN,TRAIT,TRAMP,TRAMS,TRANK,TRANQ,TRANS,TRAPS,TRAPT,TRASH,TRASS,TRAVE,TRAWL,TRAYS,TREAD,TREAT,TREED,TREEN,TREES,TREKS,TREND,TRESS,TRETS,TREWS,TREYS,TRIAC,TRIAD,TRIAL,TRIBE,TRICE,TRICK,TRIED,TRIER,TRIES,TRIGO,TRIGS,TRIKE,TRILL,TRIMS,TRINE,TRIOL,TRIOS,TRIPE,TRIPS,TRITE,TROAK,TROCK,TRODE,TROIS,TROKE,TROLL,TROMP,TRONA,TRONE,TROOP,TROOZ,TROPE,TROTH,TROTS,TROUT,TROVE,TROWS,TROYS,TRUCE,TRUCK,TRUED,TRUER,TRUES,TRUGS,TRULL,TRULY,TRUMP,TRUNK,TRUSS,TRUST,TRUTH,TRYMA,TRYST,TSADE,TSADI,TSARS,TSKED,TSUBA,TUBAE,TUBAL,TUBAS,TUBBY,TUBED,TUBER,TUBES,TUCKS,TUFAS,TUFFS,TUFTS,TUFTY,TULES,TULIP,TULLE,TUMID,TUMMY,TUMOR,TUMPS,TUNAS,TUNED,TUNER,TUNES,TUNGS,TUNIC,TUNNY,TUPIK,TUQUE,TURBO,TURFS,TURFY,TURKS,TURNS,TURPS,TUSHY,TUSKS,TUTEE,TUTOR,TUTTI,TUTTY,TUTUS,TUXES,TUYER,TWAES,TWAIN,TWANG,TWATS,TWEAK,TWEED,TWEEN,TWEET,TWERP,TWICE,TWIER,TWIGS,TWILL,TWINE,TWINS,TWINY,TWIRL,TWIRP,TWIST,TWITS,TWIXT,TWYER,TYEES,TYERS,TYING,TYKES,TYNED,TYNES,TYPAL,TYPED,TYPES,TYPEY,TYPIC,TYPOS,TYPPS,TYRED,TYRES,TYROS,TYTHE,TZARS,UDDER,UHLAN,UKASE,ULAMA,ULANS,ULCER,ULEMA,ULNAD,ULNAE,ULNAR,ULNAS,ULPAN,ULTRA,ULVAS,UMBEL,UMBER,UMBOS,UMBRA,UMIAC,UMIAK,UMIAQ,UMPED,UNAIS,UNAPT,UNARM,UNARY,UNAUS,UNBAN,UNBAR,UNBID,UNBOX,UNCAP,UNCIA,UNCLE,UNCOS,UNCOY,UNCUS,UNCUT,UNDEE,UNDER,UNDID,UNDUE,UNFED,UNFIT,UNFIX,UNGOT,UNHAT,UNHIP,UNIFY,UNION,UNITE,UNITS,UNITY,UNLAY,UNLED,UNLET,UNLIT,UNMAN,UNMET,UNMEW,UNMIX,UNPEG,UNPEN,UNPIN,UNRIG,UNRIP,UNSAY,UNSET,UNSEW,UNSEX,UNTIE,UNTIL,UNWED,UNWIT,UNWON,UNZIP,UPBOW,UPBYE,UPDOS,UPDRY,UPEND,UPLIT,UPPED,UPPER,UPSET,URAEI,URARE,URARI,URASE,URATE,URBAN,URBIA,UREAL,UREAS,UREDO,UREIC,URGED,URGER,URGES,URIAL,URINE,URSAE,USAGE,USERS,USHER,USING,USNEA,USQUE,USUAL,USURP,USURY,UTERI,UTILE,UTTER,UVEAL,UVEAS,UVULA,VACUA,VAGAL,VAGUE,VAGUS,VAILS,VAIRS,VAKIL,VALES,VALET,VALID,VALOR,VALSE,VALUE,VALVE,VAMPS,VANDA,VANED,VANES,VANGS,VAPID,VAPOR,VARAS,VARIA,VARIX,VARNA,VARUS,VARVE,VASAL,VASES,VASTS,VASTY,VATIC,VATUS,VAULT,VAUNT,VEALS,VEALY,VEENA,VEEPS,VEERS,VEERY,VEGAN,VEGIE,VEILS,VEINS,VEINY,VELAR,VELDS,VELDT,VELUM,VENAE,VENAL,VENDS,VENGE,VENIN,VENOM,VENTS,VENUE,VERBS,VERGE,VERSE,VERSO,VERST,VERTS,VERTU,VERVE,VESTA,VESTS,VETCH,VEXED,VEXER,VEXES,VEXIL,VIALS,VIAND,VIBES,VICAR,VICED,VICES,VICHY,VIDEO,VIERS,VIEWS,VIEWY,VIGAS,VIGIL,VIGOR,VILER,VILLA,VILLI,VILLS,VIMEN,VINAL,VINAS,VINCA,VINED,VINES,VINIC,VINOS,VINYL,VIOLA,VIOLS,VIPER,VIRAL,VIREO,VIRES,VIRGA,VIRID,VIRLS,VIRTU,VIRUS,VISAS,VISED,VISES,VISIT,VISOR,VISTA,VITAE,VITAL,VITTA,VIVAS,VIVID,VIXEN,VIZIR,VIZOR,VOCAL,VOCES,VODKA,VODUN,VOGIE,VOGUE,VOICE,VOIDS,VOILA,VOILE,VOLAR,VOLED,VOLES,VOLTA,VOLTE,VOLTI,VOLTS,VOLVA,VOMER,VOMIT,VOTED,VOTER,VOTES,VOUCH,VOWED,VOWEL,VOWER,VROOM,VROUW,VROWS,VUGGS,VUGGY,VUGHS,VULGO,VULVA,VYING,WACKE,WACKO,WACKS,WACKY,WADDY,WADED,WADER,WADES,WADIS,WAFER,WAFFS,WAFTS,WAGED,WAGER,WAGES,WAGON,WAHOO,WAIFS,WAILS,WAINS,WAIRS,WAIST,WAITS,WAIVE,WAKED,WAKEN,WAKER,WAKES,WALED,WALER,WALES,WALKS,WALLA,WALLS,WALLY,WALTZ,WAMES,WAMUS,WANDS,WANED,WANES,WANEY,WANLY,WANTS,WARDS,WARED,WARES,WARKS,WARMS,WARNS,WARPS,WARTS,WARTY,WASHY,WASPS,WASPY,WASTE,WASTS,WATAP,WATCH,WATER,WATTS,WAUGH,WAUKS,WAULS,WAVED,WAVER,WAVES,WAVEY,WAWLS,WAXED,WAXEN,WAXER,WAXES,WEALD,WEALS,WEANS,WEARS,WEARY,WEAVE,WEBBY,WEBER,WECHT,WEDEL,WEDGE,WEDGY,WEEDS,WEEDY,WEEKS,WEENS,WEENY,WEEPS,WEEPY,WEEST,WEETS,WEFTS,WEIGH,WEIRD,WEIRS,WEKAS,WELCH,WELDS,WELLS,WELLY,WELSH,WELTS,WENDS,WENNY,WESTS,WETLY,WHACK,WHALE,WHAMO,WHAMS,WHANG,WHAPS,WHARF,WHATS,WHAUP,WHEAL,WHEAT,WHEEL,WHEEN,WHEEP,WHELK,WHELM,WHELP,WHENS,WHERE,WHETS,WHEWS,WHEYS,WHICH,WHIDS,WHIFF,WHIGS,WHILE,WHIMS,WHINE,WHINS,WHINY,WHIPS,WHIPT,WHIRL,WHIRR,WHIRS,WHISH,WHISK,WHIST,WHITE,WHITS,WHITY,WHIZZ,WHOLE,WHOMP,WHOOF,WHOOP,WHOPS,WHORL,WHORT,WHOSE,WHOSO,WHUMP,WICKS,WIDDY,WIDEN,WIDER,WIDES,WIDOW,WIDTH,WIELD,WIFED,WIFES,WIFTY,WIGAN,WIGGY,WIGHT,WILCO,WILDS,WILED,WILES,WILLS,WILLY,WILTS,WIMPS,WIMPY,WINCE,WINCH,WINDS,WINDY,WINED,WINES,WINEY,WINGS,WINGY,WINKS,WINOS,WINZE,WIPED,WIPER,WIPES,WIRED,WIRER,WIRES,WIRRA,WISED,WISER,WISES,WISHA,WISPS,WISPY,WISTS,WITAN,WITCH,WITED,WITES,WITHE,WITHY,WITTY,WIVED,WIVER,WIVES,WIZEN,WIZES,WOADS,WOALD,WODGE,WOFUL,WOKEN,WOLDS,WOLFS,WOMAN,WOMBS,WOMBY,WOMEN,WONKS,WONKY,WONTS,WOODS,WOODY,WOOED,WOOER,WOOFS,WOOLS,WOOLY,WOOPS,WOOSH,WOOZY,WORDS,WORDY,WORKS,WORLD,WORMS,WORMY,WORRY,WORSE,WORST,WORTH,WORTS,WOULD,WOUND,WOVEN,WOWED,WRACK,WRANG,WRAPS,WRAPT,WRATH,WREAK,WRECK,WRENS,WREST,WRICK,WRIED,WRIER,WRIES,WRING,WRIST,WRITE,WRITS,WRONG,WROTE,WROTH,WRUNG,WRYER,WRYLY,WURST,WUSSY,WYLED,WYLES,WYNDS,WYNNS,WYTED,WYTES,XEBEC,XENIA,XENIC,XENON,XERIC,XEROX,XERUS,XYLAN,XYLEM,XYLOL,XYLYL,XYSTI,XYSTS,YACHT,YACKS,YAFFS,YAGER,YAGIS,YAHOO,YAIRD,YAMEN,YAMUN,YANGS,YANKS,YAPOK,YAPON,YARDS,YARER,YARNS,YAUDS,YAULD,YAUPS,YAWED,YAWLS,YAWNS,YAWPS,YEANS,YEARN,YEARS,YEAST,YECCH,YECHS,YECHY,YEGGS,YELKS,YELLS,YELPS,YENTA,YENTE,YERBA,YERKS,YESES,YETIS,YETTS,YEUKS,YEUKY,YIELD,YIKES,YILLS,YINCE,YIPES,YIRDS,YIRRS,YIRTH,YLEMS,YOBBO,YOCKS,YODEL,YODHS,YODLE,YOGAS,YOGEE,YOGHS,YOGIC,YOGIN,YOGIS,YOKED,YOKEL,YOKES,YOLKS,YOLKY,YOMIM,YONIC,YONIS,YORES,YOUNG,YOURN,YOURS,YOUSE,YOUTH,YOWED,YOWES,YOWIE,YOWLS,YUANS,YUCAS,YUCCA,YUCCH,YUCKS,YUCKY,YUGAS,YULAN,YULES,YUMMY,YUPON,YURTA,YURTS,ZAIRE,ZAMIA,ZANZA,ZAPPY,ZARFS,ZAXES,ZAYIN,ZAZEN,ZEALS,ZEBEC,ZEBRA,ZEBUS,ZEINS,ZERKS,ZEROS,ZESTS,ZESTY,ZETAS,ZIBET,ZILCH,ZILLS,ZINCS,ZINCY,ZINEB,ZINGS,ZINGY,ZINKY,ZIPPY,ZIRAM,ZITIS,ZIZIT,ZLOTE,ZLOTY,ZOEAE,ZOEAL,ZOEAS,ZOMBI,ZONAL,ZONED,ZONER,ZONES,ZONKS,ZOOID,ZOOKS,ZOOMS,ZOONS,ZOOTY,ZORIL,ZORIS,ZOWIE,ZYMES".split(","));
+WHEATLE_WORDS.forEach(w=>VALID.add(w));
+
+let wAnswer = WHEATLE_WORDS[((DAY % WHEATLE_WORDS.length)+WHEATLE_WORDS.length)%WHEATLE_WORDS.length];
+let wTrack = WLGames.track('wheatle', DAY + 1);
+let wRow=0, wCol=0, wDone=false;
+let wGuesses=[];
+const board=document.getElementById('wboard');
+const wfeed=document.getElementById('wfeed');
+const whint=document.getElementById('whint');
+const wInput=document.getElementById('w-input');
+const wmsg=document.getElementById('wmsg');
+
+function buildBoard(){
+  board.innerHTML='';
+  for(let r=0;r<6;r++){
+    const row=document.createElement('div'); row.className='wrow'; row.dataset.r=r;
+    for(let c=0;c<5;c++){ const t=document.createElement('div'); t.className='wtile'; row.appendChild(t); }
+    board.appendChild(row);
+  }
+}
+function tileAt(r,c){ return board.children[r].children[c]; }
+
+/* Tap a tile on the row you're filling to type into it — the modest version of
+   "let me fill later letters first". Moves the cursor; never types out of order. */
+function drawCursor(){
+  for(let r=0;r<6;r++) for(let c=0;c<5;c++) tileAt(r,c).classList.remove('cursor');
+  if(!wDone && wCol<5) tileAt(wRow,wCol).classList.add('cursor');
+}
+board.addEventListener('click', ev=>{
+  if(wDone) return;
+  const tile = ev.target.closest && ev.target.closest('.wtile');
+  if(!tile) return;
+  const row = tile.parentNode;
+  if(Number(row.dataset.r) !== wRow) return;
+  const idx = [...row.children].indexOf(tile);
+  if(idx >= 0){ wCol = idx; drawCursor(); }
+});
+
+/* No on-screen keyboard — but mobile still needs something focused for the OS
+   keyboard to appear, so taps on the board or the hint focus a hidden input. */
+function focusWheatle(){
+  clearTimeout(blurSubmit);
+  activeGame='wh';
+  if(!wDone){ wInput.value=''; wInput.focus({preventScroll:true}); }
+}
+board.addEventListener('click',focusWheatle);
+whint.addEventListener('click',focusWheatle);
+/* iOS shows an AutoFill accessory bar above the keyboard; its checkmark just
+   blurs the field, so a finished word sat there doing nothing. Treat that as
+   Enter — but only if the row is actually full, and only after a beat, because
+   tapping a tile to edit a letter also blurs before refocusing. */
+let blurSubmit=null;
+wInput.addEventListener('blur',()=>{
+  clearTimeout(blurSubmit);
+  blurSubmit=setTimeout(()=>{
+    if(wDone) return;
+    let filled=0;
+    for(let c=0;c<5;c++) if(tileAt(wRow,c).textContent) filled++;
+    if(filled===5) submit();
+  },160);
+});
+wInput.addEventListener('focus',()=>clearTimeout(blurSubmit));
+wInput.addEventListener('input',ev=>{
+  const v=ev.target.value.replace(/[^a-zA-Z]/g,'').toUpperCase();
+  for(const ch of v) wKey(ch);
+  ev.target.value='';
+});
+
+function wKey(k){
+  if(wDone) return;
+  wTrack.input(); startWClock();
+  if(k==='\u232b'){
+    const cur = wCol<5 ? tileAt(wRow,wCol) : null;
+    if(cur && cur.textContent){ cur.textContent=''; cur.classList.remove('filled'); }
+    else if(wCol>0){ wCol--; const t=tileAt(wRow,wCol); t.textContent=''; t.classList.remove('filled'); }
+    wmsg.textContent=''; drawCursor(); return;
+  }
+  if(k==='\u21b5'){ submit(); return; }
+  if(wCol<5){
+    const t=tileAt(wRow,wCol); t.textContent=k; t.classList.add('filled');
+    // jump to the next still-empty tile, so going back to fix one letter
+    // doesn't wipe the ones after it
+    let next=wCol+1;
+    while(next<5 && tileAt(wRow,next).textContent) next++;
+    wCol=next; drawCursor();
+    // Row full: submit on its own (a beat later so the last letter shows first).
+    // Phone keyboards don't reliably send Enter to the hidden input.
+    let full=true; for(let c=0;c<5;c++) if(!tileAt(wRow,c).textContent) full=false;
+    if(full){
+      const row=wRow;
+      setTimeout(()=>{ if(!wDone && wRow===row) submit(); },180);
+    }
+  }
+}
+
+function listLetters(arr){
+  if(arr.length===1) return arr[0];
+  if(arr.length===2) return arr[0]+' and '+arr[1];
+  return arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1];
+}
+
+/* Plain-language readout of the most recent guess, so the colours are explained
+   in words rather than only by a legend. */
+function feedbackPlaceholder(){
+  wfeed.innerHTML = '<div class="waiting">Guess a word and the hints land here.</div>';
+}
+function renderFeedback(guess,res){
+  const hit=[],close=[],miss=[],only=[];
+  for(let i=0;i<5;i++){
+    const L=guess[i];
+    if(res[i]==='hit'){ if(!hit.includes(L)) hit.push(L); }
+    else if(res[i]==='close'){ if(!close.includes(L)) close.push(L); }
+  }
+  for(let i=0;i<5;i++){
+    const L=guess[i];
+    if(res[i]!=='miss') continue;
+    // A greyed letter that also scored elsewhere isn't absent — the word just has
+    // fewer of it than you guessed. Saying "E isn't in the word" there is a lie.
+    if(hit.includes(L)||close.includes(L)){ if(!only.includes(L)) only.push(L); }
+    else if(!miss.includes(L)) miss.push(L);
+  }
+  const lines=[];
+  if(hit.length)   lines.push(['hit',   listLetters(hit)+(hit.length>1?' are':' is')+' in the right spot.']);
+  if(close.length) lines.push(['close', listLetters(close)+(close.length>1?' are':' is')+' in the word, but in a different position.']);
+  if(only.length)  lines.push(['miss',  'There\u2019s only one '+listLetters(only)+' in the word.']);
+  if(miss.length)  lines.push(['miss',  listLetters(miss)+(miss.length>1?" aren't":" isn't")+' in the word.']);
+  wfeed.innerHTML='';
+  lines.forEach(([cls,text])=>{
+    const d=document.createElement('div'); d.className='fline';
+    d.innerHTML='<span class="dot '+cls+'"></span><span>'+text+'</span>';
+    wfeed.appendChild(d);
+  });
+}
+
+function submit(){
+  let guess=''; for(let c=0;c<5;c++) guess += tileAt(wRow,c).textContent || '';
+  if(guess.length<5){ flash('Needs five letters'); return; }
+  if(!VALID.has(guess)){ flash('Not in the Wheatle list'); return; }
+  const res=scoreGuess(guess,wAnswer);
+  for(let c=0;c<5;c++){ const t=tileAt(wRow,c); t.classList.remove('filled'); t.classList.add(res[c]); }
+  wGuesses.push(res);
+  renderFeedback(guess,res);
+  if(guess===wAnswer){
+    wDone=true; stopWClock(); wTrack.finish({solved:true,guesses:wRow+1});
+    wmsg.style.color='#3c67b1'; wmsg.textContent='Got it in '+(wRow+1)+'. \ud83c\udf3e';
+    whint.classList.add('done'); whint.textContent='Solved in '+(wRow+1)+' \u2014 new word tomorrow';
+    return;
+  }
+  wRow++; wCol=0;
+  // Out of guesses: end the game before drawing the cursor, which has no seventh row to land on.
+  if(wRow===6){
+    wDone=true; stopWClock(); wTrack.finish({solved:false,guesses:6});
+    wmsg.style.color='#dc5b5e'; wmsg.textContent='Today\u2019s word: '+wAnswer;
+    whint.classList.add('done'); whint.textContent='Out of guesses \u2014 it was '+wAnswer;
+  } else {
+    drawCursor();
+    whint.textContent='Guess '+(wRow+1)+' of 6 \u2014 keep typing';
+  }
+}
+function scoreGuess(g,a){
+  const res=Array(5).fill('miss'); const pool={};
+  for(let i=0;i<5;i++){ if(g[i]===a[i]) res[i]='hit'; else pool[a[i]]=(pool[a[i]]||0)+1; }
+  for(let i=0;i<5;i++){ if(res[i]!=='hit' && pool[g[i]]>0){ res[i]='close'; pool[g[i]]--; } }
+  return res;
+}
+function flash(m){
+  wmsg.style.color='#dc5b5e'; wmsg.textContent=m;
+  const row=board.children[wRow]; row.classList.add('shake');
+  setTimeout(()=>row.classList.remove('shake'),400);
+}
+
+let wSecs=0, wTimer=null;
+function startWClock(){
+  if(wTimer||wDone) return;
+  wTimer=setInterval(()=>{ wSecs++; document.getElementById('wclock').textContent=Math.floor(wSecs/60)+':'+String(wSecs%60).padStart(2,'0'); },1000);
+}
+function stopWClock(){ if(wTimer){clearInterval(wTimer); wTimer=null;} }
+
+function wheatleInView(){
+  const r=document.getElementById('wheatle').getBoundingClientRect();
+  return r.top < window.innerHeight*0.6 && r.bottom > window.innerHeight*0.4;
+}
+document.addEventListener('keydown',ev=>{
+  const mine = document.activeElement===wInput ||
+    (document.activeElement===document.body && (activeGame==='wh' || (activeGame===null && wheatleInView())));
+  if(!mine) return;
+  if(ev.key==='Enter'){ ev.preventDefault(); wKey('\u21b5'); }
+  else if(ev.key==='Backspace'){ ev.preventDefault(); wKey('\u232b'); }
+  else if(/^[a-zA-Z]$/.test(ev.key)){ ev.preventDefault(); wKey(ev.key.toUpperCase()); }
+});
+
+document.getElementById('w-share').onclick=()=>{
+  if(!wGuesses.length){ wmsg.style.color='#7d8ba0'; wmsg.textContent='Play a round first.'; return; }
+  const map={hit:'🟦',close:'🟨',miss:'⬜'};
+  const txt='Wheatle #'+(DAY+1)+' '+(wDone && wGuesses.length && wGuesses[wGuesses.length-1].every(x=>x==='hit')?wGuesses.length:'X')+'/6\n'+
+    wGuesses.map(r=>r.map(x=>map[x]).join('')).join('\n')+'\nwichitalifeict.com/games';
+  if(navigator.clipboard){ navigator.clipboard.writeText(txt); wmsg.style.color='#3c67b1'; wmsg.textContent='Copied to clipboard.'; }
+};
+/* Reader word submissions. Fails soft — if the endpoint isn't wired up yet the
+   form says so plainly rather than pretending it saved. */
+const sugMsg=document.getElementById('sug-msg');
+document.getElementById('sug-send').onclick=async ()=>{
+  const word=(document.getElementById('sug-word').value||'').trim().toUpperCase();
+  const why=(document.getElementById('sug-why').value||'').trim();
+  const email=(document.getElementById('sug-email').value||'').trim();
+  sugMsg.className='smsg';
+  if(window.WL_DEV){ sugMsg.textContent='Dev copy \u2014 submissions are switched off here.'; return; }
+  if(!/^[A-Z]{5}$/.test(word)){ sugMsg.className='smsg err'; sugMsg.textContent='Needs to be exactly five letters, A-Z.'; return; }
+  if(WHEATLE_WORDS.includes(word)){ sugMsg.className='smsg err'; sugMsg.textContent=word+' is already in the rotation \u2014 good taste, though.'; return; }
+  sugMsg.textContent='Sending\u2026';
+  try{
+    const r=await fetch((window.WL_ANALYTICS_ENDPOINT||'/api/event').replace(/\/event$/,'/suggest'),{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({word:word,why:why,email:email,visitor_id:WLGames.visitorId()})
+    });
+    if(r.ok){
+      sugMsg.textContent='Got it \u2014 '+word+' is pending review. Thanks.';
+      document.getElementById('sug-word').value='';
+      document.getElementById('sug-why').value='';
+    } else {
+      sugMsg.className='smsg err'; sugMsg.textContent="Couldn't send that just now. Try again in a bit.";
+    }
+  }catch(e){
+    sugMsg.className='smsg err'; sugMsg.textContent="Couldn't reach the server. Try again in a bit.";
+  }
+};
+
+/* Reader words you've approved become valid guesses right away. They only enter the
+   daily answer rotation when promoted by hand, so today's word can't change mid-game. */
+try{
+  if(typeof fetch==='function' && !window.WL_DISABLE_ANALYTICS){
+    fetch((window.WL_ANALYTICS_ENDPOINT||'/api/event').replace(/\/event$/,'/words'))
+      .then(r=>r.ok?r.json():{words:[]})
+      .then(d=>{ (d.words||[]).forEach(w=>{ if(/^[A-Z]{5}$/.test(w)) VALID.add(w); }); })
+      .catch(()=>{});
+  }
+}catch(e){ /* extra words are a bonus; never let this stop the game loading */ }
+
+/* ---- puzzle promo tracking -------------------------------------------------
+   A view counts when the block is genuinely on screen (half visible for a
+   second), not when the image loads — an image below the fold loads whether or
+   not anyone sees it. Clicks go out via sendBeacon so they survive navigation. */
+(function(){
+  const block = document.querySelector('.shop');
+  if(!block || window.WL_DISABLE_ANALYTICS) return;
+  const url = (window.WL_ANALYTICS_ENDPOINT || '/api/event').replace(/\/event$/, '/promo');
+  const sid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+        const r=Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16); });
+  const dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+  function send(kind, beacon){
+    const body = JSON.stringify({ session_id:sid, visitor_id:WLGames.visitorId(),
+                                  promo:'puzzle', kind:kind, device:dev });
+    try{
+      if(beacon && navigator.sendBeacon){
+        navigator.sendBeacon(url, new Blob([body], {type:'application/json'})); return;
+      }
+      if(typeof fetch === 'function'){
+        fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(()=>{});
+      }
+    }catch(e){}
+  }
+  // view: half on screen for a full second
+  let seen=false, timer=null;
+  if(typeof IntersectionObserver === 'function'){
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting && en.intersectionRatio >= 0.5){
+          if(!seen && !timer) timer=setTimeout(()=>{ seen=true; send('view'); io.disconnect(); },1000);
+        } else if(timer){ clearTimeout(timer); timer=null; }
+      });
+    },{threshold:[0,0.5,1]});
+    io.observe(block);
+  } else {
+    // no observer: fall back to counting it once the page has settled
+    setTimeout(()=>{ if(!seen){ seen=true; send('view'); } }, 2500);
+  }
+  const link = block.querySelector('a');
+  if(link) link.addEventListener('click', ()=>send('click', true));
+})();
+
+/* ---- Troll Patrol high scores on the home page ---------------------------- */
+(function(){
+  const list=document.getElementById('troll-list'), top=document.getElementById('troll-top');
+  const tabs=document.getElementById('troll-tabs');
+  if(!list) return;
+  const API=(window.WL_ANALYTICS_ENDPOINT||'/api/event').replace(/\/event$/,'/score');
+  const ENV=window.WL_SCORE_ENV||'live';
+  let best=0;
+  try{ const l=JSON.parse(localStorage.getItem('trollpatrol.scores.v1')||'[]'); best=l.length?l[0].score:0; }catch(e){}
+  const f=v=>v==null?'\u2014':Number(v).toLocaleString('en-US');
+  const stat=(n,l,hi)=>'<div class="s'+(hi?' hi':'')+'"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';
+  function renderTop(sm){
+    top.innerHTML = stat(f(sm.today_best),'Top today',true) + stat(f(sm.all_best),'All-time') +
+                    stat(best?best.toLocaleString('en-US'):'\u2014','Your best');
+  }
+  function render(rows){
+    list.innerHTML = rows.length
+      ? rows.slice(0,5).map((r,i)=>'<li><span class="rank">'+(i+1)+'</span><span class="who">'+
+          String(r.name).replace(/[^A-Za-z]/g,'').slice(0,3)+'</span><span class="pts">'+
+          Number(r.score).toLocaleString('en-US')+'</span></li>').join('')
+      : '<li class="empty">No scores yet \u2014 be the first.</li>';
+  }
+  function load(tab){
+    list.innerHTML='<li class="empty">Loading\u2026</li>';
+    if(typeof fetch!=='function'){ render([]); renderTop({}); return; }
+    fetch(API+'?game=troll-patrol&env='+ENV+'&tab='+tab)
+      .then(r=>r.json())
+      .then(d=>{ renderTop(d.summary||{}); render(d.rows||[]); })
+      .catch(()=>{ renderTop({}); list.innerHTML='<li class="empty">Scores unavailable.</li>'; });
+  }
+  tabs.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    [...tabs.children].forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); load(b.dataset.tab);
+  });
+  load('today');
+})();
+
+const helpBtn=document.getElementById('w-help'), legend=document.getElementById('w-legend');
+helpBtn.onclick=()=>{
+  const open=legend.classList.toggle('show');
+  helpBtn.setAttribute('aria-expanded', open?'true':'false');
+  helpBtn.textContent = open?'Hide help':'How to play';
+};
+document.getElementById('w-new').onclick=()=>{
+  wAnswer=WHEATLE_WORDS[Math.floor(Math.random()*WHEATLE_WORDS.length)];
+  wRow=0;wCol=0;wDone=false;wGuesses=[];wmsg.textContent='';
+  feedbackPlaceholder(); whint.className='whint';
+  whint.innerHTML='&#9998;&nbsp; Start typing to guess a 5 letter word';
+  stopWClock(); wSecs=0; document.getElementById('wclock').textContent='0:00';
+  wTrack = WLGames.track('wheatle', WEEK + 1);
+  buildBoard(); drawCursor(); feedbackPlaceholder();
+};
+buildBoard(); drawCursor(); feedbackPlaceholder();
+</script>
+</body>
+</html>

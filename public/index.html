@@ -428,7 +428,7 @@ if (window.WL_DEV) {
 
   <div class="wrap">
     <div class="tiles">
-      <a class='tile tile--troll' href='/troll-patrol'>
+      <a class="tile tile--troll" href="/troll-patrol.html">
         <span class="t-icon">🛁</span>
         <h3>Troll Patrol</h3>
         <p>Thirty seconds down the Arkansas in a bathtub. Grab trash, dodge geese.</p>
@@ -462,7 +462,7 @@ if (window.WL_DEV) {
          down the Arkansas. Thirty seconds to clean up the river: grab trash, hit ramps,
          dodge the geese.</p>
       <div class="arcade-scores" id="troll-top"></div>
-      <a class='btn' href='/troll-patrol'>Play Troll Patrol</a>
+      <a class="btn" href="/troll-patrol.html">Play Troll Patrol</a>
     </div>
     <div class="arcade-board">
       <div class="arcade-head">
@@ -506,7 +506,7 @@ if (window.WL_DEV) {
       <div class="wfeed" id="wfeed"></div>
       <div class="wmsg" id="wmsg"></div>
       <div id="wboard"></div>
-      <input id="w-input" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" aria-hidden="true" tabindex="-1">
+      <input id="w-input" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" aria-hidden="true" tabindex="-1">
       <button class="whint" id="whint" type="button">&#9998;&nbsp; Start typing to guess a 5 letter word</button>
 
       <div class="suggest" id="suggest">
@@ -863,6 +863,90 @@ const PUZZLES = [
   rows:["MID#SPA","ACE#TAN","CENTURY","##SIT##","TWISTER","EAT#ERA","DRY#REG"],
   across:{1:"___-century modern",4:"Hot tub retreat",7:"Serve you can't return",8:"Beach result",9:"___ II, the round blue hall downtown",11:"Take a seat",12:"What Kansans call a tornado",16:"Have a meal",17:"Period of history",18:"Not wet",19:"Registration, briefly"},
   down:{1:"Apple computer",2:"Cubes in a glass",3:"Mass per volume",4:"Halting speech",5:"Golf standard",6:"Whichever one",10:"'___ the season'",12:"___ Talk",13:"Conflict",14:"Before, in poems",15:"Cleaning cloth"}
+},
+{
+  title:"City Within a City",
+  note:"Bel Aire has its own mayor, its own water tower and about eight thousand people, and Wichita's northeast side wraps most of the way around it.",
+  rows:["JAB#FOE","OWE#RAY","BELAIRE","##ODD##","KANSANS","EGG#YAK","YES#SPY"],
+  across:{1:"Quick punch",4:"Opponent",7:"Be in debt to",8:"Beam of sunlight",9:"Small city tucked into Wichita's northeast corner",11:"Like 1, 3 and 5",12:"What about three million of us are",16:"Breakfast staple",17:"Shaggy ox of the Himalayas",18:"The answer you were hoping for",19:"One working undercover"},
+  down:{1:"The nine-to-five",2:"Wonder",3:"Fits right in",4:"When a new Crossroads lands",5:"Rowboat's paddle",6:"Hook's partner, on a fastener",10:"Sponsor spots",12:"It opens the door",13:"What a birthday adds to",14:"Short afternoon sleep",15:"Where the weather comes from"}
+},
+{
+  title:"Two Kinds of Gamble",
+  note:"Bill Lear bet that executives would pay for a small, fast jet, and flew the first one out of Wichita on 7 October 1963. A wildcat is the older Kansas bet: a well drilled on a hunch.",
+  rows:["ITS#ODD","LET#BOO","LEARJET","##LIE##","WILDCAT","ACE#TWO","RED#SEE"],
+  across:{1:"Belonging to that thing",4:"Strange",7:"Allow",8:"Ghost's greeting",9:"Business plane Bill Lear first flew here in 1963",11:"Fib",12:"Well drilled on a hunch \u2014 or K-State's mascot",16:"Card above the king",17:"A pair",18:"Stop sign's color",19:"Lay eyes on"},
+  down:{1:"Under the weather",2:"Golf ball's perch",3:"Quit moving, like a car on Kellogg",4:"Things \u2014 or protests in court",5:"Female deer",6:"A period, basically",10:"Get ___ of",12:"Civil ___",13:"What a January cold snap puts on the river",14:"Shock and ___",15:"Digit at the end of a foot"}
+},
+{
+  title:"Grain and Custard",
+  note:"Kansas holds more wheat in storage than any other state. Freddy's started at 21st and Tyler in 2002 and is named for Freddy Simon, who came home from the war and raised the family that built it.",
+  rows:["MET#GAS","PAR#RIP","GRANARY","##DON##","FREDDYS","OAR#PEA","GPS#ANY"],
+  across:{1:"Ran into",4:"What you pump before the drive to Salina",7:"Course average",8:"Tear",9:"Where the wheat waits for the train",11:"Mob boss",12:"Frozen custard chain that started at 21st and Tyler",16:"Handy thing in a bathtub on the Arkansas",17:"Small green sphere",18:"Dashboard navigator",19:"At all"},
+  down:{1:"Sticker number at the car lot",2:"What you bend when you talk too long",3:"Shouters on the exchange floor",4:"Family elder",5:"What Wichita is the capital of",6:"Secret agent",10:"Agree without a word",12:"What grounds the little planes",13:"Hip-hop genre",14:"Money in Tokyo",15:"Have your ___"}
+},
+{
+  title:"West of Town",
+  note:"Goddard started as a siding on the railroad where farmers loaded wheat. It is now one of the fastest-growing school districts in Kansas.",
+  rows:["REF#PEA","AGE#LAD","GODDARD","##EON##","BURGERS","USA#TIE","GEL#SPA"],
+  across:{1:"Official in a striped shirt",4:"Soup legume",7:"What the candles count",8:"Young fellow",9:"Fast-growing town on Wichita's west edge",11:"Very long stretch",12:"What NuWay and Spangles are both known for",16:"Stars and stripes, briefly",17:"Game nobody won",18:"Hair goop",19:"Place for a massage"},
+  down:{1:"Old shirt torn up for cleaning",2:"Self-regard",3:"Like the courthouse downtown",4:"Eight of them, since 2006",5:"It catches sound",6:"Put together",10:"Leash wearer",12:"What the windshield collects on K-96",13:"Put to work",14:"Tear along the seam",15:"Salty expanse"}
+},
+{
+  title:"Two Towns Up the Road",
+  note:"Emporia held the first All Veterans Day in 1953, and a local cobbler named Alvin King is why we have the holiday. Abilene raised the president who signed it into law.",
+  rows:["EAT#SLY","VIA#TEE","EMPORIA","##PIE##","ABILENE","CAN#TAR","EGG#SPA"],
+  across:{1:"Have supper",4:"Crafty",7:"By way of",8:"Where the drive starts",9:"Kansas town that started Veterans Day \u2014 also a Wichita street",11:"What gets judged at the county fair",12:"Eisenhower's Kansas hometown",16:"Aluminum container",17:"Black stuff on a hot roof",18:"What you crack",19:"Where the hot stones go"},
+  down:{1:"Christmas ___",2:"Point the camera",3:"Light drumming on the table",4:"Douglas and Kellogg, for two",5:"Necklace from Honolulu",6:"Opposite of nay",10:"What the El Dorado refinery runs on",12:"Pilot with five kills",13:"Grocery carrier",14:"Sunday afternoon snooze",15:"Chapter of history"}
+},
+{
+  title:"Wheat and Water",
+  note:"In June the custom cutters work their way north through Kansas. The Arkansas, meanwhile, spends most of the year being more sand than river.",
+  rows:["ADD#CPA","RUE#LIP","COMBINE","##AIM##","SANDBAR","OLD#ERA","YES#DEN"],
+  across:{1:"Sum up",4:"Tax-season pro",7:"Regret",8:"Rim of a cup",9:"What rolls through the wheat in June",11:"Take ___ at",12:"What the Arkansas is mostly made of in August",16:"Like Cowtown's buildings",17:"Stretch of years",18:"What a nod means",19:"Family room"},
+  down:{1:"A rainbow's shape",2:"Twosome",3:"Insists on",4:"Went up the ladder",5:"Bowling target",6:"Primate at the zoo",10:"Offer at auction",12:"Bean in the field next to the wheat",13:"Pour at the pub",14:"You ___ here",15:"Took off sprinting"}
+},
+{
+  title:"Fifty-Four",
+  note:"Kellogg is US-54. Follow it far enough east and you reach the airport, where some of the hangars are older than most of the neighborhoods around them.",
+  rows:["AFT#IRE","SEA#SAG","KELLOGG","##EEL##","HANGARS","ART#TEE","YES#EVE"],
+  across:{1:"Toward the stern",4:"Anger",7:"Where the gulls are",8:"Droop in the middle",9:"The road everyone here just calls the highway",11:"Fish shaped like a snake",12:"Where the planes sleep",16:"What hangs in the museum on the riverbank",17:"Shirt, informally",18:"Thumbs-up word",19:"The day before the holiday"},
+  down:{1:"Pose a question",2:"What the garage charges",3:"Gifts you were born with",4:"Set well apart",5:"Shop towel",6:"What's in the nest",10:"Part of a journey",12:"What gets baled",13:"We ___ open",14:"Make the motor roar",15:"Catch sight of"}
+},
+{
+  title:"Downtown Blocks",
+  note:"INTRUST Bank Arena opened on the south end of downtown in 2010. Central runs the other way, a mile or so north of Douglas, and has been there a great deal longer.",
+  rows:["SPA#NIP","KIN#ERA","INTRUST","##EAT##","CENTRAL","URN#AGO","BRA#LEG"],
+  across:{1:"Mani-pedi spot",4:"Small bite",7:"Relatives",8:"Period in the history books",9:"___ Bank Arena, downtown's big room",11:"Dig in",12:"Wichita avenue a mile north of Douglas",16:"Coffee dispenser at the potluck",17:"Two years ___",18:"Undergarment",19:"Piece of the chicken"},
+  down:{1:"Snow runner",2:"Sewing fastener",3:"What you adjusted on an old TV",4:"Gear between reverse and first",5:"April's least favorite agency",6:"Gentle touch on the back",10:"Alley rodent",12:"Young bear",13:"Slip up",14:"Get older",15:"Fireplace fuel"}
+},
+{
+  title:"Watch or Warning",
+  note:"A watch means the conditions are right. A warning means it is actually happening. Sedgwick County tests the sirens the first Monday of the month at noon, which is the one time you can ignore them.",
+  rows:["PEP#SIP","ARE#WOE","WARNING","##FUN##","THUNDER","HAM#LEI","EYE#ELM"],
+  across:{1:"Get-up-and-go",4:"Small drink",7:"They ___ here",8:"Grief",9:"What the sirens actually mean",11:"A good time",12:"What follows the lightning \u2014 or the hockey club downtown",16:"Deli meat",17:"Garland from the islands",18:"Peeper",19:"Tree on a lot of Kansas street signs"},
+  down:{1:"Dog's foot",2:"Historical stretch",3:"Bottle on the dresser",4:"Con out of money",5:"Atom carrying a charge",6:"Wooden pin",10:"Convent resident",12:"Definite article",13:"Stack in the barn",14:"Wriggly fish",15:"Edge of the basketball hoop"}
+},
+{
+  title:"Afternoon Plans",
+  note:"A decent ICT Saturday: the cheap early show, then Old Cowtown or Exploration Place, and home before supper.",
+  rows:["GPS#VAT","YEA#EGO","MATINEE","##ICT##","MUSEUMS","OFF#RAP","BOY#ERA"],
+  across:{1:"Phone's map helper",4:"Big industrial tub",7:"Aye's cousin",8:"Pride",9:"The cheap early show",11:"Wichita's airport code, and its nickname",12:"Old Cowtown and Botanica, for two",16:"Switch position",17:"Knuckles on a door",18:"Young man",19:"Age of history"},
+  down:{1:"Where the free weights are",2:"Green seed in a pod",3:"Hit the spot",4:"Risky new business",5:"Years lived",6:"It stubs easily",10:"Surface of the rink",12:"Unruly crowd",13:"Thing people report seeing over western Kansas",14:"Spoil the surface of",15:"Sauna spot"}
+},
+{
+  title:"Up and Through",
+  note:"McConnell throws the gates open every couple of years and fills the sky. The monarchs come through on their own schedule each fall and do not need an invitation.",
+  rows:["ALE#ADS","HER#SUE","AIRSHOW","##APT##","MONARCH","ADD#APE","YES#YAM"],
+  across:{1:"Brown pour at the pub",4:"Commercials",7:"Belonging to that woman",8:"Take to court",9:"What fills the sky at McConnell's open house",11:"Fitting",12:"Orange butterfly that crosses Kansas every fall",16:"Tally up",17:"Gorilla, e.g.",18:"Opposite of no",19:"Sweet potato's cousin"},
+  down:{1:"Lightbulb-moment sound",2:"Necklace at the luau",3:"The Saturday list",4:"Thing you don't see in restaurants anymore",5:"A couple of people",6:"Work with needle and thread",10:"Resort with the robes",12:"Month of the hail",13:"Keats wrote one to a nightingale",14:"Number cruncher, for short",15:"Bottom edge of a skirt"}
+},
+{
+  title:"Atchison's Own",
+  note:"Amelia Earhart was born in Atchison in 1897 and Kansas has been claiming her ever since. Eisenhower National, meanwhile, has two runways and a very long memory.",
+  rows:["APP#GOO","TEA#RAP","EARHART","##TEN##","RUNWAYS","USE#DIE","BAR#APT"],
+  across:{1:"Phone download",4:"Sticky stuff",7:"Earl Grey, for one",8:"Light knock",9:"Amelia who was born in Atchison",11:"What the fingers add up to",12:"Eisenhower National has two",16:"Employ",17:"Singular of dice",18:"Place with stools",19:"Well suited"},
+  down:{1:"Consumed",2:"Sphere from the garden",3:"The other half of the business",4:"Spanish city with the Alhambra",5:"Rower's tool",6:"Choose",10:"Chop with an axe",12:"Work the knots out",13:"Team ___",14:"Small dog's bark",15:"Division of a tennis match"}
 }
 ];
 
@@ -1207,11 +1291,27 @@ board.addEventListener('click', ev=>{
 /* No on-screen keyboard — but mobile still needs something focused for the OS
    keyboard to appear, so taps on the board or the hint focus a hidden input. */
 function focusWheatle(){
+  clearTimeout(blurSubmit);
   activeGame='wh';
   if(!wDone){ wInput.value=''; wInput.focus({preventScroll:true}); }
 }
 board.addEventListener('click',focusWheatle);
 whint.addEventListener('click',focusWheatle);
+/* iOS shows an AutoFill accessory bar above the keyboard; its checkmark just
+   blurs the field, so a finished word sat there doing nothing. Treat that as
+   Enter — but only if the row is actually full, and only after a beat, because
+   tapping a tile to edit a letter also blurs before refocusing. */
+let blurSubmit=null;
+wInput.addEventListener('blur',()=>{
+  clearTimeout(blurSubmit);
+  blurSubmit=setTimeout(()=>{
+    if(wDone) return;
+    let filled=0;
+    for(let c=0;c<5;c++) if(tileAt(wRow,c).textContent) filled++;
+    if(filled===5) submit();
+  },160);
+});
+wInput.addEventListener('focus',()=>clearTimeout(blurSubmit));
 wInput.addEventListener('input',ev=>{
   const v=ev.target.value.replace(/[^a-zA-Z]/g,'').toUpperCase();
   for(const ch of v) wKey(ch);

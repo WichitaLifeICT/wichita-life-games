@@ -1,13 +1,16 @@
 # Wichita Life Games
 
-games.wichitalifeict.com: Wheatle, Crossroads and Troll Patrol.
+games.wichitalifeict.com: Wheatle, Crossroads and Troll Patrol, plus the stats dashboard at
+`/admin`. The Wichita Life app opens these pages inside the app, so a change here shows up
+on the website, app.wichitalifeict.com and the phone apps at once.
 
-- `site/` is the website (imported from the live site on 2026-10-21). Netlify serves
-  `troll-patrol.html` at `/troll-patrol`.
-- The `/api/*` endpoints (words, scores, leaderboards, word suggestions, stats) come from a
-  Netlify function named `games`. **Its source isn't in this repo yet.** Until it is, don't
-  connect this repo to Netlify for automatic deploys: a deploy without the function would
-  switch the API off.
+- `public/` is the website. `public/dev/` is a test copy at `/dev/`.
+- `netlify/functions/games.mjs` serves `/api/*`: word suggestions, scores, play tracking
+  and stats. It reads `DATABASE_URL`, `SCORE_SECRET`, `STATS_TOKEN` and `ALLOWED_ORIGINS`
+  from the Netlify project's environment variables (never commit them).
+- Netlify deploys every push to `main`. `npm test` (escaping and crossword checks) runs
+  first; if it fails, the deploy stops and the live site stays as it was.
+- See `DEPLOY.md` for the database setup.
 
-The Wichita Life app opens the games with `?app=1`, which hides this site's header, hero,
-shop promo, newsletter box and footer (the app has its own title bar).
+The app opens the games with `?app=1`, which hides this site's header, hero, shop promo,
+newsletter box and footer (the app has its own title bar).

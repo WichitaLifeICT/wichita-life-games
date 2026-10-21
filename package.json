@@ -1,0 +1,19 @@
+{
+  "name": "wichita-life-games",
+  "version": "1.0.0",
+  "private": true,
+  "description": "games.wichitalifeict.com — Crossroads, Wheatle, Troll Patrol, and the admin dashboard",
+  "type": "commonjs",
+  "scripts": {
+    "test": "npm run check:escapes && npm run verify:puzzles && npm run test:render",
+    "check:escapes": "node check-escapes.js public/index.html public/dev/index.html public/admin.html public/troll-patrol.html public/dev/troll-patrol.html public/dev/wheat-state-hoops.html",
+    "verify:puzzles": "node verify-crosswords.js public/index.html public/dev/index.html",
+    "test:render": "node test-crossword-render.js public/index.html && node test-crossword-render.js public/dev/index.html"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

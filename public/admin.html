@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wichita Life Games — dashboard</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#152742;--red:#dc5b5e;--blue:#3c67b1;--yellow:#fcc172;--paper:#fbf7ef;--line:#dfd7c8;--ink:#2b3a4f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--navy);color:var(--paper);font-family:'Poppins',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid rgba(255,255,255,.09);padding:12px 0}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:48px}
+.bar img{width:32px;height:32px}
+.bar b{font-size:17px;white-space:nowrap;line-height:1.15}
+.bar small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6aa1d6;margin-top:1px;white-space:nowrap}
+.bar a{margin-left:auto;flex:0 0 auto;color:#dbe3ef;font-size:13px;text-decoration:none;border:1px solid rgba(255,255,255,.32);padding:8px 14px;border-radius:999px;white-space:nowrap}
+h1{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:28px 0 6px}
+.sub{color:#dce5f3;font-size:15px;margin:0 0 22px;line-height:1.5}
+.panel{background:var(--paper);color:var(--ink);border-radius:18px;padding:22px;margin-bottom:20px}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5c6878;margin-bottom:6px}
+input[type=password],input[type=text]{
+  width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+  font-family:inherit;font-size:15px;color:var(--navy);background:#fff}
+input:focus{outline:2px solid var(--blue);outline-offset:-1px}
+.btn{background:var(--red);color:#fff;border:0;border-radius:999px;padding:12px 22px;font-family:inherit;
+     font-size:14.5px;font-weight:700;cursor:pointer}
+.btn:hover{background:#c94a4d}
+.btn.sm{padding:8px 16px;font-size:13px}
+.btn.ok{background:var(--blue)}
+.btn.ok:hover{background:#31558f}
+.btn.no{background:#fff;color:#5c6878;border:1px solid var(--line)}
+.btn.no:hover{border-color:var(--red);color:var(--red)}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{background:rgba(255,255,255,.08);color:#dbe3ef;border:1px solid rgba(255,255,255,.2);
+     border-radius:999px;padding:9px 18px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.tab.on{background:var(--paper);color:var(--navy);border-color:var(--paper)}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:10px;background:#fff;
+      display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.word{font-family:'DM Mono',monospace;font-size:22px;font-weight:600;letter-spacing:.16em;color:var(--navy);
+      background:#fdf6e8;border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:0 0 auto}
+.meta{flex:1;min-width:220px}
+.meta .why{font-size:15px;line-height:1.45;color:var(--ink);margin:0 0 6px}
+.meta .why.none{color:#8b96a6;font-style:italic}
+.meta .sub2{font-size:12.5px;color:#5c6878}
+.acts{display:flex;gap:8px;align-items:center;flex:0 0 auto}
+.pill{display:inline-block;background:var(--yellow);color:var(--navy);border-radius:999px;
+      padding:2px 10px;font-size:11.5px;font-weight:700;margin-left:8px}
+.empty{color:#5c6878;font-size:15px;padding:14px 2px}
+.msg{font-size:14px;font-weight:600;min-height:20px;margin-top:10px;color:var(--blue)}
+.msg.err{color:var(--red)}
+.hint{font-size:13.5px;color:#4d5a6b;line-height:1.55;margin:12px 0 0}
+textarea{width:100%;height:110px;padding:12px;border:1px solid var(--line);border-radius:10px;
+         font-family:'DM Mono',monospace;font-size:12.5px;color:var(--navy);background:#fdfbf7;resize:vertical}
+.hide{display:none}
+#warnbox{background:#3a2430;border:1px solid var(--red);border-radius:12px;padding:14px 16px;margin:0 0 16px}
+#warnbox b{color:#ff9ea0;display:block;margin-bottom:5px;font-size:14px}
+#warnbox p{margin:0;font-size:13px;line-height:1.5;color:#f0d8d8}
+#warnbox code{background:rgba(0,0,0,.3);padding:1px 5px;border-radius:4px;font-size:12px}
+.sec{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#5c6878;margin:22px 0 12px;font-weight:700}
+.sec:first-child{margin-top:0}
+.sec.big{color:#dce5f3;font-size:15px;letter-spacing:-.01em;text-transform:none;margin:30px 0 12px}
+.note{font-size:13px;color:#5c6878;margin:-6px 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.stat .n{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1.1}
+.stat .l{font-size:12px;color:#5c6878;margin-top:4px;line-height:1.35}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5c6878;
+        border-bottom:1px solid var(--line);padding:8px 6px;font-weight:700}
+.tbl td{padding:9px 6px;border-bottom:1px solid #efe9dd;color:var(--ink)}
+.tbl td.num{text-align:right;font-family:'DM Mono',monospace;font-size:13px}
+.bar{height:6px;border-radius:3px;background:var(--blue);display:inline-block;vertical-align:middle;margin-right:8px}
+#pendcount{background:var(--yellow);color:var(--navy);border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:700}
+</style>
+</head>
+<body>
+
+<header><div class="wrap bar">
+  <img src="/wl-logo.png" alt="">
+  <b>Wichita Life<small>Dashboard</small></b>
+  <a href="/">Back to games</a>
+</div></header>
+
+<main class="wrap">
+  <h1>Dashboard</h1>
+  <p class="sub">How the games are doing, and the words readers have sent in.</p>
+
+  <!-- sign in -->
+  <div class="panel" id="auth">
+    <label for="tok">Password</label>
+    <div class="row">
+      <div style="flex:1;min-width:240px"><input id="tok" type="password" placeholder="Password" autocomplete="current-password"></div>
+      <button class="btn" id="go">Sign in</button>
+    </div>
+    <p class="msg" id="authmsg"></p>
+    <p class="hint">This is the <code>STATS_TOKEN</code> value from your Netlify environment variables.
+      Kept for this browser tab only — close the tab and you'll re-enter it. Change it in Netlify any time.</p>
+  </div>
+
+  <!-- review -->
+  <div id="app" class="hide">
+    <div class="tabs">
+      <button class="tab period" data-d="1">24 hours</button>
+      <button class="tab period on" data-d="7">7 days</button>
+      <button class="tab period" data-d="30">30 days</button>
+      <button class="tab period" data-d="90">90 days</button>
+      <button class="tab period" data-d="365">Year</button>
+      <button class="tab" id="refresh">Refresh</button>
+    </div>
+
+    <p class="note" id="period-note" style="margin:-6px 0 10px;color:#8fa8c4"></p>
+    <div id="warnbox" class="hide"></div>
+
+    <div class="panel">
+      <h2 class="sec">Content runway</h2>
+      <div class="cards" id="inv-cards"></div>
+      <p class="note" id="inv-note"></p>
+
+      <h2 class="sec">Site</h2>
+      <div class="cards" id="site-cards"></div>
+      <h2 class="sec">Games</h2>
+      <div class="cards" id="game-cards"></div>
+      <div id="gamebreak"></div>
+      <h2 class="sec">Troll Patrol (dev)</h2>
+      <div class="cards" id="arcade-cards"></div>
+      <p class="note" id="arcade-note"></p>
+
+      <h2 class="sec">Puzzle promo</h2>
+      <div class="cards" id="promo-cards"></div>
+      <p class="note" id="promo-note"></p>
+
+      <h2 class="sec">Where people come from</h2>
+      <div id="sources"></div>
+      <h2 class="sec">Puzzles worth a look</h2>
+      <p class="note">Lowest completion first — these are the ones people gave up on.</p>
+      <div id="puzzles"></div>
+    </div>
+
+    <h2 class="sec big">Reader submissions <span id="pendcount"></span></h2>
+    <div class="tabs">
+      <button class="tab sub-t on" data-s="new">Pending</button>
+      <button class="tab sub-t" data-s="accepted">Approved</button>
+      <button class="tab sub-t" data-s="rejected">Rejected</button>
+    </div>
+    <div class="panel">
+      <div id="list"></div>
+      <p class="msg" id="msg"></p>
+    </div>
+
+    <div class="panel" id="export">
+      <label>Approved words</label>
+      <p class="hint" style="margin-top:0">Approved words are accepted as <em>guesses</em> on the site right away.
+        To put them into the daily answer rotation, paste this over the <code>WHEATLE_WORDS</code> array in
+        <code>index.html</code> and re-upload. It's a manual step on purpose — see the note below.</p>
+      <textarea id="arr" readonly></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="btn ghost" id="copy">Copy array</button>
+      </div>
+      <p class="hint"><b>Why this isn't automatic:</b> the day's answer is picked by counting into the word
+        list, so quietly growing the list would change today's word for anyone mid-game. Promoting words on
+        your own schedule keeps a day's puzzle the same for everybody who plays it.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let TOKEN = sessionStorage.getItem('wl_admin_token') || '';
+let VIEW = 'new';
+let DAYS = 7;
+let STATS = null;
+
+async function api(path, opts={}){
+  const r = await fetch(path, {
+    ...opts,
+    headers: { 'Authorization':'Bearer '+TOKEN, 'Content-Type':'application/json', ...(opts.headers||{}) }
+  });
+  if (r.status === 401) throw new Error('unauthorized');
+  if (!r.ok) {
+    // Surface the server's own explanation when there is one; a bare status code
+    // (especially 502) tells you nothing about what to fix.
+    let detail = '';
+    try { const j = await r.json(); detail = j && j.error ? j.error : ''; } catch (e) {}
+    if (r.status === 502 || r.status === 500) {
+      throw new Error(detail || 'The backend is not responding. Check DATABASE_URL is set in Netlify, then open /api/health.');
+    }
+    throw new Error(detail || ('Request failed ('+r.status+')'));
+  }
+  return r.json();
+}
+
+function num(n){ return n==null ? '—' : Number(n).toLocaleString('en-US'); }
+function mins(n){
+  if(n==null) return '—';
+  const m=Number(n);
+  if(m<60) return m.toFixed(m<10?1:0)+' min';
+  return (m/60).toFixed(1)+' hrs';
+}
+function card(n,l){ return '<div class="stat"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>'; }
+
+async function loadStats(){
+  try{
+    STATS = await api('/api/stats?days='+DAYS);
+  }catch(e){ $('msg').className='msg err'; $('msg').textContent=e.message; return; }
+  // A section that failed reports itself; the rest of the dashboard still works.
+  const warns = STATS.warnings || [];
+  const wb = $('warnbox');
+  if (warns.length){
+    const missing = warns.filter(x=>x.missing_table).map(x=>x.section);
+    wb.classList.remove('hide');
+    wb.innerHTML = '<b>'+warns.length+' section'+(warns.length>1?'s':'')+" couldn't load</b>" +
+      '<p>' + warns.map(x=>x.section).join(', ') +
+      (missing.length
+        ? '. A database table is missing \u2014 run the <code>promo_events</code> block from DEPLOY.md in the Neon SQL editor, then refresh.'
+        : '. The query failed; check the function logs in Netlify.') +
+      ' Everything else below is live.</p>';
+  } else wb.classList.add('hide');
+
+  const label = DAYS===1 ? 'the last 24 hours'
+              : DAYS===365 ? 'the last year' : 'the last '+DAYS+' days';
+  const st=STATS.site||{}, ret=STATS.returning||{};
+  const empty = !Number(st.visits);
+  $('period-note').textContent = empty
+    ? 'Showing '+label+' \u2014 nothing recorded in this window yet.'
+    : 'Showing '+label+'.';
+  $('site-cards').innerHTML =
+    card(num(st.visits),'Visits') +
+    card(num(st.unique_visitors),'Unique visitors') +
+    card(mins(st.total_minutes),'Total time on site') +
+    card(st.avg_minutes_per_visit!=null? Number(st.avg_minutes_per_visit).toFixed(1)+' min':'—','Average per visit') +
+    card(num(ret.returning_visitors),'Came back more than once');
+
+  const t=STATS.totals||[];
+  const sum=k=>t.reduce((a,r)=>a+Number(r[k]||0),0);
+  const starts=sum('starts'), plays=sum('plays'), fin=sum('finishes');
+  $('game-cards').innerHTML =
+    card(num(starts),'Puzzles opened') +
+    card(num(plays),'Actually played') +
+    card(num(fin),'Finished') +
+    card(plays? Math.round(100*fin/plays)+'%':'—','Completion rate') +
+    card(mins(sum('total_minutes')),'Time in puzzles');
+
+  $('gamebreak').innerHTML = t.length ? (
+    '<table class="tbl"><tr><th>Game</th><th class="num">Opened</th><th class="num">Played</th>'+
+    '<th class="num">Finished</th><th class="num">Avg time</th><th class="num">Players</th></tr>'+
+    t.map(r=>'<tr><td>'+r.game+'</td><td class="num">'+num(r.starts)+'</td><td class="num">'+num(r.plays)+
+      '</td><td class="num">'+num(r.finishes)+'</td><td class="num">'+
+      (r.avg_minutes_per_play!=null?Number(r.avg_minutes_per_play).toFixed(1)+'m':'—')+
+      '</td><td class="num">'+num(r.unique_players)+'</td></tr>').join('')+'</table>'
+  ) : '<p class="note">No plays recorded yet.</p>';
+
+  // arcade: every finished round is counted, whether or not initials were saved
+  const arc=(STATS.arcade||[]).find(x=>x.game==='troll-patrol') || {};
+  const rounds=Number(arc.rounds||0);
+  $('arcade-cards').innerHTML =
+    card(num(arc.rounds||0),'Rounds played') +
+    card(num(arc.players||0),'Players') +
+    card(num(arc.avg_score||0),'Average score') +
+    card(num(arc.best||0),'Best score') +
+    card(num(arc.best_today||0),'Best today');
+  $('arcade-note').innerHTML = rounds
+    ? num(arc.submitted||0)+' of '+num(rounds)+' rounds put initials on the board. '+
+      'Median score '+num(arc.median_score||0)+'.<br>'+
+      'Per round: '+num(arc.avg_trash||0)+' trash, '+(arc.avg_combo||0)+'x best combo, '+
+      num(arc.avg_ramps||0)+' ramps. '+
+      (arc.pct_hit_max_combo||0)+'% of rounds reached a 5x combo. '+
+      num(arc.total_bonuses||0)+' Riverfest bonuses across '+num(arc.rounds_with_bonus||0)+' rounds. '+
+      num(arc.avg_balls||0)+' baseballs per round, '+num(arc.avg_seconds_won||0)+'s of extra time won.<br>'+
+      'Played on '+num(arc.on_mobile||0)+' mobile / '+num(arc.on_desktop||0)+' desktop.'
+    : 'No rounds recorded in this window yet.';
+
+  // shop promo: a view means the block was actually on screen, not just loaded
+  const pr=(STATS.promos||[]).find(p=>p.promo==='puzzle') || {};
+  const views=Number(pr.views||0), clicks=Number(pr.clicks||0);
+  $('promo-cards').innerHTML =
+    card(num(views),'Times seen') +
+    card(num(clicks),'Clicks to the shop') +
+    card(views? (Math.round(1000*clicks/views)/10)+'%' : '\u2014','Click rate') +
+    card(num(pr.click_people||0),'Different people clicked') +
+    card(num(pr.click_total||0),'Clicks incl. repeats');
+  $('promo-note').textContent = views
+    ? 'A "seen" counts when the promo was at least half on screen for a second \u2014 not just loaded.'
+    : 'Nothing recorded for the promo in this window yet.';
+
+  const src=STATS.sources||[];
+  const max=Math.max(1,...src.map(r=>Number(r.visits)));
+  $('sources').innerHTML = src.length ? (
+    '<table class="tbl">'+src.map(r=>
+      '<tr><td><span class="bar" style="width:'+Math.round(60*r.visits/max)+'px"></span>'+
+      (r.source==='direct'?'Direct / typed in':r.source)+'</td><td class="num">'+num(r.visits)+'</td></tr>'
+    ).join('')+'</table>'
+  ) : '<p class="note">Nothing yet.</p>';
+
+  const pz=STATS.puzzles||[];
+  $('puzzles').innerHTML = pz.length ? (
+    '<table class="tbl"><tr><th>Game</th><th class="num">No.</th><th class="num">Played</th>'+
+    '<th class="num">Finished</th><th class="num">Completion</th><th class="num">Avg solve</th></tr>'+
+    pz.slice(0,10).map(r=>'<tr><td>'+r.game+'</td><td class="num"><span data-pz="'+r.puzzle_no+'">'+num(r.puzzle_no)+'</span></td><td class="num">'+
+      num(r.plays)+'</td><td class="num">'+num(r.finishes)+'</td><td class="num">'+
+      (r.completion_pct!=null?r.completion_pct+'%':'—')+'</td><td class="num">'+
+      (r.avg_minutes_to_solve!=null?Number(r.avg_minutes_to_solve).toFixed(1)+'m':'—')+'</td></tr>').join('')+'</table>'
+  ) : '<p class="note">Needs at least five plays on a puzzle before it shows here.</p>';
+
+  if(window.__TITLES__) renderPuzzleTitles(window.__TITLES__);
+  const pend=(STATS.pending&&STATS.pending.n)||0;
+  $('pendcount').textContent = pend ? pend+' waiting' : 'none waiting';
+  $('pendcount').style.background = pend ? '' : '#e2dacb';
+}
+
+function fmt(ts){
+  try { return new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+  catch(e){ return ''; }
+}
+
+function render(rows){
+  const list = $('list');
+  list.innerHTML = '';
+  if(!rows.length){
+    list.innerHTML = '<p class="empty">'+
+      (VIEW==='new' ? 'No submissions waiting. ' : 'Nothing here yet. ')+'</p>';
+    return;
+  }
+  rows.forEach(r=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    const dupe = r.times_suggested > 1 ? '<span class="pill">'+r.times_suggested+' people sent this</span>' : '';
+    el.innerHTML =
+      '<div class="word">'+r.word+'</div>'+
+      '<div class="meta">'+
+        (r.why ? '<p class="why">'+esc(r.why)+'</p>' : '<p class="why none">No reason given</p>')+
+        '<div class="sub2">'+fmt(r.submitted_at)+(r.email ? ' · '+esc(r.email) : ' · no email')+dupe+'</div>'+
+      '</div>'+
+      '<div class="acts"></div>';
+    const acts = el.querySelector('.acts');
+    if(VIEW !== 'accepted') acts.appendChild(mkBtn('Approve','btn ok sm',()=>setStatus(r.id,'accepted')));
+    if(VIEW !== 'rejected') acts.appendChild(mkBtn('Reject','btn no sm',()=>setStatus(r.id,'rejected')));
+    if(VIEW !== 'new')      acts.appendChild(mkBtn('Undo','btn no sm',()=>setStatus(r.id,'new')));
+    list.appendChild(el);
+  });
+}
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function mkBtn(label,cls,fn){ const b=document.createElement('button'); b.className=cls; b.textContent=label; b.onclick=fn; return b; }
+
+async function setStatus(id,status){
+  $('msg').className='msg'; $('msg').textContent='Saving…';
+  try{
+    const res = await api('/api/review',{method:'POST',body:JSON.stringify({id,status})});
+    $('msg').textContent = res.updated.word+' → '+status+'.';
+    await load(); await loadApproved();
+  }catch(e){
+    $('msg').className='msg err'; $('msg').textContent='Could not save: '+e.message;
+  }
+}
+
+async function load(){
+  try{
+    const res = await api('/api/review?status='+VIEW);
+    render(res.rows);
+    loadStats();
+  }catch(e){
+    $('msg').className='msg err'; $('msg').textContent=e.message;
+    if(e.message==='unauthorized') signOut();
+  }
+}
+
+async function loadApproved(){
+  try{
+    const res = await fetch('/api/words').then(r=>r.json());
+    const base = (window.__BASE_WORDS__||[]);
+    const all = [...new Set([...base, ...(res.words||[])])];
+    $('arr').value = 'const WHEATLE_WORDS = [\n' +
+      chunk(all,10).map(row=>row.map(w=>'"'+w+'"').join(',')).join(',\n') + '];';
+    $('export').classList.toggle('hide', !(res.words||[]).length);
+  }catch(e){ /* export block is a convenience, not load-bearing */ }
+}
+function chunk(a,n){ const o=[]; for(let i=0;i<a.length;i+=n) o.push(a.slice(i,i+n)); return o; }
+
+function signIn(){
+  TOKEN = $('tok').value.trim();
+  if(!TOKEN){ $('authmsg').className='msg err'; $('authmsg').textContent='Paste the token first.'; return; }
+  sessionStorage.setItem('wl_admin_token', TOKEN);
+  $('authmsg').className='msg'; $('authmsg').textContent='Checking…';
+  api('/api/review?status=new').then(res=>{
+    $('auth').classList.add('hide'); $('app').classList.remove('hide');
+    render(res.rows); loadApproved(); loadStats(); loadInventory();
+  }).catch(e=>{
+    $('authmsg').className='msg err';
+    $('authmsg').textContent = e.message==='unauthorized' ? 'That token was rejected.' : e.message;
+    signOut(true);
+  });
+}
+function signOut(keepPanel){
+  sessionStorage.removeItem('wl_admin_token'); TOKEN='';
+  if(!keepPanel){ $('app').classList.add('hide'); $('auth').classList.remove('hide'); }
+}
+
+$('go').onclick = signIn;
+$('tok').addEventListener('keydown', e=>{ if(e.key==='Enter') signIn(); });
+$('refresh').onclick = ()=>{ load(); loadApproved(); loadInventory(); };
+document.querySelectorAll('.tab.sub-t').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.tab.sub-t').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on'); VIEW = t.dataset.s; $('msg').textContent=''; load();
+  };
+});
+document.querySelectorAll('.tab.period').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.tab.period').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on'); DAYS = Number(t.dataset.d); loadStats();
+  };
+});
+$('copy').onclick = ()=>{
+  $('arr').select();
+  navigator.clipboard.writeText($('arr').value).then(()=>{
+    $('msg').className='msg'; $('msg').textContent='Copied. Paste it over the WHEATLE_WORDS array in index.html.';
+  });
+};
+
+/* Read the live site to count what's left in the pipeline. Parsing the deployed page
+   means these numbers can never drift from what players actually see. */
+const ANCHOR_DAY = 20679;               // Friday 14 Aug 2026 = puzzle No. 1
+function weekIndex(now){
+  const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',
+    day:'2-digit',hour:'2-digit',hour12:false,weekday:'short'});
+  const p={}; f.formatToParts(now||new Date()).forEach(x=>{p[x.type]=x.value;});
+  const dayNum=Math.floor(Date.UTC(+p.year,+p.month-1,+p.day)/86400000);
+  const WD={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  let since=(WD[p.weekday]-5+7)%7;
+  if(since===0 && (+p.hour)%24 < 5) since=7;
+  return Math.floor((dayNum-since-ANCHOR_DAY)/7);
+}
+function fridayOf(weekIdx){
+  return new Date((ANCHOR_DAY + weekIdx*7) * 86400000 + 5*3600000);
+}
+function dayIndex(now){
+  const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',
+    day:'2-digit',hour:'2-digit',hour12:false});
+  const p={}; f.formatToParts(now||new Date()).forEach(x=>{p[x.type]=x.value;});
+  const dayNum=Math.floor(Date.UTC(+p.year,+p.month-1,+p.day)/86400000);
+  return (dayNum - ((+p.hour)%24 < 5 ? 1 : 0)) - ANCHOR_DAY;
+}
+function dateOf(dayIdx){ return new Date((ANCHOR_DAY + dayIdx) * 86400000 + 5*3600000); }
+
+async function loadInventory(){
+  try{
+    const html = await fetch('/?cachebust='+Date.now()).then(r=>r.text());
+    const wm = html.match(/const WHEATLE_WORDS = \[([\s\S]*?)\];/);
+    const words = wm ? (wm[1].match(/"[A-Z]{5}"/g)||[]).map(s=>s.replace(/"/g,'')) : [];
+    window.__BASE_WORDS__ = words;
+    const titles = (html.match(/\n  title:"([^"]+)"/g)||[]).map(t=>t.replace(/.*title:"/,'').replace(/"$/,''));
+    const puzzles = titles.length;
+
+    const wk = weekIndex();               // crossword: weekly
+    const dy = dayIndex();                // wheatle: daily
+    const puzzlesLeft = Math.max(0, puzzles - (wk+1));
+    const wordsLeft   = Math.max(0, words.length - (dy+1));
+    const runOut = fridayOf(puzzles);     // first Friday with no fresh crossword
+    const wordsOut = dateOf(words.length);
+    const fmtD = d => d.toLocaleDateString('en-US',{month:'short', day:'numeric', year:'numeric'});
+
+    $('inv-cards').innerHTML =
+      card(puzzlesLeft, 'Crosswords left<br>(one a week)') +
+      card('No. '+(wk+1), 'Crossword running') +
+      card(puzzlesLeft ? fmtD(runOut) : 'now', 'Crosswords run out') +
+      card(wordsLeft, 'Wheatle words left<br>(one a day)') +
+      card(wordsLeft ? fmtD(wordsOut) : 'now', 'Wheatle runs out');
+
+    const warn = puzzlesLeft <= 2;
+    $('inv-note').innerHTML = warn
+      ? '<b style="color:#dc5b5e">Only '+puzzlesLeft+' crossword'+(puzzlesLeft===1?'':'s')+' left.</b> '+
+        'When the list runs out the rotation loops back to No. 1 and repeats.'
+      : puzzles+' crosswords (weekly) and '+words.length+' Wheatle words (daily) loaded. '+
+        'Each list repeats from the start once it runs out \u2014 it never goes blank, it just replays.';
+
+    if(STATS) renderPuzzleTitles(titles);
+    window.__TITLES__ = titles;
+  }catch(e){
+    $('inv-cards').innerHTML = '<p class="note">Could not read the live site to count puzzles.</p>';
+  }
+}
+function renderPuzzleTitles(titles){
+  document.querySelectorAll('[data-pz]').forEach(el=>{
+    const n = Number(el.dataset.pz);
+    if(titles[n-1]) el.textContent = titles[n-1];
+  });
+}
+
+if(TOKEN){ $('tok').value = TOKEN; signIn(); }
+</script>
+</body>
+</html>

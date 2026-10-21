@@ -1,0 +1,11 @@
+[build]
+  # The puzzle checks run before every deploy; if they fail, the live site stays as it was.
+  command = "npm test"
+  publish = "public"
+  functions = "netlify/functions"
+
+# /admin -> /admin.html so the dashboard has a clean URL
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
