@@ -363,6 +363,21 @@ footer a{color:#cfd8e6;text-decoration:none;margin-right:16px}
 footer a:hover{color:#fff}
 .foot-note{margin-top:14px;font-size:12.5px;color:#9db0cb}
 </style>
+<script>
+/* Inside the Wichita Life app (?app=1) the app shows its own title bar and close button,
+   so drop this page's header, hero, shop promo, newsletter box and footer. */
+(function(){
+  var inApp=false;
+  try{
+    inApp=/[?&]app=1\b/.test(location.search) || sessionStorage.getItem('wl-in-app')==='1';
+    if(inApp) sessionStorage.setItem('wl-in-app','1');
+  }catch(e){ inApp=/[?&]app=1\b/.test(location.search); }
+  if(inApp) document.documentElement.classList.add('in-app');
+})();
+</script>
+<style>
+.in-app header,.in-app .hero,.in-app footer,.in-app [data-web-only]{display:none!important}
+</style>
 </head>
 <body>
 
@@ -557,7 +572,7 @@ if (window.WL_DEV) {
   </div>
 </section>
 
-<section class="wrap">
+<section class="wrap" data-web-only>
   <div class="shop">
     <div class="shop-media">
       <img loading="lazy" src="/puzzle.webp" width="1080" height="720"
@@ -580,7 +595,7 @@ if (window.WL_DEV) {
   </div>
 </section>
 
-<section class="wrap">
+<section class="wrap" data-web-only>
   <div class="cta">
     <p class="eyebrow">Wichita Life weekly</p>
     <h2>Get the games with your Wichita.</h2>
@@ -1220,6 +1235,13 @@ function wKey(k){
     let next=wCol+1;
     while(next<5 && tileAt(wRow,next).textContent) next++;
     wCol=next; drawCursor();
+    // Row full: submit on its own (a beat later so the last letter shows first).
+    // Phone keyboards don't reliably send Enter to the hidden input.
+    let full=true; for(let c=0;c<5;c++) if(!tileAt(wRow,c).textContent) full=false;
+    if(full){
+      const row=wRow;
+      setTimeout(()=>{ if(!wDone && wRow===row) submit(); },180);
+    }
   }
 }
 
@@ -1276,12 +1298,14 @@ function submit(){
     whint.classList.add('done'); whint.textContent='Solved in '+(wRow+1)+' \u2014 new word tomorrow';
     return;
   }
-  wRow++; wCol=0; drawCursor();
+  wRow++; wCol=0;
+  // Out of guesses: end the game before drawing the cursor, which has no seventh row to land on.
   if(wRow===6){
     wDone=true; stopWClock(); wTrack.finish({solved:false,guesses:6});
     wmsg.style.color='#dc5b5e'; wmsg.textContent='Today\u2019s word: '+wAnswer;
     whint.classList.add('done'); whint.textContent='Out of guesses \u2014 it was '+wAnswer;
   } else {
+    drawCursor();
     whint.textContent='Guess '+(wRow+1)+' of 6 \u2014 keep typing';
   }
 }
